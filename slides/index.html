@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>MOOSE Solid Mechanics Workshop</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/night.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/atom-one-dark.css">
+	<link rel="stylesheet" href="style/custom.css">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<!--
+      ##############################################################################
+      Title page
+      ##############################################################################
+      -->
+			<section>
+				<h2 class="r-fit-text">MOOSE SOLID MECHANICS WORKSHOP</h2>
+				<h3 style="text-align: center;">@ Duke University</h3>
+				<p style="text-align: center;">March 11-12, 2024</p>
+				<p style="text-align: center;">
+					<a href="https://google.com">Slack workspace</a><br>
+				</p>
+				<p style="text-align: center;">
+					<img src="assets/DOENE.png" alt="Department of Energy Office of Nuclear Energy"
+						style="height: 110px; margin: 3rem auto auto auto; display: inline-block;">
+					<img src="assets/NEAMS-with-tagline.png" alt="Nuclear Engineering Advanced Modeling and Simulation"
+						style="height: 130px; margin: 3rem auto auto auto; display: inline-block;">
+					<img src="assets/Argonnelablogo.png" alt="Argonne National Laboratory"
+						style="height: 80px; margin: 3rem auto 2rem auto; display: inline-block;">
+					<img src="assets/duke-pratt.jpeg" alt="Duke University Pratt School of Engineering"
+						style="height: 120px; margin: 3rem auto auto 3rem; display: inline-block;">
+				</p>
+			</section>
+			<!--
+      ##############################################################################
+      MOOSE overview
+      ##############################################################################
+      -->
+			<section data-markdown="content/moose.md"></section>
+			<section data-markdown="content/install.md"></section>
+			<section data-markdown="content/framework.md"></section>
+		</div>
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script src="plugin/math/math.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			width: 1280,
+			height: 720,
+			transitionSpeed: "default",
+			pdfSeparateFragments: false,
+			hash: true,
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax3]
+		});
+	</script>
+</body>
+
+</html>

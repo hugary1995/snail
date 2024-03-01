@@ -1,0 +1,89 @@
+p {
+  font-size: 0.8em;
+}
+
+li {
+  font-size: 80%;
+  line-height: 1.5em;
+}
+
+ol {
+  list-style-type: none;
+  counter-reset: item;
+  margin: 0;
+  padding: 0;
+}
+
+ol>li {
+  display: table;
+  counter-increment: item;
+  margin-bottom: 0.3em;
+}
+
+ol>li:before {
+  content: counters(item, ".") ". ";
+  display: table-cell;
+  padding-right: 0.6em;
+}
+
+li ol>li {
+  margin: 0;
+}
+
+li ol>li:before {
+  content: counters(item, ".") " ";
+}
+
+table tbody tr>.nobottom {
+  border-bottom: none;
+}
+
+table thead tr>th {
+  font-size: 0.8em;
+}
+
+table tbody tr>td {
+  font-size: 0.6em;
+}
+
+.reveal pre {
+  line-height: 1.2rem;
+}
+
+.reveal .code-wrapper code {
+  font-size: medium;
+}
+
+.container {
+  display: grid;
+}
+
+.col {
+  margin-left: 0.1em;
+  margin-right: 0.1em;
+  display: grid;
+  align-items: start;
+}
+
+.col .item {
+  background-color: #004747;
+  border-radius: 15px 15px;
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+}
+
+.col .item .icon {
+  float: left;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.col .item .text {
+  text-align: left;
+  font-size: 0.8em;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  font-size: 75% !important;
+  color: #dfe4f7;
+}
