@@ -1,8 +1,13 @@
+[GlobalParams]
+  displacements = 'disp_x disp_y'
+[]
+
 [Mesh]
   [sample]
     type = FileMeshGenerator
-    file = 'gold/sample.msh'
+    file = '../gold/sample.msh'
   []
+  uniform_refine = 1
 []
 
 [Physics]
@@ -18,17 +23,18 @@
                            cauchy_stress_xy cauchy_stress_xz cauchy_stress_yz
                            mechanical_strain_xx mechanical_strain_yy mechanical_strain_zz
                            mechanical_strain_xy mechanical_strain_xz mechanical_strain_yz"
+        additional_generate_output = 'vonmises_cauchy_stress'
       []
     []
   []
 []
 
 [BCs]
-  [bottom_fix_x]
+  [fix_x]
     type = DirichletBC
     variable = disp_x
     value = 0
-    boundary = 'bottom'
+    boundary = 'top bottom'
   []
   [bottom_fix_y]
     type = DirichletBC
@@ -58,7 +64,7 @@
   petsc_options_iname = '-pc_type'
   petsc_options_value = 'lu'
   automatic_scaling = true
-  end_time = 1
+  end_time = 2
   dt = 0.02
 []
 

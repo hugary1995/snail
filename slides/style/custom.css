@@ -1,3 +1,8 @@
+mark {
+  background-color: inherit;
+  color: sandybrown;
+}
+
 p {
   font-size: 0.8em;
 }

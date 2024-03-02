@@ -28,6 +28,7 @@ There are many other systems.
 - A complete example, e.g., tension test
 - Parallel execution
 - Common strategies to improve the solve
+- Visualization
 
 # Tutorial 2: Material model
 
@@ -36,7 +37,7 @@ There are many other systems.
 - Automatic differentiation
 - AD FAQ
 
-# Tutorial 3: Visualization and postprocessing
+# Tutorial 3: Postprocessing
 
 - Visualizing results in Paraview
 - Postprocessing: average displacement
