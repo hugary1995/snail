@@ -44,12 +44,285 @@
 			</section>
 			<!--
       ##############################################################################
-      MOOSE overview
+      Intro
       ##############################################################################
       -->
-			<section data-markdown="content/moose.md"></section>
-			<section data-markdown="content/install.md"></section>
-			<section data-markdown="content/framework.md"></section>
+			<section>
+				<!--
+				##############################################################################
+				MOOSE
+				##############################################################################
+				-->
+				<section>
+					<h2>MOOSE</h2>
+					<p>
+						<span style="color: DodgerBlue">M</span>ultiphysics <span style="color: DodgerBlue">O</span>bject-<span
+							style="color: DodgerBlue">O</span>riented <span style="color: DodgerBlue">S</span>imulation <span
+							style="color: DodgerBlue">E</span>nvironment
+					</p>
+					<ul>
+						<li>From a mathematical point of view: MOOSE is a <span style="color: coral">Partial-Differential-Equation
+								solver</span>.</li>
+						<li>From a software point of view: MOOSE is an extensible framework that integrates <span
+								style="color: coral">state-of-the-art scientific computing libraries</span> for <span
+								style="color: coral">physics-based simulations</span>.</li>
+					</ul>
+				</section>
+				<!--
+				##############################################################################
+				Capabilities
+				##############################################################################
+				-->
+				<section>
+					<h2>MOOSE Capabilities</h2>
+					<p>
+						The MOOSE ecosystem is fairly mature as a PDE solver,<br>
+						and so the question of
+					</p>
+					<blockquote>What can MOOSE do?</blockquote>
+					<p>is essentially equivalent to the question</p>
+					<blockquote>What can PDEs describe?</blockquote>
+				</section>
+				<section>
+					<img src="assets/ecosystem.svg" style="height: 600px;">
+				</section>
+				<!--
+				##############################################################################
+				Why MOOSE
+				##############################################################################
+				-->
+				<section>
+					<h2>Why MOOSE?</h2>
+					<ul>
+						<li>MOOSE is built upon high-quality libraries and packages,<br>e.g., <a
+								href="https://libmesh.github.io/">libMesh</a>, <a href="https://petsc.org/release/">PETSc</a>, <a
+								href="https://code.ornl.gov/neams-workbench/wasp">WASP</a>, <a
+								href="https://reverendbedford.github.io/neml2/">NEML2</a>, etc.
+							<ul>
+								<li>Scalability to over <span style="color: coral">30,000 cores</span></li>
+								<li>Multiple <span style="color: coral">R&D 100</span> awards</li>
+								<li>Wide variety of <a
+										href="https://mooseframework.inl.gov/application_usage/tracked_apps.html">applications</a></li>
+							</ul>
+						</li>
+						<li>MOOSE is chosen by the scientific computing community.
+							<ul>
+								<li>Over <span style="color: coral">100 contributors</span></li>
+								<li>Over <span style="color: coral">500 publications</span></li>
+								<li>Over <span style="color: coral">10,000,000 tests</span> run every week</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<img src="assets/platform.png" style="height: 400px;">
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Install
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h2>Installation</h2>
+					<ul>
+						<li>The complete installation guide is available on the <a
+								href="https://mooseframework.inl.gov/getting_started/installation/index.html">MOOSE website</a>.</li>
+						<li>While there are many installation methods, the recommended way of installing MOOSE on your personal
+							device is through <a
+								href="https://mooseframework.inl.gov/getting_started/installation/conda.html">Conda</a>.
+							<ul>
+								<li>The Conda method is suitable for Linux and MacOS.</li>
+								<li>
+									On Windows, first install the <a href="https://learn.microsoft.com/en-us/windows/wsl/install">Windows
+										Subsystem for Linux (WSL)</a>,<br>
+									then follow the <a
+										href="https://mooseframework.inl.gov/getting_started/installation/conda.html">Conda</a> installation
+									method.
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<blockquote style="text-align: left; font-size: x-large;">If you run into any issue during the installation
+						process, please feel free to ask for help in the installation channel of the Slack workspace.</blockquote>
+				</section>
+				<section>
+					<p style="text-align: left;">Install Conda</p>
+					<p style="text-align: left; font-size: 1rem;">
+						Linux users: replace <span style="color: coral">XXX</span> with <span
+							style="color: coral">Linux-x86_64</span><br>
+						Mac (Intel) users: replace <span style="color: coral">XXX</span> with <span
+							style="color: coral">MacOSX-x86_64</span><br>
+						Mac (Apple Silicon) users: replace <span style="color: coral">XXX</span> with <span
+							style="color: coral">MacOSX-arm64</span>
+					</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						curl -L -O https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-XXX.sh
+						bash Miniforge3-*.sh -b -p ~/miniforge
+						~/miniforge/bin/conda init --all
+					</code></pre>
+					<p style="text-align: left;">Create environment</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						conda create -n moose
+						conda activate moose
+						conda install -c https://conda.software.inl.gov/public moose-dev
+					</code></pre>
+					<p style="text-align: left;">Install MOOSE</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						mkdir -p ~/projects
+						cd ~/projects
+						git clone --single-branch -b master --depth 1 https://github.com/idaholab/moose.git
+						cd moose/test
+						make -j N
+					</code></pre>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Framework
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h2>Framework Overview</h2>
+					<div class="cozy">
+						<ul>
+							<li><span style="color: coral">All modules and apps</span> are built upon the MOOSE <span
+									style="color: coral">framework level capabilities</span>.</li>
+							<li>The solid mechanics module is no exception.</li>
+							<li>Here, we will only go over a <span style="color: coral">bare minimum</span> amount of framework level
+								capabilities.</li>
+							<table>
+								<thead>
+									<tr>
+										<th>System/Syntax</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><a href="https://mooseframework.inl.gov/syntax/Mesh/index.html">[Mesh]</a></td>
+										<td>Defines the partition of the physical domain where the problem is defined</td>
+									</tr>
+									<tr>
+										<td><a href="https://mooseframework.inl.gov/syntax/Variables/index.html">[Variables]</a></td>
+										<td>Declares unknown variables and their corresponding function spaces</td>
+									</tr>
+									<tr>
+										<td><a href="https://mooseframework.inl.gov/syntax/Kernels/index.html">[Kernels]</a></td>
+										<td>Defines the partial differential equations that describe the problem of interest</td>
+									</tr>
+									<tr>
+										<td><a href="https://mooseframework.inl.gov/syntax/BCs/index.html">[BCs]</a> <a
+												href="https://mooseframework.inl.gov/syntax/ICs/index.html">[ICs]</a></td>
+										<td>Defines boundary/initial conditions of the problem</td>
+									</tr>
+									<tr>
+										<td><a href="https://mooseframework.inl.gov/syntax/Executioner/index.html">[Executioner]</a></td>
+										<td>Configures how the problem is solved</td>
+									</tr>
+									<tr>
+										<td><a href="https://mooseframework.inl.gov/syntax/Outputs/index.html">[Outputs]</a></td>
+										<td>Informs MOOSE what, where, when, and how to output</td>
+									</tr>
+								</tbody>
+							</table>
+						</ul>
+					</div>
+				</section>
+				<!--
+			##############################################################################
+			Tutorial 0: How MOOSE works
+			##############################################################################
+			-->
+				<section>
+					<div class="container" style="grid-template-columns: 30% 30% 40%;">
+						<div class="col">
+							<h4 style="text-align: left">Plain language</h4>
+							<p style="text-align: left; font-size: 0.4em">
+								The problem is defined on a <span style="color: coral">two dimensional square</span> with side length 1.
+								<br><br>
+								I am interested in the evolution of the species <span style="color: coral">concentration $c$</span>.
+								<br><br>
+								Some chemical <span style="color: coral">reaction</span> produces this species with a constant rate of
+								$1$,
+								and the species is <span style="color: coral">consumed</span> at a constant rate of $1$.
+								The species also <span style="color: coral">diffuses</span> over time with a diffusion coefficient of
+								$0.01$.
+								<br><br>
+								I know the <span style="color: coral">initial distribution</span> of the species concentration $c_0$.
+								How does the species concentration <span style="color: coral">evolve</span> over $1$ seconds?
+							</p>
+						</div>
+						<div class="col">
+							<h4 style="text-align: left">MOOSE</h4>
+							<pre class="python" style="width: 60%; margin-left: 0;"><code data-trim data-noescape>
+					[Mesh]
+						[gmg]
+							type = GeneratedMeshGenerator
+							dim = 2
+							xmax = 1
+							ymax = 1
+							nx = 200
+							ny = 200
+						[]
+					[]
+					[Variables]
+						[c]
+						[]
+					[]
+					[Kernels]
+						[transient]
+							type = TimeDerivative
+							variable = c
+						[]
+						[consumption]
+							type = BodyForce
+							variable = c
+							value = -1
+						[]
+						[reaction]
+							type = CoefReaction
+							variable = c
+							rate = -1
+						[]
+						[diffusion]
+							type = MatDiffusion
+							variable = c
+							diffusivity = 0.01
+						[]
+					[]
+					[Functions]
+						[c0]
+							type = ParsedFunction
+							expression = 'sin(40*(x-0.2)*(y-0.3))*cos(20*(y-0.4)*(y-0.5))+1'
+						[]
+					[]
+					[ICs]
+						[c0]
+							type = FunctionIC
+							variable = c
+							function = c0
+						[]
+					[]
+					[Executioner]
+						type = Transient
+						end_time = 1
+						dt = 0.02
+					[]
+					[Outputs]
+						exodus = true
+					[]
+					</code></pre>
+						</div>
+						<div class="col">
+							<h4 style="text-align: left">Result</h4>
+							<img data-src="assets/tutorial00.gif" style="height: 500px; margin: auto; display: inline-block;"></img>
+						</div>
+					</div>
+				</section>
+			</section>
 		</div>
 	</div>
 

@@ -328,3 +328,4 @@ snail.yaml
 
 !slides/index.html
 !slides/assets/*
+!slides/package.json
