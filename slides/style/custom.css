@@ -28,33 +28,6 @@ li {
   line-height: 1.5em;
 }
 
-/* ol {
-  list-style-type: none;
-  counter-reset: item;
-  margin: 0;
-  padding: 0;
-}
-
-ol>li {
-  display: table;
-  counter-increment: item;
-  margin-bottom: 0.3em;
-}
-
-ol>li:before {
-  content: counters(item, ".") ". ";
-  display: table-cell;
-  padding-right: 0.6em;
-}
-
-ol>li {
-  margin: 0;
-}
-
-ol>li:before {
-  content: counters(item, ".") " ";
-} */
-
 table tbody tr>.nobottom {
   border-bottom: none;
 }
@@ -106,5 +79,4 @@ table tbody tr>td {
 
 mjx-container[jax="CHTML"][display="true"] {
   font-size: 75% !important;
-  color: #dfe4f7;
 }
