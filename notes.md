@@ -55,7 +55,7 @@ There are many other systems.
 - `new_system = true`
 - `new_system = false`
 
-# Tutorial 6: Coordinate systems
+# Tutorial 6: Coordinate systems and planar formulations
 
 # Tutorial 7: (Advanced) Volumetric locking correction (stablization)
 

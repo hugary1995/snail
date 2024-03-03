@@ -185,7 +185,7 @@
 						<ul>
 							<li><mark>All modules and apps</mark> are built upon the MOOSE <mark>framework level capabilities</mark>.
 							</li>
-							<li>The solid mechanics module is no exception.</li>
+							<li>The Solid Mechanics module is no exception.</li>
 							<li>Here, we will only go over a <mark>bare minimum</mark> amount of
 								framework
 								level
@@ -837,7 +837,7 @@
 						<li>So far, we have created from scratch <em>our own</em> "solid mechanics module" in
 							<code>snail</code>.
 						</li>
-						<li>Now, we are ready to learn what the <mark>MOOSE Solid Mechanics Module</mark> can do for us.
+						<li>Now, we are ready to learn what the <mark>MOOSE Solid Mechanics module</mark> can do for us.
 							<ul>
 								<li>Automatic creation of variables, kernels, and strain calculators</li>
 								<li>Simplified tensor outputting</li>
@@ -849,7 +849,7 @@
 								</div>
 							</ul>
 						</li>
-						<li class="fragment">The canonical entry point for the MOOSE Solid Mechanics Module is
+						<li class="fragment">The canonical entry point for the MOOSE Solid Mechanics module is
 							<mark><code>[Physics/SolidMechanics]</code></mark>.
 						</li>
 					</ul>
@@ -934,6 +934,136 @@
 						[]
 						</code>
 					</pre>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 05: Large Deformation
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h2>Tutorial 05: Large Deformation</h2>
+					<ul>
+						<li>The Solid Mechanics module makes switching between kinematics a trivial task.
+							<ul>
+								<li><mark><code>strain = SMALL</code></mark>: small deformation</li>
+								<li><mark><code>strain = FINITE</code></mark>: large deformation</li>
+							</ul>
+						</li>
+						<li>The large deformation formulation comes with two flavors:
+							<ul>
+								<li>
+									<mark>Hypoelasticity</mark>: small strain material model integrated objectively
+									\[
+									\begin{aligned}
+									\mathring{\sigma}_{ij} = \dot{\sigma}_{ij} - Q_{ik}\sigma_{kj} - \sigma_{ik}Q_{jk} + Q_{kk}\sigma_ij
+									\end{aligned}
+									\]
+								</li>
+								<li>
+									<mark>Hyperelasticity</mark>: derived from a strain energy density function
+									\[
+									\begin{aligned}
+									\sigma_{ij} = \frac{1}{J} P_{iJ} F_{jJ}, \quad P_{iJ} = \frac{\partial w}{\partial F_{iJ}}
+									\end{aligned}
+									\]
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<p style="text-align: left;">Let us compare 6 elastic material models:</p>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col">
+							<div class="cozy">
+								<ol style="font-size: xx-large;">
+									<li>Small deformation, <mark><code>ComputeLagrangianLinearElasticStress</code></mark>
+										\[
+										\begin{aligned}
+										\sigma_{ij} = C_{ijkl} \varepsilon_{kl}
+										\end{aligned}
+										\]
+									</li>
+									<li>Large deformation, hyperelastic, <em>St. Venant-Kirchhoff</em>,
+										<mark><code>ComputeStVenantKirchhoffStress</code></mark>
+										\[
+										\begin{aligned}
+										\sigma_{ij} = \frac{1}{J}F_{iI}S_{IJ}F_{jJ}, \quad S_{IJ} = C_{IJKL} E_{KL}
+										\end{aligned}
+										\]
+									</li>
+									<li>Large deformation, hyperelastic, <em>Neo-Hookean</em>,
+										<mark><code>ComputeNeoHookeanStress</code></mark>
+										\[
+										\begin{aligned}
+										\sigma_{ij} = \frac{1}{J}F_{iI}S_{IJ}F_{jJ}, \quad S_{IJ} = \left(\lambda \log J - \mu\right)
+										C^{-1}_{IJ}
+										+ \mu \delta_{IJ}, \quad C_{IJ} = 2 E_{IJ} + \delta_{IJ}
+										\end{aligned}
+										\]
+									</li>
+								</ol>
+							</div>
+						</div>
+						<div class="col">
+							<div class="cozy">
+								<ol start="4" style="font-size: xx-large;">
+									<li>Large deformation, hypoelastic, <em>Trusdell</em> rate,
+										<mark><code>objective_rate = truesdell</code></mark>
+										\[
+										\begin{align}
+										Q_{ik} = l_{ik}
+										\end{align}
+										\]
+									</li>
+									<li>Large deformation, hypoelastic, <em>Jaumann</em> rate,
+										<mark><code>objective_rate = jaumann</code></mark>
+										\[
+										\begin{align}
+										Q_{ik} = w_{ik}, \quad w_{ik}=\frac{1}{2}\left(l_{ik}-l_{ki}\right)
+										\end{align}
+										\]
+									</li>
+									<li>Large deformation, hypoelastic, <em>Green-Naghdi</em> rate,
+										<mark><code>objective_rate = green_naghdi</code></mark>
+										\[
+										\begin{align}
+										Q_{ik} = \Omega_{ik} = \dot{R}_{ij} R_{kj}.
+										\end{align}
+										\]
+									</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section>
+					<img src="assets/large_deformation.svg" style="height: 600px;">
+				</section>
+				<section>
+					<p style="text-align: left;">
+						Remarks
+					<ul>
+						<li>Choosing the suitable model for a material is essentially a matter of <mark>calibration</mark>.</li>
+						<li>Advantages of <mark>hyperelastic</mark> formulations:
+							<ul>
+								<li>Coercivity and polyconvexity ensure existence and uniqueness of the solution.</li>
+								<li>Integration error is negligible.</li>
+							</ul>
+						</li>
+						<li>Advantages of <mark>hypoelastic</mark> formulations:
+							<ul>
+								<li>Small deformation models can be objectively integrated to solve large deformation problems.</li>
+								<li>Many common engineering materials have been calibrated.</li>
+							</ul>
+						</li>
+					</ul>
+					<blockquote style="font-size: x-large;">See <a
+							href="https://mooseframework.inl.gov/source/materials/lagrangian/ComputeLagrangianObjectiveStress.html">this
+							page</a> for known limitations of hypoelastic formulations and some recommendations.</blockquote>
+					</p>
 				</section>
 			</section>
 		</div>
