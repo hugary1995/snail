@@ -1324,9 +1324,155 @@
 			</section>
 			<!--
 			##############################################################################
-			Tutorial 09: Homogenization
+			Tutorial 09: Homogenization Constraints
 			##############################################################################
 			-->
+			<section>
+				<section>
+					<h2>Tutorial 09: Homogenization Constraints</h2>
+					<ul>
+						<li>To model micro- and mesoscale <mark>representative volume elements (RVEs)</mark>, it is often desired to
+							apply
+							constraints on <mark>RVE-averaged</mark> strain and/or stress as "boundary conditions".</li>
+						<li>The Solid Mechanics module features the <mark>Homogenization</mark> system for such constraints.</li>
+						<li>The theory largely follows from
+							<span class="tooltip">
+								Danielsson et al. (2002)
+								<span class="tooltiptext" style="margin-left: -300px;">
+									M Danielsson, DM Parks, and MC Boyce. Three-dimensional micromechanical modeling of voided polymeric
+									materials. Journal of the Mechanics and Physics of Solids, 50(2):351–379, 2002.
+								</span>
+							</span>.
+							<ul>
+								<li>
+									For small deformation, the constraints are of the type
+									\[
+									\begin{aligned}
+									\hat{s}_{ij} = \frac{1}{V}\int_\Omega s_{ij}\ \mathrm{d}V, \quad \hat{\varepsilon}_{ij} =
+									\frac{1}{V}\int_\Omega \varepsilon_{ij}\ \mathrm{d}V
+									\end{aligned}
+									\]
+								</li>
+								<li>
+									For large deformation, the constraints are of the type
+									\[
+									\begin{aligned}
+									\hat{P}_{iJ} = \frac{1}{V} \int_\Omega P_{iJ}\ \mathrm{d}V, \quad
+									\hat{F}_{iJ} = \frac{1}{V}\int_\Omega F_{iJ} \ \mathrm{d}V.
+									\end{aligned}
+									\]
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>More on the theory</h3>
+					<ul>
+						<li>The homogenization system introduces an additional <mark>affine displacement</mark> field
+							\[
+							\begin{aligned}
+							u_i = u_i^\mu + u_i^M, \quad u_i^M = G_{iJ}^M X_J
+							\end{aligned}
+							\]
+							<ul>
+								<li>
+									For small deformation, the macro gradient tensor $G_{iJ}^M$ is symmetric. For large deformation, it is
+									not.
+								</li>
+								<li>
+									The deformation gradient then follows as $F_{iJ} = \delta_{iJ}
+									+ u_{i,J}^\mu + G_{iJ}$
+								</li>
+							</ul>
+						</li>
+						<li>The corresponding constraint residuals are defined as
+							\[
+							\begin{aligned}
+							r_{iJ}^{(P)} = \int_\Omega (\hat{P}_{iJ} - \bar{P}_{iJ})\ \mathrm{d}V, \quad r_{iJ}^{(F)} = \int_\Omega
+							(\hat{F}_{iJ} - \bar{F}_{iJ})\ \mathrm{d}V
+							\end{aligned}
+							\]
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Input file syntax</h3>
+					<ul>
+						<li>The homogenization constraints can be imposed through the <code>[Physics/SolidMechanics]</code> syntax.
+							<ul>
+								<li><mark><code>constraint_types</code></mark> specifies the constraint types to impose for each
+									stress/strain
+									component.
+									<ul>
+										<li><mark><code>strain</code></mark> denotes a constraint on <em>strain</em> (small deformation) or
+											<em>deformation gradient</em> (large deformation)
+										</li>
+										<li><mark><code>stress</code></mark> denotes a constraint on the <em>Cauchy stress</em> (small
+											deformation)
+											or the <em>first Piola-Kirchhoff stress</em> (large deformation)</li>
+										<li><mark><code>none</code></mark> places no constraint on the corresponding component</li>
+									</ul>
+								</li>
+								<li><mark><code>targets</code></mark> specifies the prescribed values for each constrained component.
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<blockquote style="font-size: x-large;">
+						The constraints are always listed in the column-major convention.
+					</blockquote>
+				</section>
+				<section data-auto-animate>
+					<div class="container" style="grid-template-columns: 40% 30% 30%;">
+						<div class="col" style="justify-items: center;">
+							<p>An RVE made of 4 materials</p>
+							<img data-src="assets/homogenization.svg" style="height: 280px;">
+							<div style="font-size: 1.5rem;">
+								\[
+								\begin{aligned}
+								F_{xx} &= 1 + 0.1 \sin(20 t) + 0.1 \cos(15 t)\\
+								P_{xy} &= 100 \sin(13 t) + 150 \cos(9 t)\\
+								F_{yx} &= 0\\
+								P_{yy} &= -70 \sin(9 t) - 130 \cos(25 t)
+								\end{aligned}
+								\]
+							</div>
+						</div>
+						<div class="col fragment">
+							<img data-src="assets/Fxx.svg" style="height: 250px;">
+							<img data-src="assets/Fyx.svg" style="height: 250px;">
+						</div>
+						<div class="col fragment">
+							<img data-src="assets/Pxy.svg" style="height: 250px;">
+							<img data-src="assets/Pyy.svg" style="height: 250px;">
+						</div>
+					</div>
+				</section>
+				<section data-auto-animate>
+					<div class="container" style="grid-template-columns: 40% 60%;">
+						<div class="col" style="justify-items: center;">
+							<p>An RVE made of 4 materials</p>
+							<img data-src="assets/homogenization.svg" style="height: 280px;">
+							<div style="font-size: 1.5rem;">
+								\[
+								\begin{aligned}
+								F_{xx} &= 1 + 0.1 \sin(20 t) + 0.1 \cos(15 t)\\
+								P_{xy} &= 100 \sin(13 t) + 150 \cos(9 t)\\
+								F_{yx} &= 0\\
+								P_{yy} &= -70 \sin(9 t) - 130 \cos(25 t)
+								\end{aligned}
+								\]
+							</div>
+						</div>
+						<div class="col">
+							<video controls style="height: 500px; margin: auto; display: inline-block;">
+								<source data-src="/assets/homogenization.webm" type="video/webm" />
+							</video>
+						</div>
+					</div>
+				</section>
+			</section>
 		</div>
 	</div>
 
