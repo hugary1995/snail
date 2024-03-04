@@ -1057,6 +1057,28 @@
 			</section>
 			<!--
 			##############################################################################
+			Break
+			##############################################################################
+			-->
+			<section>
+				<h3><img data-src="assets/break.png"
+						style="height: 80px; display: inline-block; margin: auto 20px auto auto">Break
+				</h3>
+				<ul>
+					<li>This concludes the <mark>fundamentals</mark> of the MOOSE Solid Mechanics module.</li>
+					<li>Coming up <strong>next</strong>
+						<ul>
+							<li>Coordinate systems and planar formulations</li>
+							<li>Volumetric locking correction (stablization)</li>
+							<li>Structural Dynamics and time integration</li>
+							<li>Homogenization constraints</li>
+							<li>More features...</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<!--
+			##############################################################################
 			Tutorial 06: Coordinate Systems and Planar Formulations
 			##############################################################################
 			-->
@@ -1096,34 +1118,6 @@
 						</div>
 					</div>
 				</section>
-			</section>
-			<!--
-			##############################################################################
-			Break
-			##############################################################################
-			-->
-			<section>
-				<h3><img data-src="assets/break.png"
-						style="height: 80px; display: inline-block; margin: auto 20px auto auto">Break
-				</h3>
-				<ul>
-					<li>This concludes the <mark>fundamentals</mark> of the MOOSE Solid Mechanics module.</li>
-					<li>Coming up next
-						<ul>
-							<li>Advanced features
-								<ul>
-									<li>Volumetric locking correction (stablization)</li>
-									<li>Dynamics</li>
-									<li>Homogenization</li>
-									<li>Plasticity</li>
-									<li>Cohesive Zone Method</li>
-								</ul>
-							</li>
-							<li>More advanced features</li>
-							<li>Custom material model</li>
-						</ul>
-					</li>
-				</ul>
 			</section>
 			<!--
 			##############################################################################
@@ -1196,7 +1190,7 @@
 			-->
 			<section>
 				<section>
-					<h2>Tutorial 08: Structural Dynamcis</h2>
+					<h3>Tutorial 08: Structural Dynamcis and Time Integration</h3>
 					<ul>
 						<li>
 							The balance of linear momentum is extended to incorporate <mark>inertial effects</mark>
@@ -1472,6 +1466,66 @@
 						</div>
 					</div>
 				</section>
+			</section>
+			<!--
+			##############################################################################
+			Other features
+			##############################################################################
+			-->
+			<section>
+				<h3>Other features</h3>
+				<blockquote style="font-size: x-large;">
+					See the <a href="https://mooseframework.inl.gov/modules/solid_mechanics/index.html">online documentation</a>
+					for the comprehensive, up-to-date list of features.
+				</blockquote>
+				<ul style="font-size: 1.8rem;">
+					<li><a href="https://mooseframework.inl.gov/source/materials/ComputeMultipleInelasticStress.html">Inelastic
+							models</a>: plasticity, creep, viscoplasticity, crystal plasticity, etc.</li>
+					<li><a href="https://mooseframework.inl.gov/syntax/Physics/SolidMechanics/CohesiveZone/index.html">Cohesive
+							Zone Method (CZM)</a>: traction-separation models running on material interfaces</li>
+					<li><a href="https://mooseframework.inl.gov/source/materials/ComputeSmearedCrackingStress.html">Smeared
+							cracking</a>: smeared representation of cracking as softening stress-strain relation</li>
+					<li><a href="https://mooseframework.inl.gov/source/materials/FractureIntegrals.html">Fracture integrals</a>:
+						common integrals in fracture mechanics, e.g., J-integral, interaction integral, C-integral</li>
+					<li>Other structural elements:
+						<ul>
+							<li><a href="https://mooseframework.inl.gov/source/materials/C0TimoshenkoBeam.html">C0 Timoshenko beam
+									element</a></li>
+							<li><a href="https://mooseframework.inl.gov/source/materials/ShellElements.html">MITC4 shell
+									element</a></li>
+						</ul>
+					</li>
+					<li><a href="https://mooseframework.inl.gov/modules/solid_mechanics/1d_elastic_waves.html">Frequency domain
+							analysis</a>: time-harmonic equations, frequency response functions, etc.</li>
+					<li><a href="https://mooseframework.inl.gov/modules/solid_mechanics/examples/cframe_iga.html">Isogeometric
+							Analysis (IGA)</a>: IGA mesh from Coreform Cubit, common spline basis, etc.</li>
+				</ul>
+			</section>
+			<!--
+			##############################################################################
+			Wrapping up day 1
+			##############################################################################
+			-->
+			<section>
+				<h2>Wrapping up day 1</h2>
+				<p><strong>Today</strong>, we went over the fundamentals of the <mark>MOOSE Solid Mechanics module</mark>:</p>
+				<div class="cozy">
+					<ul style="font-size: 1.8rem;">
+						<li>The Solid Mechanics <code>[Physics]</code></li>
+						<li>Large deformation kinematics: hyperelasticity vs hypoelasticity</li>
+						<li>Coordinate systems and planar formulations</li>
+						<li>Volumetric locking correction</li>
+						<li>Structural dynamics and time integration schemes</li>
+						<li>Homogenization constraints</li>
+						<li>......</li>
+					</ul>
+				</div>
+				<p><strong>Tomorrow</strong>, we will demonstrate solid mechanics-related <mark>Multiphysics</mark> coupling.
+				</p>
+				<blockquote style="font-size: x-large;">
+					Make sure to have the remaining questions cleared up before tomorrow's training. <br>
+					More hands-on coding is required for tomorrow's training.
+				</blockquote>
 			</section>
 		</div>
 	</div>
