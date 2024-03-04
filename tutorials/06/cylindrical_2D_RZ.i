@@ -5,7 +5,7 @@
 [Mesh]
   [sample]
     type = FileMeshGenerator
-    file = '../gold/sample_RZ.msh'
+    file = 'gold/sample_RZ.msh'
   []
   coord_type = RZ
 []

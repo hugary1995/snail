@@ -83,7 +83,7 @@
 					<blockquote>What can PDEs describe?</blockquote>
 				</section>
 				<section>
-					<img src="assets/ecosystem.svg" style="height: 600px;">
+					<img data-src="assets/ecosystem.svg" style="height: 600px;">
 				</section>
 				<!--
 				##############################################################################
@@ -114,7 +114,7 @@
 					</ul>
 				</section>
 				<section>
-					<img src="assets/platform.png" style="height: 400px;">
+					<img data-src="assets/platform.png" style="height: 400px;">
 				</section>
 			</section>
 			<!--
@@ -1040,7 +1040,7 @@
 					</div>
 				</section>
 				<section>
-					<img src="assets/large_deformation.svg" style="height: 600px;">
+					<img data-src="assets/large_deformation.svg" style="height: 600px;">
 				</section>
 				<section>
 					<p style="text-align: left;">
@@ -1090,19 +1090,111 @@
 					</p>
 				</section>
 				<section>
-					<img src="assets/planar.png" style="height: 200px;">
-					<img src="assets/planar.svg" style="height: 400px;">
+					<img data-src="assets/planar.png" style="height: 250px;">
+					<img data-src="assets/planar.svg" style="height: 350px;">
 				</section>
 				<section>
 					<div class="container" style="grid-template-columns: 30% 30% 40%;">
 						<div class="col">
-							<img src="assets/cylindrical_3D.png" style="height: 400px;">
+							<img data-src="assets/cylindrical_3D.png" style="height: 400px;">
 						</div>
 						<div class="col">
-							<img src="assets/cylindrical_RZ.png" style="height: 400px;">
+							<img data-src="assets/cylindrical_RZ.png" style="height: 400px;">
 						</div>
 						<div class="col">
-							<img src="assets/cylindrical.svg" style="height: 400px;">
+							<img data-src="assets/cylindrical.svg" style="height: 400px;">
+						</div>
+					</div>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Break
+			##############################################################################
+			-->
+			<section>
+				<h3><img data-src="assets/break.png"
+						style="height: 80px; display: inline-block; margin: auto 20px auto auto">Break
+				</h3>
+				<ul>
+					<li>This concludes the <mark>fundamentals</mark> of the MOOSE Solid Mechanics module.</li>
+					<li>Coming up next
+						<ul>
+							<li>Advanced features
+								<ul>
+									<li>Volumetric locking correction (stablization)</li>
+									<li>Dynamics</li>
+									<li>Homogenization</li>
+									<li>Plasticity</li>
+									<li>Cohesive Zone Method</li>
+								</ul>
+							</li>
+							<li>More advanced features</li>
+							<li>Custom material model</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 07: Volumetric Locking Correction (Stabilization)
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h2>Tutorial 07: Volumetric Locking Correction</h2>
+					<ul>
+						<li>Standard 2D and 3D finite elements using a <mark>linear</mark> interpolation of the displacement field
+							are <mark>not stable</mark>
+							for <mark>incompressible</mark> and <mark>nearly incompressible</mark> deformation <span
+								class="tooltip">Hughes (1987)
+								<span class="tooltiptext" style="margin-left: -500px;">T. J. R Hughes. The Finite Element Method, Linear
+									Static and Dynamic Finite
+									Element Analysis. New Jersey:Prentice-Hall, 1987.</span>
+							</span>.
+						</li>
+						<li>Two common methods:
+							<ul>
+								<li>The $\bar{F}$ approach <span class="tooltip">Souza Neto et al. (1996)
+										<span class="tooltiptext" style="margin-left: -200px;">EA de Souza Neto, D Perić, M Dutko, and DRJ
+											Owen. Design of simple low order finite elements for large strain analysis of nearly
+											incompressible solids. International Journal of Solids and Structures, 33(20-22):3277–3296,
+											1996.</span></span> modifies the strain definition
+									\[
+									\begin{aligned}
+									\varepsilon'_{ij} = \varepsilon_{ij} + \frac{1}{3}(\bar{\varepsilon}_{kk} -
+									\varepsilon_{kk})\delta_{ij}, \quad \bar{\varepsilon}_{ij} = \frac{1}{V^e}\int_{\Omega^e}
+									\varepsilon_{ij}\ \mathrm{d}V
+									\end{aligned}
+									\]
+								</li>
+								<li>The $\bar{B}$ approach <span class="tooltip"> Hughes (1980)
+										<span class="tooltiptext" style="margin-left: -200px;">Thomas JR Hughes. Generalization of selective
+											integration procedures to anisotropic and nonlinear media. International Journal for Numerical
+											Methods in Engineering, 15(9):1413–1418, 1980.</span></span> additionally modifies the trial
+									strain
+									\[
+									\begin{aligned}
+									\phi'_{i,j} = \phi_{i,j} + \frac{1}{3}(\bar{\phi}_{k,k} -
+									\phi_{k,k})\delta_{ij}, \quad \bar{\phi}_{i,j} = \frac{1}{V^e}\int_{\Omega^e}
+									\phi_{i,j}\ \mathrm{d}V
+									\end{aligned}
+									\]
+								</li>
+							</ul>
+						</li>
+						<li>The Solid Mechanics module implements <mark>the $\bar{F}$ approach.</mark></li>
+						<li>To turn on stabilization, simply set <mark><code>volumetric_locking_correction = true</code></mark></li>
+					</ul>
+				</section>
+				<section>
+					<p style="text-align: left;">Cook's membrane</p>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col">
+							<img data-src="assets/cook.svg" style="height: 400px;">
+						</div>
+						<div class="col">
+							<img data-src="assets/vlc.svg" style="height: 400px;">
 						</div>
 					</div>
 				</section>

@@ -59,11 +59,11 @@ There are many other systems.
 
 # Tutorial 7: (Advanced) Volumetric locking correction (stablization)
 
-# Tutorial 8: (Advanced) Plasticity
+# Tutorial 8: (Advanced) Dynamics
 
-# Tutorial 9: (Advanced) Dynamics
+# Tutorial 9: (Advanced) Homogenization
 
-# Tutorial 10: (Advanced) Homogenization
+# Tutorial 10: (Advanced) Plasticity
 
 # Tutorial 11: (Advanced) Cohesive Zone Method
 

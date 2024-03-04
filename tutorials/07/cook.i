@@ -3,9 +3,9 @@
 []
 
 [Mesh]
-  [sample]
+  [fmg]
     type = FileMeshGenerator
-    file = 'gold/sample.msh'
+    file = 'membrane.msh'
   []
 []
 
@@ -17,44 +17,39 @@
         add_variables = true
         strain = FINITE
         formulation = TOTAL
-        volumetric_locking_correction = true
-        save_in = 'r_x r_y'
+        volumetric_locking_correction = ${vlc}
       []
     []
   []
 []
 
 [Materials]
-  [elasticity_tensor]
-    type = ComputeIsotropicElasticityTensor
-    lambda = 4000
-    shear_modulus = 6700
-  []
   [stress]
-    type = ComputeStVenantKirchhoffStress
+    type = ComputeNeoHookeanStress
+    lambda = 416666611.0991259
+    mu = 8300.33333888888926
     large_kinematics = true
   []
 []
 
 [BCs]
-  [bottom_fix_x]
+  [fix_x]
     type = DirichletBC
     variable = disp_x
-    value = 0
-    boundary = 'bottom'
+    boundary = left
+    value = 0.0
   []
-  [bottom_fix_y]
+  [fix_y]
     type = DirichletBC
     variable = disp_y
-    value = 0
-    boundary = 'bottom'
+    boundary = left
+    value = 0.0
   []
-  [top_pull_y]
-    type = FunctionDirichletBC
+  [pull]
+    type = FunctionNeumannBC
     variable = disp_y
+    boundary = right
     function = 't'
-    boundary = 'top'
-    preset = false
   []
 []
 
@@ -64,31 +59,22 @@
   petsc_options_iname = '-pc_type'
   petsc_options_value = 'lu'
   automatic_scaling = true
-  end_time = 2
-  dt = 0.1
-[]
-
-[AuxVariables]
-  [r_x]
-  []
-  [r_y]
-  []
+  line_search = none
+  end_time = 100
+  dt = 5
+  nl_abs_tol = 1e-12
+  nl_rel_tol = 1e-10
 []
 
 [Postprocessors]
-  [displacement]
-    type = SideAverageValue
+  [value]
+    type = PointValue
     variable = disp_y
-    boundary = 'top'
-  []
-  [force]
-    type = NodalSum
-    variable = r_y
-    boundary = 'top'
+    point = '48 60 0'
   []
 []
 
 [Outputs]
-  file_base = 'cartesian_2D_plane_strain'
   csv = true
+  exodus = true
 []

@@ -5,7 +5,7 @@
 [Mesh]
   [sample]
     type = FileMeshGenerator
-    file = '../gold/sample_3D.msh'
+    file = 'gold/sample_3D.msh'
   []
 []
 

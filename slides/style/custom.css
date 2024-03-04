@@ -80,3 +80,32 @@ table tbody tr>td {
 mjx-container[jax="CHTML"][display="true"] {
   font-size: 75% !important;
 }
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  text-align: left;
+  font-size: large;
+  line-height: 1.5em;
+  padding: 5px;
+  border-radius: 6px;
+
+  width: 600px;
+  bottom: 100%;
+  left: 50%;
+  margin-left: 0;
+
+  position: absolute;
+  z-index: 2;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
