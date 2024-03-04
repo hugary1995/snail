@@ -55,7 +55,7 @@
 				-->
 				<section>
 					<h2>MOOSE</h2>
-					<p>
+					<p style="text-align: center;">
 						<span style="color: DodgerBlue">M</span>ultiphysics <span style="color: DodgerBlue">O</span>bject-<span
 							style="color: DodgerBlue">O</span>riented <span style="color: DodgerBlue">S</span>imulation <span
 							style="color: DodgerBlue">E</span>nvironment
@@ -74,16 +74,7 @@
 				-->
 				<section>
 					<h2>MOOSE Capabilities</h2>
-					<p>
-						The MOOSE ecosystem is fairly mature as a PDE solver,<br>
-						and so the question of
-					</p>
-					<blockquote>What can MOOSE do?</blockquote>
-					<p>is essentially equivalent to the question</p>
-					<blockquote>What can PDEs describe?</blockquote>
-				</section>
-				<section>
-					<img data-src="assets/ecosystem.svg" style="height: 600px;">
+					<img data-src="assets/ecosystem.svg" style="height: 550px;">
 				</section>
 				<!--
 				##############################################################################
@@ -146,7 +137,7 @@
 						process, please feel free to ask for help in the installation channel of the Slack workspace.</blockquote>
 				</section>
 				<section>
-					<p style="text-align: left;">Install Conda</p>
+					<p>Install Conda</p>
 					<p style="text-align: left; font-size: 1rem;">
 						Linux users: replace <mark>XXX</mark> with <mark>Linux-x86_64</mark><br>
 						Mac (Intel) users: replace <mark>XXX</mark> with <mark>MacOSX-x86_64</mark><br>
@@ -157,13 +148,13 @@
 						bash Miniforge3-*.sh -b -p ~/miniforge
 						~/miniforge/bin/conda init --all
 					</code></pre>
-					<p style="text-align: left;">Create environment</p>
+					<p>Create environment</p>
 					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
 						conda create -n moose
 						conda activate moose
 						conda install -c https://conda.software.inl.gov/public moose-dev
 					</code></pre>
-					<p style="text-align: left;">Install MOOSE</p>
+					<p>Install MOOSE</p>
 					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
 						mkdir -p ~/projects
 						cd ~/projects
@@ -335,23 +326,23 @@
 			-->
 			<section>
 				<h2>Theory: Balance of Linear Momentum</h2>
-				<p style="text-align: left;">Starting from the <mark>strong form</mark></p>
+				<p>Starting from the <mark>strong form</mark></p>
 				\[\begin{aligned}
 				- \sigma_{ij,j} = 0, \quad \text{in } \Omega
 				\end{aligned} \]
-				<p style="text-align: left;">The corresponding <mark>weak form</mark> seeks
+				<p>The corresponding <mark>weak form</mark> seeks
 					displacements
 					$u_i$ such that</p>
 				\[\begin{aligned}
 				\forall \phi_i: \quad - \int_\Omega \phi_i \sigma_{ij,j}\ \mathrm{d}V = 0
 				\end{aligned} \]
-				<p style="text-align: left;">Applying the <a href="https://en.wikipedia.org/wiki/Divergence_theorem">divergence
+				<p>Applying the <a href="https://en.wikipedia.org/wiki/Divergence_theorem">divergence
 						theorem</a>, we get</p>
 				\[\begin{aligned}
 				\forall \phi_i: \quad \int_\Omega \phi_{i,j} \sigma_{ij}\ \mathrm{d}V - \int_{\partial\Omega} \phi_i
 				t_i\ \mathrm{d}A = 0
 				\end{aligned} \]
-				<p style="text-align: left;"><mark>Material models</mark> relate the
+				<p><mark>Material models</mark> relate the
 					primary unknown, i.e.,
 					<mark>displacements</mark> $u_i$, to the thermodynamic force, i.e.,
 					<mark>Cauchy stress</mark> $\sigma_{ij}$.
@@ -365,19 +356,19 @@
 			<section>
 				<section>
 					<h2>Tutorial 01: Linear Elastic Material</h2>
-					<p style="text-align: left;">The material model for a linear elastic material is</p>
+					<p>The <mark>material model</mark> for a linear elastic material is</p>
 					\[\begin{aligned}
 					\sigma_{ij} &amp;= \lambda \varepsilon_{kk} \delta_{ij} + 2 \mu \varepsilon_{ij} \\
 					\varepsilon_{ij} &amp;= \frac{1}{2} (u_{i,j} + u_{j,i})
 					\end{aligned} \]
-					<p style="text-align: left;">As a reminder: The weak form for linear momentum balance is</p>
+					<p>As a reminder: The <mark>weak form</mark> for linear momentum balance is</p>
 					\[\begin{aligned}
 					\forall \phi_i: \quad \int_\Omega \phi_{i,j} \sigma_{ij}\ \mathrm{d}V = 0
 					\end{aligned} \]
-					<p style="text-align: left;">Let's implement this in MOOSE!</p>
+					<p>Let's implement this in MOOSE!</p>
 				</section>
 				<section>
-					<p style="text-align: left;">The C++ source code closely resembles the equations:</p>
+					<p>The C++ source code closely resembles the equations:</p>
 
 					<p style="text-align: left; font-size: x-large;">
 						$\varepsilon_{ij} = \frac{1}{2} (u_{i,j} + u_{j,i})$
@@ -403,7 +394,7 @@
 				<section>
 					<div class="container" style="grid-template-columns: 60% 40%;">
 						<div class="col">
-							<p style="text-align: left;">Input file walkthrough</p>
+							<p>Input file walkthrough</p>
 							<pre class="python" style="margin-left: 0;">
 								<code data-trim data-noescape>
 								[GlobalParams]
@@ -484,19 +475,19 @@
 					</div>
 				</section>
 				<section>
-					<p style="text-align: left;">To solve the problem in <mark>serial</mark>:</p>
+					<p>To solve the problem in <mark>serial</mark>:</p>
 					<pre class="shell" style="margin-left: 0;">
 						<code data-trim data-noescape>
 							~/projects/snail-opt -i tension.i
 						</code>
 					</pre>
-					<p style="text-align: left;">To solve the problem in <mark>parallel</mark>:</p>
+					<p>To solve the problem in <mark>parallel</mark>:</p>
 					<pre class="shell" style="margin-left: 0;">
 						<code data-trim data-noescape>
 							mpiexec -n 2 ~/projects/snail/snail-opt -i tension.i
 						</code>
 					</pre>
-					<p style="text-align: left;"><a href="https://www.paraview.org/download/">ParaView</a> is the recommended tool
+					<p><a href="https://www.paraview.org/download/">ParaView</a> is the recommended tool
 						for <mark>visualization</mark> purposes:</p>
 					<pre class="shell" style="margin-left: 0;">
 						<code data-trim data-noescape>
@@ -534,7 +525,7 @@
 				<section>
 					<div class="container" style="grid-template-columns: 50% 50%;">
 						<div class="col">
-							<p style="text-align: left;">Tutorial 01 source code</p>
+							<p>Tutorial 01 source code</p>
 							<pre class="cpp" style="width: 75%; margin-left: 0;">
 								<code data-trim data-noescape>
 									ADReal
@@ -557,7 +548,7 @@
 							</pre>
 						</div>
 						<div class="col">
-							<p style="text-align: left;">Tutorial 02 source code</p>
+							<p>Tutorial 02 source code</p>
 							<pre class="cpp" style="width: 75%; margin-left: 0;">
 								<code data-trim data-noescape>
 									void
@@ -595,7 +586,7 @@
 				<section>
 					<div class="container" style="grid-template-columns: 50% 50%;">
 						<div class="col">
-							<p style="text-align: left;">Tutorial 01 input file</p>
+							<p>Tutorial 01 input file</p>
 							<pre class="python" style="width: 75%; margin-left: 0;">
 								<code data-trim data-noescape>
 								[Kernels]
@@ -618,7 +609,7 @@
 							</pre>
 						</div>
 						<div class="col">
-							<p style="text-align: left;">Tutorial 02 input file</p>
+							<p>Tutorial 02 input file</p>
 							<pre class="python" style="width: 75%; margin-left: 0;">
 								<code data-trim data-noescape>
 								[Kernels]
@@ -658,11 +649,11 @@
 			<section>
 				<section data-auto-animate>
 					<h2>Tutorial 03: Postprocessing FAQ</h2>
-					<p style="text-align: left;"><strong>Q</strong>: How do I output <mark>tensorial
+					<p><strong>Q</strong>: How do I output <mark>tensorial
 							quantities</mark>, e.g., strain and stress,
 						<mark>at every point</mark>?
 					</p>
-					<p style="text-align: left;"><strong>A</strong>: Use <mark><code>[AuxVariables]</code></mark> and
+					<p><strong>A</strong>: Use <mark><code>[AuxVariables]</code></mark> and
 						<mark><code>[AuxKernel]</code></mark>.
 					</p>
 					<pre class="python" style="margin-left: 0;">
@@ -692,11 +683,11 @@
 				</section>
 				<section data-auto-animate>
 					<h2>Tutorial 03: Postprocessing FAQ</h2>
-					<p style="text-align: left;"><strong>Q</strong>: How do I output <mark>tensorial
+					<p><strong>Q</strong>: How do I output <mark>tensorial
 							quantities</mark>, e.g., strain and stress,
 						<mark>at a specific point</mark>?
 					</p>
-					<p style="text-align: left;"><strong>A</strong>: Use the <mark><code>PointValue</code></mark> postprocessor.
+					<p><strong>A</strong>: Use the <mark><code>PointValue</code></mark> postprocessor.
 					</p>
 					<pre class="python" style="margin-left: 0;">
 						<code data-trim data-noescape>
@@ -733,11 +724,11 @@
 				</section>
 				<section data-auto-animate>
 					<h2>Tutorial 03: Postprocessing FAQ</h2>
-					<p style="text-align: left;"><strong>Q</strong>: How do I output <mark>tensorial
+					<p><strong>Q</strong>: How do I output <mark>tensorial
 							quantities</mark>, e.g., strain and stress,
 						<mark>averaged over the entire domain</mark>?
 					</p>
-					<p style="text-align: left;"><strong>A</strong>: Use the
+					<p><strong>A</strong>: Use the
 						<mark><code>ADElementAverageMaterialProperty</code></mark>
 						postprocessor.
 					</p>
@@ -764,10 +755,10 @@
 				</section>
 				<section data-auto-animate>
 					<h2>Tutorial 03: Postprocessing FAQ</h2>
-					<p style="text-align: left;"><strong>Q</strong>: How do I output the <mark>average
+					<p><strong>Q</strong>: How do I output the <mark>average
 							displacement along a boundary?</mark>
 					</p>
-					<p style="text-align: left;"><strong>A</strong>: Use the <mark><code>SideAverageValue</code></mark>
+					<p><strong>A</strong>: Use the <mark><code>SideAverageValue</code></mark>
 						postprocessor.
 					</p>
 					<pre class="python" style="margin-left: 0;">
@@ -784,10 +775,10 @@
 				</section>
 				<section data-auto-animate>
 					<h2>Tutorial 03: Postprocessing FAQ</h2>
-					<p style="text-align: left;"><strong>Q</strong>: How do I output the <mark>total
+					<p><strong>Q</strong>: How do I output the <mark>total
 							reaction force</mark> on a boundary?
 					</p>
-					<p style="text-align: left;"><strong>A</strong>: Use the <mark><code>save_in</code></mark> option and the
+					<p><strong>A</strong>: Use the <mark><code>save_in</code></mark> option and the
 						<mark><code>NodalSum</code></mark> postprocessor.
 					</p>
 					<pre class="python" style="margin-left: 0;">
@@ -855,7 +846,7 @@
 					</ul>
 				</section>
 				<section>
-					<p style="text-align: left;">Input file walkthrough</p>
+					<p>Input file walkthrough</p>
 					<pre class="python" style="margin-left: 0;">
 						<code data-trim data-noescape>
 						[GlobalParams]
@@ -947,8 +938,8 @@
 					<ul>
 						<li>The Solid Mechanics module makes switching between kinematics a trivial task.
 							<ul>
-								<li><mark><code>strain = SMALL</code></mark>: small deformation</li>
-								<li><mark><code>strain = FINITE</code></mark>: large deformation</li>
+								<li>Small deformation: <mark><code>strain = SMALL</code></mark></li>
+								<li>Large deformation: <mark><code>strain = FINITE</code></mark></li>
 							</ul>
 						</li>
 						<li>The large deformation formulation comes with two flavors:
@@ -957,7 +948,7 @@
 									<mark>Hypoelasticity</mark>: small strain material model integrated objectively
 									\[
 									\begin{aligned}
-									\mathring{\sigma}_{ij} = \dot{\sigma}_{ij} - Q_{ik}\sigma_{kj} - \sigma_{ik}Q_{jk} + Q_{kk}\sigma_ij
+									\mathring{\sigma}_{ij} = \dot{\sigma}_{ij} - Q_{ik}\sigma_{kj} - \sigma_{ik}Q_{jk} + Q_{kk}\sigma_{ij}
 									\end{aligned}
 									\]
 								</li>
@@ -974,7 +965,7 @@
 					</ul>
 				</section>
 				<section>
-					<p style="text-align: left;">Let us compare 6 elastic material models:</p>
+					<p>Let us compare 6 elastic material models:</p>
 					<div class="container" style="grid-template-columns: 50% 50%;">
 						<div class="col">
 							<div class="cozy">
@@ -1043,8 +1034,7 @@
 					<img data-src="assets/large_deformation.svg" style="height: 600px;">
 				</section>
 				<section>
-					<p style="text-align: left;">
-						Remarks
+					<h3>Remarks</h3>
 					<ul>
 						<li>Choosing the suitable model for a material is essentially a matter of <mark>calibration</mark>.</li>
 						<li>Advantages of <mark>hyperelastic</mark> formulations:
@@ -1063,7 +1053,6 @@
 					<blockquote style="font-size: x-large;">See <a
 							href="https://mooseframework.inl.gov/source/materials/lagrangian/ComputeLagrangianObjectiveStress.html">this
 							page</a> for known limitations of hypoelastic formulations and some recommendations.</blockquote>
-					</p>
 				</section>
 			</section>
 			<!--
@@ -1073,25 +1062,26 @@
 			-->
 			<section>
 				<section>
-					<h2>Tutorial 06: Coordinate Systems and Planar Formulations</h2>
+					<h3>Tutorial 06: Coordinate Systems and Planar Formulations</h3>
 					<p>The Solid Mechanics module supports three <mark>coordinate systems</mark>:
 					<ul>
-						<li><mark>Cartesian</mark> coordinate system
+						<li><mark>Cartesian</mark> coordinate system, <mark><code>coord_type = XYZ</code></mark>
 							<ul>
-								<li>2D: plane strain (default)</li>
-								<li>2D: (weak) plane stress</li>
-								<li>2D: generalized plane strain</li>
 								<li>3D</li>
+								<li>2D: plane strain (default)</li>
+								<li>2D: plane stress</li>
+								<li>2D: generalized plane strain</li>
 							</ul>
 						</li>
-						<li><mark>Axisymmetric cylindrical</mark> coordinate system</li>
-						<li><mark>Centrosymmetric spherical</mark> coordinate system</li>
+						<li><mark>Axisymmetric cylindrical</mark> coordinate system, <mark><code>coord_type = RZ</code></mark></li>
+						<li><mark>Centrosymmetric spherical</mark> coordinate
+							system, <mark><code>coord_type = RSpherical</code></mark></li>
 					</ul>
 					</p>
 				</section>
 				<section>
 					<img data-src="assets/planar.png" style="height: 250px;">
-					<img data-src="assets/planar.svg" style="height: 350px;">
+					<img data-src="assets/planar.svg" style="height: 350px;" class="fragment">
 				</section>
 				<section>
 					<div class="container" style="grid-template-columns: 30% 30% 40%;">
@@ -1101,7 +1091,7 @@
 						<div class="col">
 							<img data-src="assets/cylindrical_RZ.png" style="height: 400px;">
 						</div>
-						<div class="col">
+						<div class="col fragment">
 							<img data-src="assets/cylindrical.svg" style="height: 400px;">
 						</div>
 					</div>
@@ -1188,17 +1178,155 @@
 					</ul>
 				</section>
 				<section>
-					<p style="text-align: left;">Cook's membrane</p>
+					<p>Cook's membrane</p>
 					<div class="container" style="grid-template-columns: 50% 50%;">
 						<div class="col">
 							<img data-src="assets/cook.svg" style="height: 400px;">
 						</div>
-						<div class="col">
+						<div class="col fragment">
 							<img data-src="assets/vlc.svg" style="height: 400px;">
 						</div>
 					</div>
 				</section>
 			</section>
+			<!--
+			##############################################################################
+			Tutorial 08: Structural Dynamics
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h2>Tutorial 08: Structural Dynamcis</h2>
+					<ul>
+						<li>
+							The balance of linear momentum is extended to incorporate <mark>inertial effects</mark>
+							\[
+							\begin{aligned}
+							\rho \ddot{u}_i + \zeta \dot{u}_i - \sigma_{ij,j} = 0
+							\end{aligned}
+							\]
+						</li>
+						<li>
+							The Solid Mechanics module implements the
+							<span class="tooltip">Newmark
+								<span class="tooltiptext" style="margin-left: -300px;">
+									N. M. Newmark. A method of computation for structural dynamics. Journal of Engineering Mechanics,
+									85(EM3):67–94, 1959.
+								</span>
+							</span>
+							,
+							<span class="tooltip">Hilber-Hughes-Taylor (HHT)
+								<span class="tooltiptext" style="margin-left: -500px;">
+									T. J. R Hughes. The finite element method:Linear static and dynamic finite element analysis. Dover
+									Publications, Mineola, NY, 2000.
+								</span>
+							</span>
+							, and the explicit central difference time integration schemes.
+						</li>
+						<li>To include inertial effects, replace <mark><code>QuasiStatic</code></mark> with
+							<mark><code>Dynamic</code></mark>.
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>The Newmark Method</h3>
+					<ul>
+						<li>The <mark>Newmark</mark> time discretization is parametrized by <mark>$\beta$</mark> and
+							<mark>$\gamma$</mark>:
+							\[
+							\begin{align}
+							\ddot{u}_i^{(1)} &= \frac{u_i^{(1)}-u_i^{(0)}}{\beta \Delta t^2} -
+							\frac{\dot{u}_i^{(0)}}{\beta\Delta
+							t} + \left(1-\frac{1}{2\beta}\right)\ddot{u}_i^{(0)} \\
+							\dot{u}_i^{(1)} &= \dot{u}_i^{(0)} + (1-\gamma)\Delta t\ddot{u}_i^{(0)} + \gamma\Delta t
+							\ddot{u}_i^{(1)}
+							\end{align}
+							\]
+						</li>
+						<blockquote style="font-size: large;">The superscripts $(\xi)$ denote the quantities evaluated at
+							$t+\xi\Delta t$.</blockquote>
+						<li>Commonly chosen parameters
+							<ul>
+								<li>$\beta = \frac{1}{4}$, $\gamma = \frac{1}{2}$: The Newmark method is <mark>unconditionally
+										stable</mark>.<br>
+									&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Also known as the constant average acceleration method.</li>
+								<li>$\beta = \frac{1}{6}$, $\gamma = \frac{1}{2}$: The linear acceleration method.</li>
+								<li>$\beta = 0$, $\gamma = \frac{1}{2}$: Equivalent to the central difference method, though integrated
+									implicitly.</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>The HHT Method</h3>
+					<ul>
+						<li>The <mark>HHT</mark> time integration method additionally introduces <mark>numerical dissipation</mark>,
+							controlled
+							by
+							<mark>$\alpha$</mark>, by modifying the momentum balance equation
+							\[
+							\begin{aligned}
+							\rho \ddot{u}_i^{(1)} + \zeta \left[ (1-\alpha) \dot{u}_i^{(1)} + \alpha \dot{u}_i^{(0)} \right] -
+							\left[ (1-\alpha) \sigma_{ij,j}^{(1)} + \alpha \sigma_{ij,j}^{(0)} \right] = 0
+							\end{aligned}
+							\]
+						</li>
+						<li>When parameters are chosen appropriately, i.e.
+							\[
+							\begin{aligned}
+							0 \leq \alpha \leq \frac{1}{3}, \quad \beta = \frac{(1+\alpha)^2}{4}, \quad \gamma = \frac{1}{2} +
+							\alpha,
+							\end{aligned}
+							\]
+							the system is at least <mark>second-order accurate</mark> and <mark>unconditionally stable</mark>.
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>The Explicit Central Difference Method</h3>
+					<blockquote style="font-size: large;">Currently, the explicit central difference time integrator is
+						experimental.</blockquote>
+					<ul>
+						<li>The explicit <mark>central difference</mark> method applies the following discretization:
+							\[
+							\begin{align}
+							\dot{u}_i &= \dfrac{1}{2 \Delta t} \left( u_i^{(1)} - u_i^{(-1)} \right) \\
+							\ddot{u}_i &= \dfrac{1}{\Delta t^2} \left( u_i^{(1)} - 2 u_i^{(0)} + u_i^{(-1)} \right)
+							\end{align}
+							\]
+						</li>
+						<li>Note $u_i^{(1)}$ now only depends on $u_i^{(0)}$ and $u_i^{(-1)}$, hence the system is
+							<mark>explicit</mark>.
+						</li>
+						<li>The <mark><code>CentralDifference</code></mark> time integrator offers 3 solve strategies
+							<ul>
+								<li><mark><code>consistent</code></mark>: Use the "full" mass matrix which requires a
+									linear solve.</li>
+								<li><mark><code>lumped</code></mark>: Use the "lumped" mass matrix with a DoF-wise
+									inversion.</li>
+								<li><mark><code>lump_preconditioned</code></mark>: Use the "lumped" mass matrix as the
+									preconditioner for the linear solve.</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Hamming a 1D bar</h3>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col fragment">
+							<img data-src="assets/implicit.svg" style="height: 550px;">
+						</div>
+						<div class="col fragment">
+							<img data-src="assets/explicit.svg" style="height: 550px;">
+						</div>
+					</div>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 09: Homogenization
+			##############################################################################
+			-->
 		</div>
 	</div>
 

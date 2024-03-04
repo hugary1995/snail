@@ -2,7 +2,6 @@
 
 import sys
 import gmsh
-from pathlib import Path
 import subprocess
 import numpy as np
 import pandas as pd

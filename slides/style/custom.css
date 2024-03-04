@@ -5,6 +5,7 @@ mark {
 
 p {
   font-size: 0.8em;
+  text-align: left;
 }
 
 .present>ul>li {
@@ -40,11 +41,15 @@ table tbody tr>td {
   font-size: 0.6em;
 }
 
+code {
+  font-size: 90%;
+}
+
 .reveal pre {
   line-height: 1.2rem;
 }
 
-.reveal .code-wrapper code {
+.reveal .code-wrapper>code {
   font-size: medium;
 }
 
@@ -84,7 +89,7 @@ mjx-container[jax="CHTML"][display="true"] {
 .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted black;
+  border-bottom: 5px dotted white;
 }
 
 .tooltip .tooltiptext {

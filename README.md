@@ -1,6 +1,11 @@
 snail
 =====
 
-Fork "snail" to create a new MOOSE-based application.
+This is the example application for the MOOSE Solid Mechanics Workshop/Training.
 
-For more information see: [https://mooseframework.org/getting_started/new_users.html#create-an-app](https://mooseframework.org/getting_started/new_users.html#create-an-app)
+For developers:
+- To modify the slides,
+  1. Install node.js
+  2. `cd slides`
+  3. `npm install`
+  4. `npm start`, this will serve the slides locally and watch for changes
