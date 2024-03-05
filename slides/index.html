@@ -1527,6 +1527,55 @@
 					More hands-on coding is required for tomorrow's training.
 				</blockquote>
 			</section>
+			<!--
+			##############################################################################
+			Tutorial 10: Custom Material Model
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h3>Tutorial 10: Custom Material Model</h3>
+					<div class="cozy">
+						<ul style="font-size: 2rem;">
+							<li>In this example, we will implement a <mark>Neo-Hookean</mark> material for <mark>nearly
+									incompressible</mark> solid.</li>
+							<li>We will use the <mark>three-field formulation</mark> to render the problem inf-sup stable.
+							</li>
+							<li>
+								Consider the strain energy density function
+								\[
+								\begin{aligned}
+								w &= K h(J) + \mu_1 \bar{C}_{KK} + \mu_2 I_2^{3/2} \\
+								\bar{C}_{IJ} &= J^{-2/3} C_{IJ}, \quad C_{IJ} = F_{iI}F_{iJ}, \quad h(J) = J^{\beta} + J^{-\beta}
+								\end{aligned}
+								\]
+							</li>
+							<li>
+								For stabilization purposes, we introduce two element-wise constant fields, <mark>dilation
+								</mark> $\Theta$ and
+								<mark>hydrostatic pressure</mark> $p$, as well as their
+								$L_2$ projection
+								\[
+								\begin{aligned}
+								\left( \phi_\Theta, \Theta - J \right)_{L_2(\Omega)} + \left( \phi_p, p - K h'(J) \right)_{L_2(\Omega)}
+								=
+								0
+								\end{aligned}
+								\]
+							</li>
+							<li>The second Piola-Kirchhoff stress follows as
+								\[
+								\begin{aligned}
+								S_{IJ} &= S_{IJ}^{\text{vol}} + S_{IJ}^{\text{isc}}, \quad S_{IJ}^{\text{vol}} = p J C^{-1}_{IJ}, \\
+								p &= \int_{\Omega^e} K \beta \left(\Theta^{\beta-1}-\Theta^{-\beta-1} \right)\ \mathrm{d}V \\
+								\Theta &= \int_{\Omega^e} J\ \mathrm{d}V
+								\end{aligned}
+								\]
+							</li>
+						</ul>
+					</div>
+				</section>
+			</section>
 		</div>
 	</div>
 

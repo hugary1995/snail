@@ -6,8 +6,8 @@ InputParameters
 Tutorial02Kernel::validParams()
 {
   auto params = ADKernel::validParams();
-  params.addClassDescription("Solve the linear momentum balance for a linear elastic material");
-  params.addParam<MaterialPropertyName>("stress", "stress", "Cauchy stress");
+  params.addClassDescription("Solve the linear momentum balance");
+  params.addParam<MaterialPropertyName>("stress", "stress", "The stress to balance");
   params.addRequiredParam<unsigned int>("component", "The residual component");
   return params;
 }
