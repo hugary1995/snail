@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Material.h"
-#include "SymmetricRankTwoTensor.h"
+#include "RankTwoTensor.h"
 
 class Tutorial02Strain : public Material
 {
@@ -15,5 +15,5 @@ protected:
 
   std::vector<const ADVariableGradient *> _grad_u;
 
-  ADMaterialProperty<SymmetricRankTwoTensor> & _e;
+  ADMaterialProperty<RankTwoTensor> & _e;
 };

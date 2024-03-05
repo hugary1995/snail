@@ -15,15 +15,19 @@ public:
 protected:
   virtual void computeQpProperties() override;
 
+  virtual ADReal h(const ADReal & J) const;
+  virtual ADReal dh(const ADReal & J) const;
+
+  virtual ADRankTwoTensor isochoricStress(const ADReal & J, const ADRankTwoTensor & C) const;
+  virtual ADRankTwoTensor volumetricStress(const ADReal & J, const ADRankTwoTensor & C) const;
+
   const ADMaterialProperty<RankTwoTensor> & _F;
   const ADMaterialProperty<Real> & _K;
   const ADMaterialProperty<Real> & _mu1;
   const ADMaterialProperty<Real> & _mu2;
   const Real _beta;
 
+  ADMaterialProperty<Real> & _Theta;
   ADMaterialProperty<Real> & _p;
   ADMaterialProperty<RankTwoTensor> & _P;
-
-private:
-  ADRankTwoTensor isochoricStress(const ADReal & J, const ADRankTwoTensor & C) const;
 };

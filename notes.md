@@ -96,13 +96,11 @@ I'll probably use the hyperelastic 3-field Hu-Washizu model as an example
 - Use phase-field fracture as an example (per our Duke host's request)
 - Theory
 - Implementation
-- Advertise RACCOON
-
-# Tutorial 12: Solving a Multiphysics problem
-
-- Theory
 - Monolithic: Off-diagonal Jacobians
 - Monolithic: input file example
+
+# Tutorial 12: Picard iterations
+
 - Picard: Briefly introduce MultiApps and Transfer
 - Picard: input file example
 

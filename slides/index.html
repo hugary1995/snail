@@ -1190,7 +1190,7 @@
 			-->
 			<section>
 				<section>
-					<h3>Tutorial 08: Structural Dynamcis and Time Integration</h3>
+					<h3>Tutorial 08: Structural Dynamics and Time Integration</h3>
 					<ul>
 						<li>
 							The balance of linear momentum is extended to incorporate <mark>inertial effects</mark>
@@ -1255,9 +1255,7 @@
 					<h3>The HHT Method</h3>
 					<ul>
 						<li>The <mark>HHT</mark> time integration method additionally introduces <mark>numerical dissipation</mark>,
-							controlled
-							by
-							<mark>$\alpha$</mark>, by modifying the momentum balance equation
+							controlled by <mark>$\alpha$</mark>, by modifying the momentum balance equation
 							\[
 							\begin{aligned}
 							\rho \ddot{u}_i^{(1)} + \zeta \left[ (1-\alpha) \dot{u}_i^{(1)} + \alpha \dot{u}_i^{(0)} \right] -
@@ -1508,20 +1506,24 @@
 			-->
 			<section>
 				<h2>Wrapping up day 1</h2>
-				<p><strong>Today</strong>, we went over the fundamentals of the <mark>MOOSE Solid Mechanics module</mark>:</p>
+				<p></p>
 				<div class="cozy">
-					<ul style="font-size: 1.8rem;">
-						<li>The Solid Mechanics <code>[Physics]</code></li>
-						<li>Large deformation kinematics: hyperelasticity vs hypoelasticity</li>
-						<li>Coordinate systems and planar formulations</li>
-						<li>Volumetric locking correction</li>
-						<li>Structural dynamics and time integration schemes</li>
-						<li>Homogenization constraints</li>
-						<li>......</li>
+					<ul>
+						<li><strong>Today</strong>, we went over the fundamentals of the <mark>MOOSE Solid Mechanics module</mark>:
+							<ul style="font-size: 1.8rem;">
+								<li>The Solid Mechanics <code>[Physics]</code></li>
+								<li>Large deformation kinematics: hyperelasticity vs hypoelasticity</li>
+								<li>Coordinate systems and planar formulations</li>
+								<li>Volumetric locking correction</li>
+								<li>Structural dynamics and time integration schemes</li>
+								<li>Homogenization constraints</li>
+								<li>......</li>
+							</ul>
+						</li>
+						<li><strong>Tomorrow</strong>, we will demonstrate solid mechanics-related <mark>Multiphysics</mark>
+							coupling.</li>
 					</ul>
 				</div>
-				<p><strong>Tomorrow</strong>, we will demonstrate solid mechanics-related <mark>Multiphysics</mark> coupling.
-				</p>
 				<blockquote style="font-size: x-large;">
 					Make sure to have the remaining questions cleared up before tomorrow's training. <br>
 					More hands-on coding is required for tomorrow's training.
@@ -1545,8 +1547,9 @@
 								Consider the strain energy density function
 								\[
 								\begin{aligned}
-								w &= K h(J) + \mu_1 \bar{C}_{KK} + \mu_2 I_2^{3/2} \\
-								\bar{C}_{IJ} &= J^{-2/3} C_{IJ}, \quad C_{IJ} = F_{iI}F_{iJ}, \quad h(J) = J^{\beta} + J^{-\beta}
+								w &= K \left[ h(J) - 2 \right] + \mu_1 \left( \bar{C}_{KK} - 3 \right) + \mu_2 \left( \bar{I}_2^{3/2} -
+								3^{3/2} \right) \\
+								h(J) &= J^{\beta} + J^{-\beta}, \quad \bar{C}_{IJ} = J^{-2/3} C_{IJ}, \quad C_{IJ} = F_{iI}F_{iJ}
 								\end{aligned}
 								\]
 							</li>
@@ -1574,6 +1577,47 @@
 							</li>
 						</ul>
 					</div>
+				</section>
+				<section data-auto-animate>
+					<h3>Tearing apart a piece of paper</h3>
+					<img data-src="assets/crack_schematics1.svg" style="height: 300px;">
+				</section>
+				<section data-auto-animate>
+					<h3>Tearing apart a piece of paper</h3>
+					<div class="container" style="grid-template-columns: 30% 35% 35%;">
+						<div class="col" style="align-items: center;"><img data-src="assets/crack_schematics1.svg"
+								style="height: 200px;"></div>
+						<div class="col"><img data-src="assets/dilation.png" style="height: 300px;"></div>
+						<div class="col"><img data-src="assets/hydrostatic_stress.png" style="height: 300px;"></div>
+					</div>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 11: Multiphysics Coupling
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h2>Tutorial 11: Multiphysics Coupling</h2>
+					<ul>
+						<li>In this tutorial, we will <em>actually</em> tear the paper apart.</li>
+						<li>There are a variety of ways of simulating <mark>crack propagation</mark> within the MOOSE framework,
+							e.g.
+							<ul>
+								<li><u>Cohesive Zone Method (CZM)</u> from the Solid Mechanics module</li>
+								<li><u>Damage models</u> from the Solid Mechanics module or <a
+										href="https://mooseframework.inl.gov/blackbear/"><code>BlackBear</code></a></li>
+								<li><u>eXtended Finite Element Method (XFEM)</u> from the <a
+										href="https://mooseframework.inl.gov/modules/xfem/index.html"><code>XFEM module</code></a></li>
+								<li><u>Phase field fracture</u> or gradient damage models from <a
+										href="https://hugary1995.github.io/raccoon/index.html"><code>RACCOON</code></a></li>
+							</ul>
+						</li>
+						<li>We will implement our own <mark>phase field fracture method</mark> in <code>snail</code>.</li>
+					</ul>
+					<blockquote style="font-size: x-large;">Coupling with other types of equations can be done in pretty much the
+						same fashion.</blockquote>
 				</section>
 			</section>
 		</div>

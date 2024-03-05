@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ADKernel.h"
-#include "SymmetricRankTwoTensor.h"
+#include "RankTwoTensor.h"
 
 class Tutorial02Kernel : public ADKernel
 {
@@ -13,7 +13,7 @@ public:
 protected:
   virtual ADReal computeQpResidual() override;
 
-  const ADMaterialProperty<SymmetricRankTwoTensor> & _s;
+  const ADMaterialProperty<RankTwoTensor> & _s;
 
   const unsigned int _component;
 };

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Material.h"
-#include "SymmetricRankTwoTensor.h"
+#include "RankTwoTensor.h"
 
 class Tutorial02Stress : public Material
 {
@@ -13,11 +13,11 @@ public:
 protected:
   virtual void computeQpProperties() override;
 
-  const ADMaterialProperty<SymmetricRankTwoTensor> & _e;
+  const ADMaterialProperty<RankTwoTensor> & _e;
 
   const ADMaterialProperty<Real> & _lambda;
 
   const ADMaterialProperty<Real> & _mu;
 
-  ADMaterialProperty<SymmetricRankTwoTensor> & _s;
+  ADMaterialProperty<RankTwoTensor> & _s;
 };

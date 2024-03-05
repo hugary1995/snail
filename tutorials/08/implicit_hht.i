@@ -1,4 +1,4 @@
-alpha = 0.1
+alpha = 0.3
 beta = '${fparse (1+alpha)^2/4}'
 gamma = '${fparse 0.5+alpha}'
 
@@ -27,5 +27,5 @@ interval = 1
   nl_abs_tol = 1e-12
   nl_rel_tol = 1e-10
   end_time = 5
-  dt = 0.01
+  dt = 0.001
 []

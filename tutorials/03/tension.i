@@ -41,7 +41,7 @@
     mu = 6700
   []
   [stress_yy]
-    type = ADSymmetricRankTwoCartesianComponent
+    type = ADRankTwoCartesianComponent
     tensor = stress
     property_name = stress_yy
     index_i = 1

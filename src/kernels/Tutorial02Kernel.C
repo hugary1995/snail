@@ -14,7 +14,7 @@ Tutorial02Kernel::validParams()
 
 Tutorial02Kernel::Tutorial02Kernel(const InputParameters & params)
   : ADKernel(params),
-    _s(getADMaterialProperty<SymmetricRankTwoTensor>("stress")),
+    _s(getADMaterialProperty<RankTwoTensor>("stress")),
     _component(getParam<unsigned int>("component"))
 {
 }

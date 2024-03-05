@@ -16,17 +16,17 @@ Tutorial02Stress::validParams()
 
 Tutorial02Stress::Tutorial02Stress(const InputParameters & params)
   : Material(params),
-    _e(getADMaterialProperty<SymmetricRankTwoTensor>("strain")),
+    _e(getADMaterialProperty<RankTwoTensor>("strain")),
     _lambda(getADMaterialProperty<Real>("lambda")),
     _mu(getADMaterialProperty<Real>("mu")),
-    _s(declareADProperty<SymmetricRankTwoTensor>("stress"))
+    _s(declareADProperty<RankTwoTensor>("stress"))
 {
 }
 
 void
 Tutorial02Stress::computeQpProperties()
 {
-  using SR2 = ADSymmetricRankTwoTensor;
+  using R2 = ADRankTwoTensor;
 
-  _s[_qp] = _lambda[_qp] * _e[_qp].trace() * SR2::identity() + 2 * _mu[_qp] * _e[_qp];
+  _s[_qp] = _lambda[_qp] * _e[_qp].trace() * R2::Identity() + 2 * _mu[_qp] * _e[_qp];
 }

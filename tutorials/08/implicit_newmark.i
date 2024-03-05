@@ -11,7 +11,7 @@ interval = 1
         add_variables = true
         newmark_beta = ${beta}
         newmark_gamma = ${gamma}
-        hht_alpha = ${alpha}
+        hht_alpha = 0
         density = 7.75e3
       []
     []
@@ -27,5 +27,5 @@ interval = 1
   nl_abs_tol = 1e-12
   nl_rel_tol = 1e-10
   end_time = 5
-  dt = 0.01
+  dt = 0.001
 []

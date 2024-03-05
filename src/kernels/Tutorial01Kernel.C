@@ -27,13 +27,14 @@ Tutorial01Kernel::Tutorial01Kernel(const InputParameters & params)
 ADReal
 Tutorial01Kernel::computeQpResidual()
 {
-  using SR2 = ADSymmetricRankTwoTensor;
+  using R2 = ADRankTwoTensor;
 
   // Calculate strain from displacement gradients
-  auto e = SR2::initializeSymmetric((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+  auto G = R2((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+  auto e = (G.transpose() + G) / 2;
 
   // Calculate stress from strain and material constants
-  auto s = _lambda[_qp] * e.trace() * SR2::identity() + 2 * _mu[_qp] * e;
+  auto s = _lambda[_qp] * e.trace() * R2::Identity() + 2 * _mu[_qp] * e;
 
   // Calculate residual
   auto r = _grad_test[_i][_qp] * s.row(_component);

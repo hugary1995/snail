@@ -15,7 +15,7 @@ Tutorial02Strain::validParams()
 Tutorial02Strain::Tutorial02Strain(const InputParameters & params)
   : Material(params),
     _grad_u(adCoupledGradients("displacements")),
-    _e(declareADProperty<SymmetricRankTwoTensor>("strain"))
+    _e(declareADProperty<RankTwoTensor>("strain"))
 {
   _grad_u.resize(3, &_ad_grad_zero);
 }
@@ -23,7 +23,8 @@ Tutorial02Strain::Tutorial02Strain(const InputParameters & params)
 void
 Tutorial02Strain::computeQpProperties()
 {
-  using SR2 = ADSymmetricRankTwoTensor;
+  using R2 = ADRankTwoTensor;
 
-  _e[_qp] = SR2::initializeSymmetric((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+  auto G = R2((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+  _e[_qp] = (G.transpose() + G) / 2;
 }

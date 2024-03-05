@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ADKernel.h"
-#include "SymmetricRankTwoTensor.h"
+#include "RankTwoTensor.h"
 
 class Tutorial01Kernel : public ADKernel
 {
