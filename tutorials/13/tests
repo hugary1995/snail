@@ -1,10 +1,8 @@
 [Tests]
-  design = 'pff.md'
   [test]
     type = Exodiff
     input = 'tear.i'
     cli_args = 'Executioner/num_steps=2'
     exodiff = 'tear_out.e'
-    requirement = 'The system shall be able to model phase-field fracture'
   []
 []

@@ -1833,7 +1833,85 @@
 			-->
 			<section>
 				<section>
-					<h2>Tutorial 13: Regression Testing and Documentation</h2>
+					<h3>Tutorial 13: Regression Testing and Documentation</h3>
+					<ul>
+						<li>MOOSE is <a
+								href="https://www.asme.org/certification-accreditation/nuclear-quality-assurance-nqa1-certification">NQA-1</a>
+							compliant.</li>
+						<li>While custom MOOSE-based applications are not required to be NQA-1 compliant, you can still leverage on
+							the <mark>extensive testing capabilities</mark> offered by MOOSE.</li>
+						<li>Here, let's try the most common type of testing, <mark>regression testing</mark>, in
+							<code>snail</code>.<br>
+							Quoting Wikipedia:
+							<blockquote style="font-size: x-large; line-height: 1.5em;">Regression testing ... is
+								re-running functional and non-functional tests to ensure that previously developed and tested software
+								still performs as expected after a change...</blockquote>
+						</li>
+						<li>With the help of regression testing, our app is <mark>ensured to work and stay
+								working</mark>.</li>
+					</ul>
+				</section>
+				<section>
+					<p>The most widely used regression testing in MOOSE-based applications is <mark><code>Exodiff</code></mark>:
+					</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						[Tests]
+							[test]
+								type = Exodiff
+								input = 'tear.i'
+								cli_args = 'Executioner/num_steps=2'
+								exodiff = 'tear_out.e'
+							[]
+						[]
+					</code></pre>
+					<p>To run all regression tests, invoke the <code>TestHarness</code> via</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						./run_tests
+					</code></pre>
+					<p>Sample output:</p>
+					<pre class="yaml" style="margin-left: 0;">
+						<code data-trim data-noescape>
+							tutorials/13.test ......................................................................................... OK
+							--------------------------------------------------------------------------------------------------------------
+							Ran 1 tests in 4.5 seconds. Average test time 4.3 seconds, maximum test time 4.3 seconds.
+							1 passed, 0 skipped, 0 pending, 0 failed
+						</code>
+					</pre>
+				</section>
+				<section>
+					<p style="font-size: 1.5rem;">
+						As MOOSE and MOOSE-based applications continue to advance, creating <mark>quality documentation</mark>
+						becomes the
+						key to gaining new users and providing current users with an experience that allows rapid development.
+					</p>
+					<p style="font-size: 1.5rem;">
+						Creating documentation for MOOSE-based applications can be streamlined using the
+						<mark><code>MOOSEDocs</code></mark> system.
+					</p>
+					<p style="font-size: 1.5rem;">To check for <mark>documentation integrity</mark>, use</p>
+					<pre class="shell" style="margin-left: 0;">
+							<code data-trim data-noescape>
+								./moosedocs.py check
+							</code>
+						</pre>
+					<p style="font-size: 1.5rem;">To <mark>generate stub</mark> doco pages, run</p>
+					<pre class="shell" style="margin-left: 0;">
+							<code data-trim data-noescape>
+								./moosedocs.py generate snailApp
+							</code>
+						</pre>
+					<p style="font-size: 1.5rem;">Finally, to <mark>build (and serve)</mark> the documentation locally, do</p>
+					<pre class="shell" style="margin-left: 0;">
+							<code data-trim data-noescape>
+								./moosedocs.py build --serve
+							</code>
+						</pre>
+					<p style="font-size: 1.5rem;">Once the documentation website is tailored to your satisfaction, you can
+						<mark>deploy</mark> the website using web-hosting services, e.g., GitHub pages.
+					</p>
+					<p style="font-size: 1.5rem;">An example documentation website for <a
+							href="https://hugary1995.github.io/raccoon/index.html">RACCOON</a>.
+					</p>
 				</section>
 			</section>
 			<!--
