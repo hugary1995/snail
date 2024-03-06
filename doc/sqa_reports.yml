@@ -1,0 +1,7 @@
+Applications:
+    raccoon:
+        exe_directory: ${ROOT_DIR}
+        exe_name: snail
+        app_types:
+            - snailApp
+        content_directory: doc/content
