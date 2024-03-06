@@ -7,14 +7,14 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "snailTestApp.h"
+#include "snailApp.h"
 #include "MooseMain.h"
 
 // Begin the main program.
 int
 main(int argc, char * argv[])
 {
-  Moose::main<snailTestApp>(argc, argv);
+  Moose::main<snailApp>(argc, argv);
 
   return 0;
 }
