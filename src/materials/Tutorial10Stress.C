@@ -48,6 +48,7 @@ Tutorial10Stress::dh(const ADReal & J) const
 void
 Tutorial10Stress::computeProperties()
 {
+  // REMOVE_BEGIN
   // Calculate the average dilation over the element
   const auto Theta_avg = StabilizationUtils::elementAverage(
       [this](unsigned int qp) { return _F[qp].det(); }, _JxW, _coord);
@@ -64,11 +65,13 @@ Tutorial10Stress::computeProperties()
 
   // Call the base class method
   Material::computeProperties();
+  // REMOVE_END
 }
 
 void
 Tutorial10Stress::computeQpProperties()
 {
+  // REMOVE_BEGIN
   // Element Jacobian
   const auto J = _F[_qp].det();
 
@@ -83,13 +86,16 @@ Tutorial10Stress::computeQpProperties()
 
   // PK1 stress
   _P[_qp] = _F[_qp] * (S_vol + S_isc);
+  // REMOVE_END
 }
 
+// REMOVE_BEGIN
 ADRankTwoTensor
 Tutorial10Stress::volumetricStress(const ADReal & J, const ADRankTwoTensor & C) const
 {
   return _p[_qp] * J * C.inverse();
 }
+// REMOVE_END
 
 ADRankTwoTensor
 Tutorial10Stress::isochoricStress(const ADReal & J, const ADRankTwoTensor & C) const

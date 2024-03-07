@@ -31,6 +31,7 @@ Tutorial11Stress::Tutorial11Stress(const InputParameters & params)
 void
 Tutorial11Stress::computeQpProperties()
 {
+  // REMOVE_BEGIN
   // Second invariant of the deviatoric right Cauchy Green strain
   const auto J = _F[_qp].det();
   const auto C = _F[_qp].transpose() * _F[_qp];
@@ -52,10 +53,13 @@ Tutorial11Stress::computeQpProperties()
   _p[_qp] *= _g[_qp];
 
   Tutorial10Stress::computeQpProperties();
+  // REMOVE_END
 }
 
 ADRankTwoTensor
 Tutorial11Stress::isochoricStress(const ADReal & J, const ADRankTwoTensor & C) const
 {
+  // REMOVE_BEGIN
   return _g[_qp] * Tutorial10Stress::isochoricStress(J, C);
+  // REMOVE_END
 }

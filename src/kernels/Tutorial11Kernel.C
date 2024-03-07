@@ -1,6 +1,8 @@
 #include "Tutorial11Kernel.h"
 
+// REMOVE_BEGIN
 registerMooseObject("snailApp", Tutorial11Kernel);
+// REMOVE_END
 
 InputParameters
 Tutorial11Kernel::validParams()
@@ -24,6 +26,7 @@ Tutorial11Kernel::Tutorial11Kernel(const InputParameters & params)
 {
 }
 
+// REMOVE_BEGIN
 ADReal
 Tutorial11Kernel::computeQpResidual()
 {
@@ -39,3 +42,4 @@ Tutorial11Kernel::computeQpResidual()
 
   return r_g + r_r + r_d;
 }
+// REMOVE_END

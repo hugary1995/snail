@@ -9,6 +9,7 @@
   []
 []
 
+# REMOVE_BEGIN
 [Physics]
   [SolidMechanics]
     [QuasiStatic]
@@ -26,6 +27,7 @@
     []
   []
 []
+# REMOVE_END
 
 [Materials]
   [elasticity_tensor]

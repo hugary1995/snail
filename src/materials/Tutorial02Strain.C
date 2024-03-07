@@ -1,6 +1,8 @@
 #include "Tutorial02Strain.h"
 
+// REMOVE_BEGIN
 registerMooseObject("snailApp", Tutorial02Strain);
+// REMOVE_END
 
 InputParameters
 Tutorial02Strain::validParams()
@@ -20,6 +22,7 @@ Tutorial02Strain::Tutorial02Strain(const InputParameters & params)
   _grad_u.resize(3, &_ad_grad_zero);
 }
 
+// REMOVE_BEGIN
 void
 Tutorial02Strain::computeQpProperties()
 {
@@ -28,3 +31,4 @@ Tutorial02Strain::computeQpProperties()
   auto G = R2((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
   _e[_qp] = (G.transpose() + G) / 2;
 }
+// REMOVE_END

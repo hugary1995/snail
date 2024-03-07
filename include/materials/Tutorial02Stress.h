@@ -11,7 +11,9 @@ public:
   Tutorial02Stress(const InputParameters &);
 
 protected:
+  // REMOVE_BEGIN
   virtual void computeQpProperties() override;
+  // REMOVE_END
 
   const ADMaterialProperty<RankTwoTensor> & _e;
 

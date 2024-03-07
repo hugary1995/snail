@@ -28,6 +28,7 @@
   []
 []
 
+# REMOVE_BEGIN
 [AuxVariables]
   [T]
   []
@@ -41,6 +42,7 @@
   mode = ELEMENT
   device = 'cpu'
 []
+# REMOVE_END
 
 [BCs]
   [fix_x]

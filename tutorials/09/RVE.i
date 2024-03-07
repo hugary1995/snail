@@ -83,9 +83,11 @@
         strain = FINITE
         formulation = TOTAL
         volumetric_locking_correction = true
-        constraint_types = 'strain strain none stress stress none none none none'
         additional_generate_output = 'vonmises_cauchy_stress'
+        # REMOVE_BEGIN
+        constraint_types = 'strain strain none stress stress none none none none'
         targets = 'exx eyx sxy syy'
+        # REMOVE_END
       []
     []
   []

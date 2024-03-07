@@ -16,6 +16,7 @@
   []
 []
 
+# REMOVE_BEGIN
 [Kernels]
   [momentum_balance_x]
     type = Tutorial01Kernel
@@ -32,6 +33,7 @@
     component = 1
   []
 []
+# REMOVE_END
 
 [BCs]
   [fix_x]

@@ -47,8 +47,12 @@ def generate(map):
                 for line in file_to_read:
                     if line.strip().startswith(remove_begin_comment):
                         should_copy = False
+
                     if should_copy:
                         file_to_write.write(line)
+                    else:
+                        file_to_write.write(file_associations[file.suffix] + "HIDDEN\n")
+
                     if line.strip().startswith(remove_end_comment):
                         should_copy = True
 

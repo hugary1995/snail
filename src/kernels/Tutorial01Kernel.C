@@ -1,29 +1,39 @@
 #include "Tutorial01Kernel.h"
 
+// REMOVE_BEGIN
 registerMooseObject("snailApp", Tutorial01Kernel);
+// REMOVE_END
 
 InputParameters
 Tutorial01Kernel::validParams()
 {
   auto params = ADKernel::validParams();
+  // REMOVE_BEGIN
   params.addClassDescription("Solve the linear momentum balance for a linear elastic material");
   params.addRequiredCoupledVar("displacements", "Displacement variables");
   params.addRequiredParam<MaterialPropertyName>("lambda", "Lame's first parameter");
   params.addRequiredParam<MaterialPropertyName>("mu", "Shear modulus");
   params.addRequiredParam<unsigned int>("component", "The residual component");
+  // REMOVE_END
   return params;
 }
 
 Tutorial01Kernel::Tutorial01Kernel(const InputParameters & params)
-  : ADKernel(params),
+  : ADKernel(params)
+    // REMOVE_BEGIN
+    ,
     _grad_u(adCoupledGradients("displacements")),
     _lambda(getADMaterialProperty<Real>("lambda")),
     _mu(getADMaterialProperty<Real>("mu")),
     _component(getParam<unsigned int>("component"))
+// REMOVE_END
 {
+  // REMOVE_BEGIN
   _grad_u.resize(3, &_ad_grad_zero);
+  // REMOVE_END
 }
 
+// REMOVE_BEGIN
 ADReal
 Tutorial01Kernel::computeQpResidual()
 {
@@ -41,3 +51,4 @@ Tutorial01Kernel::computeQpResidual()
 
   return r;
 }
+// REMOVE_END

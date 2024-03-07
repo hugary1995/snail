@@ -51,6 +51,7 @@
     stress = pk1_stress
     save_in = 'r_y'
   []
+  # REMOVE_BEGIN
   [viscosity]
     type = CoefTimeDerivative
     variable = d
@@ -61,9 +62,11 @@
     variable = d
     reg_length = 0.1
   []
+  # REMOVE_END
 []
 
 [Materials]
+  # REMOVE_BEGIN
   [props]
     type = ADGenericConstantMaterial
     prop_names = 'Gc psic'
@@ -92,6 +95,7 @@
     output_properties = 'p Theta w'
     outputs = 'exodus'
   []
+  # REMOVE_END
 []
 
 [BCs]

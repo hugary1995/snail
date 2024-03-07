@@ -1,6 +1,8 @@
 #include "Tutorial02Stress.h"
 
+// REMOVE_BEGIN
 registerMooseObject("snailApp", Tutorial02Stress);
+// REMOVE_END
 
 InputParameters
 Tutorial02Stress::validParams()
@@ -23,6 +25,7 @@ Tutorial02Stress::Tutorial02Stress(const InputParameters & params)
 {
 }
 
+// REMOVE_BEGIN
 void
 Tutorial02Stress::computeQpProperties()
 {
@@ -30,3 +33,4 @@ Tutorial02Stress::computeQpProperties()
 
   _s[_qp] = _lambda[_qp] * _e[_qp].trace() * R2::Identity() + 2 * _mu[_qp] * _e[_qp];
 }
+// REMOVE_END

@@ -19,7 +19,9 @@ protected:
   virtual ADReal dh(const ADReal & J) const;
 
   virtual ADRankTwoTensor isochoricStress(const ADReal & J, const ADRankTwoTensor & C) const;
+  // REMOVE_BEGIN
   virtual ADRankTwoTensor volumetricStress(const ADReal & J, const ADRankTwoTensor & C) const;
+  // REMOVE_END
 
   const ADMaterialProperty<RankTwoTensor> & _F;
   const ADMaterialProperty<Real> & _K;

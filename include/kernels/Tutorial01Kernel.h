@@ -11,6 +11,7 @@ public:
   Tutorial01Kernel(const InputParameters &);
 
 protected:
+  // REMOVE_BEGIN
   virtual ADReal computeQpResidual() override;
 
   std::vector<const ADVariableGradient *> _grad_u;
@@ -20,4 +21,5 @@ protected:
   const ADMaterialProperty<Real> & _mu;
 
   const unsigned int _component;
+  // REMOVE_END
 };

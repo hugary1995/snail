@@ -16,6 +16,7 @@
   []
 []
 
+# REMOVE_BEGIN
 [Kernels]
   [momentum_balance_x]
     type = Tutorial02Kernel
@@ -39,6 +40,7 @@
     mu = 6700
   []
 []
+# REMOVE_END
 
 [BCs]
   [fix_x]

@@ -35,6 +35,7 @@
   [strain]
     type = ADComputeDeformationGradient
   []
+  # REMOVE_BEGIN
   [stress]
     type = Tutorial10Stress
     bulk_modulus = 4000
@@ -44,6 +45,7 @@
     output_properties = 'p Theta'
     outputs = 'exodus'
   []
+  # REMOVE_END
 []
 
 [BCs]

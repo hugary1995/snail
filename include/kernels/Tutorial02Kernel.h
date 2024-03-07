@@ -11,7 +11,9 @@ public:
   Tutorial02Kernel(const InputParameters &);
 
 protected:
+  // REMOVE_BEGIN
   virtual ADReal computeQpResidual() override;
+  // REMOVE_END
 
   const ADMaterialProperty<RankTwoTensor> & _s;
 
