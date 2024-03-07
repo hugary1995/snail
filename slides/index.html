@@ -2214,9 +2214,15 @@
 		Reveal.initialize({
 			width: 1280,
 			height: 720,
-			transitionSpeed: "fast",
+			slideNumber: true,
 			pdfSeparateFragments: false,
+			transition: "slide",
+			transitionSpeed: "fast",
+			backgroundTransition: "none",
 			hash: true,
+			viewDistance: 2,
+			mobileViewDistance: 1,
+			preloadIframes: false,
 			// Learn about plugins: https://revealjs.com/plugins/
 			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax3]
 		});
