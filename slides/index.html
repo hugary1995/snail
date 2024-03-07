@@ -29,7 +29,9 @@
 				<h3 style="text-align: center;">@ Duke University</h3>
 				<p style="text-align: center;">March 11-12, 2024</p>
 				<p style="text-align: center;">
-					<a href="https://google.com">Slack workspace</a><br>
+					<a href="https://join.slack.com/t/moosesolidmec-lwl8771/shared_invite/zt-2e4eppy2d-jI5hB7OGIj~nJ4hXNfl6Bw">Slack
+						workspace</a><br>
+					<a href="https://hugary1995.github.io/snail/">Workshop slides</a>
 				</p>
 				<p style="text-align: center;">
 					<img data-src="assets/DOENE.png" alt="Department of Energy Office of Nuclear Energy"
@@ -162,6 +164,21 @@
 						cd moose/test
 						make -j N
 					</code></pre>
+				</section>
+				<section>
+					<p>In this workshop, we will create <mark>our own</mark> MOOSE-based application <em>from scratch</em>.</p>
+					<p>To create an application called <mark><code>snail</code></mark>, do</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						cd ~/projects
+						./moose/scripts/stork.sh snail
+					</code></pre>
+					<p>This will set up boilerplate code for an application. To test it, run</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						cd ~/projects/snail
+						make -j N
+						./run_tests
+					</code></pre>
+					<p>All tests should pass.</p>
 				</section>
 			</section>
 			<!--
@@ -374,7 +391,8 @@
 						$\varepsilon_{ij} = \frac{1}{2} (u_{i,j} + u_{j,i})$
 					</p>
 					<pre class="cpp" style="margin-left: 0;"><code data-trim data-noescape>
-					auto e = SR2::initializeSymmetric((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+					auto G = R2((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+					auto e = (G.transpose() + G) / 2;
 					</code></pre>
 
 					<p style="text-align: left; font-size: x-large;">
@@ -531,13 +549,14 @@
 									ADReal
 									Tutorial01Kernel::computeQpResidual()
 									{
-										using SR2 = ADSymmetricRankTwoTensor;
+										using R2 = ADRankTwoTensor;
 
 										// Calculate strain from displacement gradients
-										auto e = SR2::initializeSymmetric((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+										auto G = R2((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+										auto e = (G.transpose() + G) / 2;
 
 										// Calculate stress from strain and material constants
-										auto s = _lambda[_qp] * e.trace() * SR2::identity() + 2 * _mu[_qp] * e;
+										auto s = _lambda[_qp] * e.trace() * R2::Identity() + 2 * _mu[_qp] * e;
 
 										// Calculate residual
 										auto r = _grad_test[_i][_qp] * s.row(_component);
@@ -554,9 +573,10 @@
 									void
 									Tutorial02Strain::computeQpProperties()
 									{
-										using SR2 = ADSymmetricRankTwoTensor;
+										using R2 = ADRankTwoTensor;
 
-										_e[_qp] = SR2::initializeSymmetric((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+										auto G = R2((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+										_e[_qp] = (G.transpose() + G) / 2;
 									}
 								</code>
 							</pre>
@@ -565,9 +585,9 @@
 									void
 									Tutorial02Stress::computeQpProperties()
 									{
-										using SR2 = ADSymmetricRankTwoTensor;
+										using R2 = ADRankTwoTensor;
 
-										_s[_qp] = _lambda[_qp] * _e[_qp].trace() * SR2::identity() + 2 * _mu[_qp] * _e[_qp];
+										_s[_qp] = _lambda[_qp] * _e[_qp].trace() * R2::Identity() + 2 * _mu[_qp] * _e[_qp];
 									}
 								</code>
 							</pre>
@@ -660,7 +680,7 @@
 						<code data-trim data-noescape>
 						[Materials]
 							[stress_yy]
-								type = ADSymmetricRankTwoCartesianComponent
+								type = ADRankTwoCartesianComponent
 								tensor = stress
 								property_name = stress_yy
 								index_i = 1
@@ -693,7 +713,7 @@
 						<code data-trim data-noescape>
 						[Materials]
 							[stress_yy]
-								type = ADSymmetricRankTwoCartesianComponent
+								type = ADRankTwoCartesianComponent
 								tensor = stress
 								property_name = stress_yy
 								index_i = 1
@@ -736,7 +756,7 @@
 						<code data-trim data-noescape>
 						[Materials]
 							[stress_yy]
-								type = ADSymmetricRankTwoCartesianComponent
+								type = ADRankTwoCartesianComponent
 								tensor = stress
 								property_name = stress_yy
 								index_i = 1
@@ -1950,6 +1970,199 @@
 							</ol>
 						</li>
 					</ul>
+				</section>
+				<section>
+					<h3>Why material modeling on GPU?</h3>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col">
+							<img data-src="assets/aurora.png" style="height: 300px;">
+						</div>
+						<div class="col">
+							<!-- &rel=0 in the video link is necessary if you do not want to show _your_ personalized suggestions when the video ends or is paused :) -->
+							<iframe width="560" height="315"
+								data-src="https://www.youtube.com/embed/-P28LKWTzrI?si=B4aM9nXHju1_FPb0&rel=0" frameborder="0"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+								allowfullscreen></iframe>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>Why material modeling on GPU?</h3>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col" style="justify-items: center;">
+							<h4>4 CPU, threaded</h4>
+							<video height="500" controls data-src="assets/neml2_cpu.mov"></video>
+						</div>
+						<div class="col" style="justify-items: center;">
+							<h4>1 A500 GPU</h4>
+							<video height="500" controls data-src="assets/neml2_gpu.mov"></video>
+						</div>
+					</div>
+				</section>
+				<section>
+					<p>Download and enable libTorch and NEML2</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						conda install pytorch
+						export TORCH_DIR=$(python -c "import torch; print(torch.__path__[0])")
+						cd ~/projects/moose
+						./configure --with-libtorch=$TORCH_DIR
+						git submodule update --recursive --checkout --init modules/solid_mechanics/contrib/neml2
+					</code></pre>
+					<p>Recompile snail</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						cd ~/projects/snail
+						make -j N
+					</code></pre>
+					<p style="font-size: 1.6rem;">
+						The scripts default to download libTorch with <mark>CPU</mark> support only. <br>
+						To use a different libTorch (with <mark>CUDA</mark> support), please follow these <a
+							href="https://mooseframework.inl.gov/getting_started/installation/install_libtorch.html">instructions</a>.
+					</p>
+				</section>
+				<section>
+					<h3>NEML2</h3>
+					<p style="text-align: center;">
+						<span style="color: DodgerBlue">N</span>ew <span style="color: DodgerBlue">E</span>ngineering <span
+							style="color: DodgerBlue">M</span>aterial modeling <span style="color: DodgerBlue">L</span>ibrary, version
+						<span style="color: DodgerBlue">2</span>
+					</p>
+					<ul>
+						<li>Official <a href="https://reverendbedford.github.io/neml2/">documentation</a></li>
+						<li>Feature highlights
+							<ul>
+								<li>Compute <mark>device agnostic</mark>: Currently supports both <u>CPU</u> and <u>CUDA</u> (MPS
+									forthcoming)</li>
+								<li>Model archival using <mark>HIT</mark> (same as MOOSE!)</li>
+								<li>Arbitrary model <mark>composition</mark></li>
+								<li>General purpose <mark>Multiphysics</mark> coupling (beyond just solid mechanics)</li>
+								<li><mark>Parameter derivatives</mark> (useful for calibration/inference)</li>
+								<li>Python package (coming soon)</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>NEML2 solid mechanics</h3>
+					<img data-src="assets/neml2_solid_mechanics.svg" style="height: 360px;">
+				</section>
+				<section>
+					<p>
+						<strong>Step 1</strong>: Write down the material model <mark>in Math</mark>.
+					</p>
+					<div class="container" style="grid-template-columns: 25% 25% 25% 25%;">
+						<div class="col fragment">
+							<p style="font-size: 1.2rem;">
+								Yield function with isotropic hardening: <br><br>
+								$\mathbf{M} = \mathbf{\sigma}$ <br>
+								$\bar{\sigma} = \frac{3}{2} \lVert \operatorname{dev}(\mathbf{M}) \rVert$ <br>
+								$k = H \bar{\varepsilon}^p$ <br>
+								$f^p = \bar{\sigma} - \sigma_y - k$
+							</p>
+						</div>
+						<div class="col fragment">
+							<p style="font-size: 1.2rem;">
+								Perzyna viscoplasticity with associative flow <br><br>
+								$\mathbf{N}_M = \partial f^p / \partial \mathbf{M}$ <br>
+								$N_k = \partial f^p / \partial k$ <br>
+								$\dot{\gamma} = \left( \frac{\left\lvert f^p \right\rvert}{\eta} \right)^n \operatorname{heav}\left(
+								f^p \right)$ <br>
+								$\dot{\mathbf{\varepsilon}}^p = \dot{\gamma} \mathbf{N}_M$ <br>
+								$\dot{\bar{\varepsilon}}^p = \dot{\gamma} N_k$
+							</p>
+						</div>
+						<div class="col fragment">
+							<p style="font-size: 1.2rem;">
+								Linear isotropic elasticity <br><br>
+								$\dot{\mathbf{\varepsilon}} = \frac{\mathbf{\varepsilon} - \mathbf{\varepsilon}_n}{t - t_n}$ <br>
+								$\dot{\mathbf{\varepsilon}}^e = \dot{\mathbf{\varepsilon}} - \dot{\mathbf{\varepsilon}}^p$ <br>
+								$\dot{\mathbf{\sigma}} = K \operatorname{vol}\left( \dot{\mathbf{\varepsilon}}^e \right) +
+								G\operatorname{dev}\left( \dot{\mathbf{\varepsilon}}^e \right)$
+							</p>
+						</div>
+						<div class="col fragment">
+							<p style="font-size: 1.2rem;">
+								Implicit backward-Euler time integration <br><br>
+								$\mathbf{r} =
+								\begin{Bmatrix}
+								\mathbf{\sigma} - \mathbf{\sigma}_n - \dot{\mathbf{\sigma}} (t - t_n) \\
+								\bar{\varepsilon}^p - \bar{\varepsilon}^p_n - \dot{\bar{\varepsilon}}^p (t - t_n)
+								\end{Bmatrix}$ <br>
+								$\left( \mathbf{\sigma}, \bar{\varepsilon}^p \right) = \operatorname{sol}\left( \mathbf{r} =
+								\mathbf{0} \right)$
+							</p>
+						</div>
+					</div>
+					<p class="fragment">
+						<strong>Step 2</strong>: Translate Math into <mark>NEML2 models</mark>.
+					</p>
+					<div class="container" style="grid-template-columns: 25% 25% 25% 25%;">
+						<div class="col fragment">
+							<p style="font-size: 1.2rem;">
+								<code>IsotropicMandelStress</code><br>
+								<code>SR2Invariant</code><br>
+								<code>LinearIsotropicHardening</code><br>
+								<code>YieldFunction</code>
+							</p>
+						</div>
+						<div class="col fragment">
+							<p style="font-size: 1.2rem;">
+								<code>Normality</code><br>
+								<code>Normality</code><br>
+								<code>PerzynaPlasticFlowRate</code><br>
+								<code>AssociativePlasticFlow</code><br>
+								<code>AssociativeIsotropicPlasticHardening</code>
+							</p>
+						</div>
+						<div class="col fragment">
+							<p style="font-size: 1.2rem;">
+								<code>SR2ForceRate</code><br>
+								<code>ElasticStrain</code><br>
+								<code>LinearIsotropicElasticity</code>
+							</p>
+						</div>
+						<div class="col fragment">
+							<p style="font-size: 1.2rem;">
+								<code>SR2BackwardEulerTimeIntegration</code><br>
+								<code>ScalarBackwardEulerTimeIntegration</code><br>
+								<code>ImplicitUpdate</code>
+							</p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>NEML2 Syntax</h3>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col">
+							<p style="text-align: center;">Batched material update per <mark>element</mark></p>
+							<pre class="python" style="width: 90%;">
+								<code data-trim data-noescape>
+									[NEML2]
+										input = 'viscoplasticity_isoharden.i'
+										model = 'model'
+										temperature = 'T'
+										verbose = true
+										mode = ELEMENT
+										device = 'cpu'
+									[]
+								</code>
+							</pre>
+						</div>
+						<div class="col">
+							<p style="text-align: center;">Batched material update for <mark>all elements</mark></p>
+							<pre class="python" style="width: 90%;">
+								<code data-trim data-noescape>
+									[NEML2]
+										input = 'viscoplasticity_isoharden.i'
+										model = 'model'
+										temperature = 'T'
+										verbose = true
+										mode = ALL
+										device = 'cpu'
+									[]
+								</code>
+							</pre>
+						</div>
+					</div>
 				</section>
 			</section>
 			<!--
