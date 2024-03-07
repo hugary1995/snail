@@ -56,10 +56,10 @@ Tutorial11Stress::computeQpProperties()
   // REMOVE_END
 }
 
+// REMOVE_BEGIN
 ADRankTwoTensor
 Tutorial11Stress::isochoricStress(const ADReal & J, const ADRankTwoTensor & C) const
 {
-  // REMOVE_BEGIN
   return _g[_qp] * Tutorial10Stress::isochoricStress(J, C);
-  // REMOVE_END
 }
+// REMOVE_END

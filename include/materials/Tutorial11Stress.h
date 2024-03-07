@@ -13,8 +13,10 @@ public:
 protected:
   virtual void computeQpProperties() override;
 
+  // REMOVE_BEGIN
   virtual ADRankTwoTensor isochoricStress(const ADReal & J,
                                           const ADRankTwoTensor & C) const override;
+  // REMOVE_END
 
   const VariableName _d;
 

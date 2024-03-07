@@ -172,7 +172,13 @@
 						cd ~/projects
 						./moose/scripts/stork.sh snail
 					</code></pre>
-					<p>This will set up boilerplate code for an application. To test it, run</p>
+					<p>This will set up boilerplate code for an application. In addition, we have also prepared some additional
+						boilerplate code for this workshop:</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						curl -LO https://github.com/hugary1995/snail/releases/download/240311-Duke/training_materials.zip
+						unzip -o training_materials.zip
+					</code></pre>
+					<p>To compile and test <code>snail</code>, run</p>
 					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
 						cd ~/projects/snail
 						make -j N
