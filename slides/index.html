@@ -1922,6 +1922,34 @@
 			<section>
 				<section>
 					<h2>Tutorial 14: External Material Models</h2>
+					<ul>
+						<li>The custom material for phase-field fracture we implemented is referred to as <br>
+							<mark>native material model</mark>.
+						</li>
+						<li>The Solid Mechanics module provides interfaces for <br>
+							two types of <mark>external material models</mark>:
+							<ol>
+								<li>Abaqus UMAT, entry point: <a
+										href="https://mooseframework.inl.gov/source/materials/abaqus/AbaqusUMATStress.html">
+										<code>AbaqusUMATStress</code>
+									</a>
+									<ul>
+										<li>Language: Fortran</li>
+										<li>Useful when the material model was implemented and calibrated in Abaqus</li>
+									</ul>
+								</li>
+								<li>NEML2, entry point: <a href="https://mooseframework.inl.gov/syntax/NEML2/index.html">NEML2</a>
+									<ul>
+										<li>Language: C++, HIT</li>
+										<li>Supports <mark>Multiphysics</mark> coupling</li>
+										<li>Can utilize <mark>both CPU and GPU</mark></li>
+										<li>Provides a companion <mark>Python package</mark> to run standalone material models (out of the
+											context of FEM)</li>
+									</ul>
+								</li>
+							</ol>
+						</li>
+					</ul>
 				</section>
 			</section>
 			<!--
@@ -1967,7 +1995,7 @@
 		Reveal.initialize({
 			width: 1280,
 			height: 720,
-			transitionSpeed: "default",
+			transitionSpeed: "fast",
 			pdfSeparateFragments: false,
 			hash: true,
 			// Learn about plugins: https://revealjs.com/plugins/
