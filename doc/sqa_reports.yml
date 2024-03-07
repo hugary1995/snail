@@ -5,3 +5,4 @@ Applications:
         app_types:
             - snailApp
         content_directory: doc/content
+        log_stub_files: WARNING
