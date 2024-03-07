@@ -1,3 +1,6 @@
+# ignore example app
+snail
+
 .libs
 *.la
 *.lo
