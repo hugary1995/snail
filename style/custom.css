@@ -1,0 +1,116 @@
+mark {
+  background-color: inherit;
+  color: sandybrown;
+}
+
+p {
+  font-size: 0.8em;
+  text-align: left;
+}
+
+.present>ul>li {
+  padding-top: 0.6em;
+}
+
+.cozy>ul>li {
+  padding-top: 0.1em;
+}
+
+.present>ol>li {
+  padding-top: 0.6em;
+}
+
+.cozy>ol>li {
+  padding-top: 0.1em;
+}
+
+li {
+  font-size: 80%;
+  line-height: 1.5em;
+}
+
+table tbody tr>.nobottom {
+  border-bottom: none;
+}
+
+table thead tr>th {
+  font-size: 0.8em;
+}
+
+table tbody tr>td {
+  font-size: 0.6em;
+}
+
+code {
+  font-size: 90%;
+}
+
+.reveal pre {
+  line-height: 1.2rem;
+}
+
+.reveal .code-wrapper>code {
+  font-size: medium;
+}
+
+.container {
+  display: grid;
+}
+
+.col {
+  margin-left: 0.1em;
+  margin-right: 0.1em;
+  display: grid;
+  align-items: start;
+}
+
+.col .item {
+  background-color: #004747;
+  border-radius: 15px 15px;
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+}
+
+.col .item .icon {
+  float: left;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.col .item .text {
+  text-align: left;
+  font-size: 0.8em;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  font-size: 75% !important;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 5px dotted white;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  text-align: left;
+  font-size: large;
+  line-height: 1.5em;
+  padding: 5px;
+  border-radius: 6px;
+
+  width: 600px;
+  bottom: 100%;
+  left: 50%;
+  margin-left: 0;
+
+  position: absolute;
+  z-index: 2;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

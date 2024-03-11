@@ -1,0 +1,2286 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>MOOSE Solid Mechanics Workshop</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/league.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/atom-one-dark.css">
+	<link rel="stylesheet" href="style/custom.css">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<!--
+      ##############################################################################
+      Title page
+      ##############################################################################
+      -->
+			<section>
+				<h2 class="r-fit-text">MOOSE SOLID MECHANICS WORKSHOP</h2>
+				<h3 style="text-align: center;">@ Duke University</h3>
+				<p style="text-align: center;">March 11-12, 2024</p>
+				<p style="text-align: center;">
+					<a href="https://join.slack.com/t/moosesolidmec-lwl8771/shared_invite/zt-2e4eppy2d-jI5hB7OGIj~nJ4hXNfl6Bw">Slack
+						workspace</a><br>
+					<a href="https://hugary1995.github.io/snail/">Workshop slides</a>
+				</p>
+				<p style="text-align: center;">
+					<img data-src="assets/DOENE.png" alt="Department of Energy Office of Nuclear Energy"
+						style="height: 110px; margin: 3rem auto auto auto; display: inline-block;">
+					<img data-src="assets/NEAMS-with-tagline.png" alt="Nuclear Engineering Advanced Modeling and Simulation"
+						style="height: 130px; margin: 3rem auto auto auto; display: inline-block;">
+					<img data-src="assets/Argonnelablogo.png" alt="Argonne National Laboratory"
+						style="height: 80px; margin: 3rem auto 2rem auto; display: inline-block;">
+					<img data-src="assets/duke-pratt.jpeg" alt="Duke University Pratt School of Engineering"
+						style="height: 120px; margin: 3rem auto auto 3rem; display: inline-block;">
+				</p>
+			</section>
+			<!--
+			##############################################################################
+      TOC
+      ##############################################################################
+      -->
+			<section>
+				<section>
+					<h3>Agenda: Day 1</h3>
+					<div class="cozy">
+						<ul style="font-size: 1.8rem;">
+							<li>Introduction to MOOSE</li>
+							<li>Installation</li>
+							<li>Review of framework capabilities</li>
+							<li>Review of the relevant theory</li>
+							<li>Tutorials
+								<ol>
+									<li>Linear elastic material</li>
+									<li>Modular material modeling</li>
+									<li>Postprocessing FAQ</li>
+									<li>The Solid Mechanics <code>[Physics]</code></li>
+									<li>Large deformation</li>
+									<li>Coordinate systems and planar formulations</li>
+									<li>Volumetric locking correction</li>
+									<li>Structural dynamics and time integration</li>
+									<li>Homogenization constraints</li>
+								</ol>
+							</li>
+							<li>Other features</li>
+							<li>Wrapping up day 1</li>
+						</ul>
+					</div>
+				</section>
+				<section>
+					<h3>Agenda: Day 2</h3>
+					<div class="cozy">
+						<ul style="font-size: 1.8rem;">
+							<li>Tutorials
+								<ol start="10">
+									<li>Custom material model</li>
+									<li>Multiphysics coupling</li>
+									<li><code>MultiApps</code>, <code>Transfer</code>, and fixed-foint iteration</li>
+									<li>Regression testing and documentation</li>
+									<li>External material models</li>
+								</ol>
+							</li>
+							<li>Wrapping up</li>
+						</ul>
+					</div>
+				</section>
+			</section>
+			<!--
+      ##############################################################################
+      Intro
+      ##############################################################################
+      -->
+			<section>
+				<!--
+				##############################################################################
+				MOOSE
+				##############################################################################
+				-->
+				<section>
+					<h2>MOOSE</h2>
+					<p style="text-align: center;">
+						<span style="color: DodgerBlue">M</span>ultiphysics <span style="color: DodgerBlue">O</span>bject-<span
+							style="color: DodgerBlue">O</span>riented <span style="color: DodgerBlue">S</span>imulation <span
+							style="color: DodgerBlue">E</span>nvironment
+					</p>
+					<ul>
+						<li>From a mathematical point of view: MOOSE is a <mark>Partial-Differential-Equation
+								solver</mark>.</li>
+						<li>From a software point of view: MOOSE is an extensible framework that integrates <mark>state-of-the-art
+								scientific computing libraries</mark> for <mark>physics-based simulations</mark>.</li>
+					</ul>
+				</section>
+				<!--
+				##############################################################################
+				Capabilities
+				##############################################################################
+				-->
+				<section>
+					<h2>MOOSE Capabilities</h2>
+					<img data-src="assets/ecosystem.svg" style="height: 550px;">
+				</section>
+				<!--
+				##############################################################################
+				Why MOOSE
+				##############################################################################
+				-->
+				<section>
+					<h2>Why MOOSE?</h2>
+					<ul>
+						<li>MOOSE is built upon high-quality libraries and packages,<br>e.g., <a
+								href="https://libmesh.github.io/">libMesh</a>, <a href="https://petsc.org/release/">PETSc</a>, <a
+								href="https://code.ornl.gov/neams-workbench/wasp">WASP</a>, <a
+								href="https://reverendbedford.github.io/neml2/">NEML2</a>, etc.
+							<ul>
+								<li>Scalability to over <mark>30,000 cores</mark></li>
+								<li>Multiple <mark>R&D 100</mark> awards</li>
+								<li>Wide variety of <a
+										href="https://mooseframework.inl.gov/application_usage/tracked_apps.html">applications</a></li>
+							</ul>
+						</li>
+						<li>MOOSE is chosen by the scientific computing community.
+							<ul>
+								<li>Over <mark>100 contributors</mark></li>
+								<li>Over <mark>500 publications</mark></li>
+								<li>Over <mark>10,000,000 tests</mark> run every week</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<img data-src="assets/platform.png" style="height: 400px;">
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Install
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h2>Installation</h2>
+					<ul>
+						<li>The complete installation guide is available on the <a
+								href="https://mooseframework.inl.gov/getting_started/installation/index.html">MOOSE website</a>.</li>
+						<li>Recommended installation method: <a
+								href="https://mooseframework.inl.gov/getting_started/installation/conda.html">Conda</a>.
+							<ul>
+								<li>Suitable for both Linux and MacOS</li>
+								<li>
+									On Windows, first install the <a href="https://learn.microsoft.com/en-us/windows/wsl/install">Windows
+										Subsystem for Linux (WSL)</a>,<br>
+									then follow the <a
+										href="https://mooseframework.inl.gov/getting_started/installation/conda.html">Conda</a> installation
+									method.
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<blockquote style="text-align: left; font-size: x-large;">If you run into any issue during the installation
+						process, please feel free to ask for help in the installation channel of the Slack workspace.</blockquote>
+				</section>
+				<section>
+					<p>Install Conda</p>
+					<p style="text-align: left; font-size: 1rem;">
+						Linux users: replace <mark>XXX</mark> with <mark>Linux-x86_64</mark><br>
+						Mac (Intel) users: replace <mark>XXX</mark> with <mark>MacOSX-x86_64</mark><br>
+						Mac (Apple Silicon) users: replace <mark>XXX</mark> with <mark>MacOSX-arm64</mark>
+					</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						curl -L -O https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-XXX.sh
+						bash Miniforge3-*.sh -b -p ~/miniforge
+						~/miniforge/bin/conda init --all
+						exit
+					</code></pre>
+					<p>Create environment</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						conda create -n moose
+						conda activate moose
+						conda install -c https://conda.software.inl.gov/public moose-dev
+					</code></pre>
+					<p>Install MOOSE</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						mkdir -p ~/projects
+						cd ~/projects
+						git clone --single-branch -b master --depth 1 https://github.com/idaholab/moose.git
+						cd moose/test
+						make -j N
+					</code></pre>
+				</section>
+				<section>
+					<p>In this workshop, we will create <mark>our own</mark> MOOSE-based application <em>from scratch</em>.</p>
+					<p>To create an application called <mark><code>snail</code></mark>, do</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						cd ~/projects
+						./moose/scripts/stork.sh snail
+					</code></pre>
+					<p>This will set up boilerplate code for an application. In addition, we have also prepared some additional
+						boilerplate code for this workshop:</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						curl -LO https://github.com/hugary1995/snail/releases/download/240311-Duke/snail.zip
+						unzip -o snail.zip
+					</code></pre>
+					<p>Next, <mark>enable</mark> the Solid Mechanics module in the <code>Makefile</code> by setting</p>
+					<pre class="makefile" style="margin-left: 0;"><code data-trim data-noescape>
+						SOLID_MECHANICS             := yes
+					</code></pre>
+					<p>Finally, to <mark>compile</mark> and <mark>test</mark> <code>snail</code>, run</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						cd ~/projects/snail
+						make -j N
+						./run_tests
+					</code></pre>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Framework
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h2>Framework Overview</h2>
+					<div class="cozy">
+						<ul>
+							<li><mark>All modules and apps</mark> are built upon the MOOSE <mark>framework level capabilities</mark>.
+							</li>
+							<li>The Solid Mechanics module is no exception.</li>
+							<li>Here, we will only go over a <mark>bare minimum</mark> amount of
+								framework
+								level
+								capabilities.</li>
+							<table>
+								<thead>
+									<tr>
+										<th>System/Syntax</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><a href="https://mooseframework.inl.gov/syntax/Mesh/index.html">[Mesh]</a></td>
+										<td>Defines the partition of the physical domain where the problem is defined</td>
+									</tr>
+									<tr>
+										<td><a href="https://mooseframework.inl.gov/syntax/Variables/index.html">[Variables]</a></td>
+										<td>Declares unknown variables and their corresponding function spaces</td>
+									</tr>
+									<tr>
+										<td><a href="https://mooseframework.inl.gov/syntax/Kernels/index.html">[Kernels]</a></td>
+										<td>Defines the partial differential equations that describe the problem of interest</td>
+									</tr>
+									<tr>
+										<td><a href="https://mooseframework.inl.gov/syntax/BCs/index.html">[BCs]</a> <a
+												href="https://mooseframework.inl.gov/syntax/ICs/index.html">[ICs]</a></td>
+										<td>Defines boundary/initial conditions of the problem</td>
+									</tr>
+									<tr>
+										<td><a href="https://mooseframework.inl.gov/syntax/Executioner/index.html">[Executioner]</a></td>
+										<td>Configures how the problem is solved</td>
+									</tr>
+									<tr>
+										<td><a href="https://mooseframework.inl.gov/syntax/Outputs/index.html">[Outputs]</a></td>
+										<td>Informs MOOSE what, where, when, and how to output</td>
+									</tr>
+								</tbody>
+							</table>
+						</ul>
+					</div>
+				</section>
+				<!--
+				##############################################################################
+				Tutorial 0: How MOOSE works
+				##############################################################################
+				-->
+				<section>
+					<div class="container" style="grid-template-columns: 30% 40% 30%;">
+						<div class="col">
+							<h4 style="text-align: left">Problem description</h4>
+							<img data-src="assets/tutorial00.png" style="height: 400px;">
+						</div>
+						<div class="col">
+							<h4 style="text-align: left">MOOSE input file</h4>
+							<pre class="python" style="width: 60%; margin-left: 0;">
+								<code data-trim data-noescape>
+								[GlobalParams]
+									displacements = 'disp_x disp_y'
+								[]
+
+								[Mesh]
+									[sample]
+										type = FileMeshGenerator
+										file = '../gold/sample.msh'
+									[]
+									uniform_refine = 1
+								[]
+
+								[Physics]
+									[SolidMechanics]
+										[QuasiStatic]
+											[sample]
+												new_system = true
+												add_variables = true
+												strain = FINITE
+												formulation = TOTAL
+												volumetric_locking_correction = true
+												generate_output = "cauchy_stress_xx cauchy_stress_yy cauchy_stress_zz
+																					 cauchy_stress_xy cauchy_stress_xz cauchy_stress_yz
+																					 mechanical_strain_xx mechanical_strain_yy mechanical_strain_zz
+																					 mechanical_strain_xy mechanical_strain_xz mechanical_strain_yz"
+												additional_generate_output = 'vonmises_cauchy_stress'
+											[]
+										[]
+									[]
+								[]
+
+								[BCs]
+									[fix_x]
+										type = DirichletBC
+										variable = disp_x
+										value = 0
+										boundary = 'top bottom'
+									[]
+									[bottom_fix_y]
+										type = DirichletBC
+										variable = disp_y
+										value = 0
+										boundary = 'bottom'
+									[]
+									[top_pull_y]
+										type = FunctionDirichletBC
+										variable = disp_y
+										function = 't'
+										boundary = 'top'
+									[]
+								[]
+
+								[Materials]
+									[neo_hookean]
+										type = ComputeNeoHookeanStress
+										lambda = 4000
+										mu = 6700
+									[]
+								[]
+
+								[Executioner]
+									type = Transient
+									solve_type = NEWTON
+									petsc_options_iname = '-pc_type'
+									petsc_options_value = 'lu'
+									automatic_scaling = true
+									end_time = 2
+									dt = 0.02
+								[]
+
+								[Outputs]
+									exodus = true
+								[]
+								</code>
+							</pre>
+						</div>
+						<div class="col">
+							<h4 style="text-align: left">Result</h4>
+							<video controls style="height: 500px; margin: auto; display: inline-block;">
+								<source data-src="assets/tutorial00.webm" type="video/webm" />
+							</video>
+						</div>
+					</div>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Theory
+			##############################################################################
+			-->
+			<section>
+				<h2>Theory: Balance of Linear Momentum</h2>
+				<p>Starting from the <mark>strong form</mark></p>
+				\[\begin{aligned}
+				- \sigma_{ij,j} = 0, \quad \text{in } \Omega
+				\end{aligned} \]
+				<p>The corresponding <mark>weak form</mark> seeks
+					displacements
+					$u_i$ such that</p>
+				\[\begin{aligned}
+				\forall \phi_i: \quad - \int_\Omega \phi_i \sigma_{ij,j}\ \mathrm{d}V = 0
+				\end{aligned} \]
+				<p>Applying the <a href="https://en.wikipedia.org/wiki/Divergence_theorem">divergence
+						theorem</a>, we get</p>
+				\[\begin{aligned}
+				\forall \phi_i: \quad \int_\Omega \phi_{i,j} \sigma_{ij}\ \mathrm{d}V - \int_{\partial\Omega} \phi_i
+				t_i\ \mathrm{d}A = 0
+				\end{aligned} \]
+				<p><mark>Material models</mark> relate the
+					primary unknown, i.e.,
+					<mark>displacements</mark> $u_i$, to the thermodynamic force, i.e.,
+					<mark>Cauchy stress</mark> $\sigma_{ij}$.
+				</p>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 01: Linear Elastic Material
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h2>Tutorial 01: Linear Elastic Material</h2>
+					<p>The <mark>material model</mark> for a linear elastic material is</p>
+					\[\begin{aligned}
+					\sigma_{ij} &amp;= \lambda \varepsilon_{kk} \delta_{ij} + 2 \mu \varepsilon_{ij} \\
+					\varepsilon_{ij} &amp;= \frac{1}{2} (u_{i,j} + u_{j,i})
+					\end{aligned} \]
+					<p>As a reminder: The <mark>weak form</mark> for linear momentum balance is</p>
+					\[\begin{aligned}
+					\forall \phi_i: \quad \int_\Omega \phi_{i,j} \sigma_{ij}\ \mathrm{d}V = 0
+					\end{aligned} \]
+					<p>Let's implement this in MOOSE!</p>
+				</section>
+				<section>
+					<p>The C++ source code closely resembles the equations:</p>
+
+					<p style="text-align: left; font-size: x-large;">
+						$\varepsilon_{ij} = \frac{1}{2} (u_{i,j} + u_{j,i})$
+					</p>
+					<pre class="cpp" style="margin-left: 0;"><code data-trim data-noescape>
+					auto G = R2::initializeFromRows((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+					auto e = (G.transpose() + G) / 2;
+					</code></pre>
+
+					<p style="text-align: left; font-size: x-large;">
+						$\sigma_{ij} = \lambda \varepsilon_{kk} \delta_{ij} + 2 \mu \varepsilon_{ij}$
+					</p>
+					<pre class="cpp" style="margin-left: 0;"><code data-trim data-noescape>
+					auto s = _lambda[_qp] * e.trace() * R2::Identity() + 2 * _mu[_qp] * e;
+					</code></pre>
+
+					<p style="text-align: left; font-size: x-large;">
+						$\phi_{i,j} \sigma_{ij}$
+					</p>
+					<pre class="cpp" style="margin-left: 0;"><code data-trim data-noescape>
+					auto r = _grad_test[_i][_qp] * s.row(_component);
+					</code></pre>
+				</section>
+				<section>
+					<div class="container" style="grid-template-columns: 60% 40%;">
+						<div class="col">
+							<p>Input file walkthrough</p>
+							<pre class="python" style="margin-left: 0;">
+								<code data-trim data-noescape>
+								[GlobalParams]
+									displacements = 'disp_x disp_y'
+								[]
+
+								[Mesh]
+									[sample]
+										type = FileMeshGenerator
+										file = '../gold/sample.msh'
+									[]
+								[]
+
+								[Variables]
+									[disp_x]
+									[]
+									[disp_y]
+									[]
+								[]
+
+								[Kernels]
+									[momentum_balance_x]
+										type = Tutorial01Kernel
+										variable = disp_x
+										lambda = 4000
+										mu = 6700
+										component = 0
+									[]
+									[momentum_balance_y]
+										type = Tutorial01Kernel
+										variable = disp_y
+										lambda = 4000
+										mu = 6700
+										component = 1
+									[]
+								[]
+
+								[BCs]
+									[fix_x]
+										type = DirichletBC
+										variable = disp_x
+										value = 0
+										boundary = 'top bottom'
+									[]
+									[bottom_fix_y]
+										type = DirichletBC
+										variable = disp_y
+										value = 0
+										boundary = 'bottom'
+									[]
+									[top_pull_y]
+										type = FunctionDirichletBC
+										variable = disp_y
+										function = 't'
+										boundary = 'top'
+									[]
+								[]
+
+								[Executioner]
+									type = Transient
+									solve_type = NEWTON
+									petsc_options_iname = '-pc_type'
+									petsc_options_value = 'lu'
+									automatic_scaling = true
+									end_time = 2
+									dt = 0.2
+								[]
+
+								[Outputs]
+									exodus = true
+								[]
+								</code>
+							</pre>
+						</div>
+						<div class="col">
+							<img data-src="assets/tutorial00.png" style="height: 500px;">
+						</div>
+					</div>
+				</section>
+				<section>
+					<p>To solve the problem in <mark>serial</mark>:</p>
+					<pre class="shell" style="margin-left: 0;">
+						<code data-trim data-noescape>
+							~/projects/snail/snail-opt -i tension.i
+						</code>
+					</pre>
+					<p>To solve the problem in <mark>parallel</mark>:</p>
+					<pre class="shell" style="margin-left: 0;">
+						<code data-trim data-noescape>
+							mpiexec -n 2 ~/projects/snail/snail-opt -i tension.i
+						</code>
+					</pre>
+					<p><a href="https://www.paraview.org/download/">ParaView</a> is the recommended tool
+						for <mark>visualization</mark> purposes:</p>
+					<pre class="shell" style="margin-left: 0;">
+						<code data-trim data-noescape>
+							paraview tension_out.e
+						</code>
+					</pre>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 02: Modular Material Modeling
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h2>Tutorial 02: Modular Material Modeling</h2>
+					<ul>
+						<li><code>Tutorial01Kernel.C</code> has demonstrated an elegant resemblance between MOOSE source code and
+							mathematical equations.</li>
+						<li>Two places to <mark>improve</mark>:
+							<ul>
+								<li><code>Tutorial01Kernel.C</code> only works for linear elastic materials.<br>
+									<mark>Can we generalize it to work for <em>any</em> material?</mark>
+								</li>
+								<li>At each quadrature point, the <code>computeQpResidual</code> method is called twice (3 times in
+									3D).<br>
+									<mark>Can we avoid the redundant computations of strain and stress?</mark>
+								</li>
+							</ul>
+						</li>
+						<li class="fragment">Yes &mdash; with the <mark><code>[Materials]</code></mark>
+							system.</li>
+					</ul>
+				</section>
+				<section>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col">
+							<p>Tutorial 01 source code</p>
+							<pre class="cpp" style="width: 75%; margin-left: 0;">
+								<code data-trim data-noescape>
+									ADReal
+									Tutorial01Kernel::computeQpResidual()
+									{
+										using R2 = ADRankTwoTensor;
+
+										// Calculate strain from displacement gradients
+										auto G = R2::initializeFromRows((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+										auto e = (G.transpose() + G) / 2;
+
+										// Calculate stress from strain and material constants
+										auto s = _lambda[_qp] * e.trace() * R2::Identity() + 2 * _mu[_qp] * e;
+
+										// Calculate residual
+										auto r = _grad_test[_i][_qp] * s.row(_component);
+
+										return r;
+									}
+								</code>
+							</pre>
+						</div>
+						<div class="col">
+							<p>Tutorial 02 source code</p>
+							<pre class="cpp" style="width: 75%; margin-left: 0;">
+								<code data-trim data-noescape>
+									void
+									Tutorial02Strain::computeQpProperties()
+									{
+										using R2 = ADRankTwoTensor;
+
+										auto G = R2::initializeFromRows((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+										_e[_qp] = (G.transpose() + G) / 2;
+									}
+								</code>
+							</pre>
+							<pre class="cpp" style="width: 75%; margin-left: 0;">
+								<code data-trim data-noescape>
+									void
+									Tutorial02Stress::computeQpProperties()
+									{
+										using R2 = ADRankTwoTensor;
+
+										_s[_qp] = _lambda[_qp] * _e[_qp].trace() * R2::Identity() + 2 * _mu[_qp] * _e[_qp];
+									}
+								</code>
+							</pre>
+							<pre class="cpp" style="width: 75%; margin-left: 0;">
+								<code data-trim data-noescape>
+									ADReal
+									Tutorial02Kernel::computeQpResidual()
+									{
+										return _grad_test[_i][_qp] * _s[_qp].row(_component);
+									}
+								</code>
+							</pre>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col">
+							<p>Tutorial 01 input file</p>
+							<pre class="python" style="width: 75%; margin-left: 0;">
+								<code data-trim data-noescape>
+								[Kernels]
+									[momentum_balance_x]
+										type = Tutorial01Kernel
+										variable = disp_x
+										lambda = 4000
+										mu = 6700
+										component = 0
+									[]
+									[momentum_balance_y]
+										type = Tutorial01Kernel
+										variable = disp_y
+										lambda = 4000
+										mu = 6700
+										component = 1
+									[]
+								[]
+								</code>
+							</pre>
+						</div>
+						<div class="col">
+							<p>Tutorial 02 input file</p>
+							<pre class="python" style="width: 75%; margin-left: 0;">
+								<code data-trim data-noescape>
+								[Kernels]
+									[momentum_balance_x]
+										type = Tutorial02Kernel
+										variable = disp_x
+										component = 0
+									[]
+									[momentum_balance_y]
+										type = Tutorial02Kernel
+										variable = disp_y
+										component = 1
+									[]
+								[]
+
+								[Materials]
+									[strain]
+										type = Tutorial02Strain
+									[]
+									[stress]
+										type = Tutorial02Stress
+										lambda = 4000
+										mu = 6700
+									[]
+								[]
+								</code>
+							</pre>
+						</div>
+					</div>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 03: Postprocessing FAQ
+			##############################################################################
+			-->
+			<section>
+				<section data-auto-animate>
+					<h2>Tutorial 03: Postprocessing FAQ</h2>
+					<p><strong>Q</strong>: How do I output <mark>tensorial
+							quantities</mark>, e.g., strain and stress,
+						<mark>at every point</mark>?
+					</p>
+					<p><strong>A</strong>: Use <mark><code>[AuxVariables]</code></mark> and
+						<mark><code>[AuxKernel]</code></mark>.
+					</p>
+					<pre class="python" style="margin-left: 0;">
+						<code data-trim data-noescape>
+						[Materials]
+							[stress_yy]
+								type = ADRankTwoCartesianComponent
+								rank_two_tensor = stress
+								property_name = stress_yy
+								index_i = 1
+								index_j = 1
+							[]
+						[]
+
+						[AuxVariables]
+							[stress_yy]
+								order = CONSTANT
+								family = MONOMIAL
+								[AuxKernel]
+									type = ADMaterialRealAux
+									property = stress_yy
+								[]
+							[]
+						[]
+						</code>
+					</pre>
+				</section>
+				<section data-auto-animate>
+					<h2>Tutorial 03: Postprocessing FAQ</h2>
+					<p><strong>Q</strong>: How do I output <mark>tensorial
+							quantities</mark>, e.g., strain and stress,
+						<mark>at a specific point</mark>?
+					</p>
+					<p><strong>A</strong>: Use the <mark><code>PointValue</code></mark> postprocessor.
+					</p>
+					<pre class="python" style="margin-left: 0;">
+						<code data-trim data-noescape>
+						[Materials]
+							[stress_yy]
+								type = ADRankTwoCartesianComponent
+								rank_two_tensor = stress
+								property_name = stress_yy
+								index_i = 1
+								index_j = 1
+							[]
+						[]
+
+						[AuxVariables]
+							[stress_yy]
+								order = CONSTANT
+								family = MONOMIAL
+								[AuxKernel]
+									type = ADMaterialRealAux
+									property = stress_yy
+								[]
+							[]
+						[]
+
+						[Postprocessors]
+							[stress_yy_center]
+								type = PointValue
+								variable = stress_yy
+								point = '5 5 0'
+							[]
+						[]
+						</code>
+					</pre>
+				</section>
+				<section data-auto-animate>
+					<h2>Tutorial 03: Postprocessing FAQ</h2>
+					<p><strong>Q</strong>: How do I output <mark>tensorial
+							quantities</mark>, e.g., strain and stress,
+						<mark>averaged over the entire domain</mark>?
+					</p>
+					<p><strong>A</strong>: Use the
+						<mark><code>ADElementAverageMaterialProperty</code></mark>
+						postprocessor.
+					</p>
+					<pre class="python" style="margin-left: 0;">
+						<code data-trim data-noescape>
+						[Materials]
+							[stress_yy]
+								type = ADRankTwoCartesianComponent
+								rank_two_tensor = stress
+								property_name = stress_yy
+								index_i = 1
+								index_j = 1
+							[]
+						[]
+
+						[Postprocessors]
+							[avg_stress_yy]
+								type = ADElementAverageMaterialProperty
+								mat_prop = stress_yy
+							[]
+						[]
+						</code>
+					</pre>
+				</section>
+				<section data-auto-animate>
+					<h2>Tutorial 03: Postprocessing FAQ</h2>
+					<p><strong>Q</strong>: How do I output the <mark>average
+							displacement along a boundary?</mark>
+					</p>
+					<p><strong>A</strong>: Use the <mark><code>SideAverageValue</code></mark>
+						postprocessor.
+					</p>
+					<pre class="python" style="margin-left: 0;">
+						<code data-trim data-noescape>
+						[Postprocessors]
+							[displacement]
+								type = SideAverageValue
+								variable = disp_y
+								boundary = 'top'
+							[]
+						[]
+						</code>
+					</pre>
+				</section>
+				<section data-auto-animate>
+					<h2>Tutorial 03: Postprocessing FAQ</h2>
+					<p><strong>Q</strong>: How do I output the <mark>total
+							reaction force</mark> on a boundary?
+					</p>
+					<p><strong>A</strong>: Use the <mark><code>save_in</code></mark> option and the
+						<mark><code>NodalSum</code></mark> postprocessor.
+					</p>
+					<pre class="python" style="margin-left: 0;">
+						<code data-trim data-noescape>
+						[AuxVariables]
+							[r_x]
+							[]
+							[r_y]
+							[]
+						[]
+
+						[Kernels]
+							[momentum_balance_x]
+								type = Tutorial02Kernel
+								variable = disp_x
+								component = 0
+								save_in = 'r_x'
+							[]
+							[momentum_balance_y]
+								type = Tutorial02Kernel
+								variable = disp_y
+								component = 1
+								save_in = 'r_y'
+							[]
+						[]
+
+						[Postprocessors]
+							[force]
+								type = NodalSum
+								variable = r_y
+								boundary = 'top'
+							[]
+						[]
+						</code>
+					</pre>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 04: The Solid Mechanics [Physics]
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h2>Tutorial 04: The Solid Mechanics [Physics]</h2>
+					<ul>
+						<li>So far, we have created from scratch <em>our own</em> "solid mechanics module" in
+							<code>snail</code>.
+						</li>
+						<li>Now, we are ready to learn what the <mark>MOOSE Solid Mechanics module</mark> can do for us.
+							<ul>
+								<li>Automatic creation of variables, kernels, and strain calculators</li>
+								<li>Simplified tensor outputting</li>
+								<div class="fragment semi-fade-out">
+									<li>Small and large deformation (both hypoelasticity and hyperelasticity) kinematics</li>
+									<li>Stabilization to alleviate volumetric locking</li>
+									<li>A collection of common material models</li>
+									<li>Many other advanced features such as homogenization, fracture integrals, CZM, etc.</li>
+								</div>
+							</ul>
+						</li>
+						<li class="fragment">The canonical entry point for the MOOSE Solid Mechanics module is
+							<mark><code>[Physics/SolidMechanics]</code></mark>.
+						</li>
+					</ul>
+				</section>
+				<section>
+					<p>Input file walkthrough</p>
+					<pre class="python" style="margin-left: 0;">
+						<code data-trim data-noescape>
+						[GlobalParams]
+							displacements = 'disp_x disp_y'
+						[]
+
+						[Mesh]
+							[sample]
+								type = FileMeshGenerator
+								file = '../gold/sample.msh'
+							[]
+						[]
+
+						[Physics]
+							[SolidMechanics]
+								[QuasiStatic]
+									[sample]
+										new_system = true
+										add_variables = true
+										strain = SMALL
+										formulation = TOTAL
+										generate_output = "cauchy_stress_xx cauchy_stress_yy cauchy_stress_zz
+																			 cauchy_stress_xy cauchy_stress_xz cauchy_stress_yz
+																			 mechanical_strain_xx mechanical_strain_yy mechanical_strain_zz
+																			 mechanical_strain_xy mechanical_strain_xz mechanical_strain_yz"
+										additional_generate_output = 'vonmises_cauchy_stress'
+									[]
+								[]
+							[]
+						[]
+
+						[Materials]
+							[elasticity_tensor]
+								type = ComputeIsotropicElasticityTensor
+								lambda = 4000
+								shear_modulus = 6700
+							[]
+							[stress]
+								type = ComputeLagrangianLinearElasticStress
+							[]
+						[]
+
+						[BCs]
+							[fix_x]
+								type = DirichletBC
+								variable = disp_x
+								value = 0
+								boundary = 'top bottom'
+							[]
+							[bottom_fix_y]
+								type = DirichletBC
+								variable = disp_y
+								value = 0
+								boundary = 'bottom'
+							[]
+							[top_pull_y]
+								type = FunctionDirichletBC
+								variable = disp_y
+								function = 't'
+								boundary = 'top'
+							[]
+						[]
+
+						[Executioner]
+							type = Transient
+							solve_type = NEWTON
+							petsc_options_iname = '-pc_type'
+							petsc_options_value = 'lu'
+							automatic_scaling = true
+							end_time = 2
+							dt = 0.2
+						[]
+
+						[Outputs]
+							exodus = true
+						[]
+						</code>
+					</pre>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 05: Large Deformation
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h2>Tutorial 05: Large Deformation</h2>
+					<ul>
+						<li>The Solid Mechanics module makes switching between kinematics a trivial task.
+							<ul>
+								<li>Small deformation: <mark><code>strain = SMALL</code></mark></li>
+								<li>Large deformation: <mark><code>strain = FINITE</code></mark></li>
+							</ul>
+						</li>
+						<li>The large deformation formulation comes with two flavors:
+							<ul>
+								<li>
+									<mark>Hypoelasticity</mark>: small strain material model integrated objectively
+									\[
+									\begin{aligned}
+									\mathring{\sigma}_{ij} = \dot{\sigma}_{ij} - Q_{ik}\sigma_{kj} - \sigma_{ik}Q_{jk} + Q_{kk}\sigma_{ij}
+									\end{aligned}
+									\]
+								</li>
+								<li>
+									<mark>Hyperelasticity</mark>: derived from a strain energy density function
+									\[
+									\begin{aligned}
+									\sigma_{ij} = \frac{1}{J} P_{iJ} F_{jJ}, \quad P_{iJ} = \frac{\partial w}{\partial F_{iJ}}
+									\end{aligned}
+									\]
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<p>Let us compare 6 elastic material models:</p>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col">
+							<div class="cozy">
+								<ol style="font-size: xx-large;">
+									<li>Small deformation, <mark><code>ComputeLagrangianLinearElasticStress</code></mark>
+										\[
+										\begin{aligned}
+										\sigma_{ij} = C_{ijkl} \varepsilon_{kl}
+										\end{aligned}
+										\]
+									</li>
+									<li>Large deformation, hyperelastic, <em>St. Venant-Kirchhoff</em>,
+										<mark><code>ComputeStVenantKirchhoffStress</code></mark>
+										\[
+										\begin{aligned}
+										\sigma_{ij} = \frac{1}{J}F_{iI}S_{IJ}F_{jJ}, \quad S_{IJ} = C_{IJKL} E_{KL}
+										\end{aligned}
+										\]
+									</li>
+									<li>Large deformation, hyperelastic, <em>Neo-Hookean</em>,
+										<mark><code>ComputeNeoHookeanStress</code></mark>
+										\[
+										\begin{aligned}
+										\sigma_{ij} = \frac{1}{J}F_{iI}S_{IJ}F_{jJ}, \quad S_{IJ} = \left(\lambda \log J - \mu\right)
+										C^{-1}_{IJ}
+										+ \mu \delta_{IJ}, \quad C_{IJ} = 2 E_{IJ} + \delta_{IJ}
+										\end{aligned}
+										\]
+									</li>
+								</ol>
+							</div>
+						</div>
+						<div class="col">
+							<div class="cozy">
+								<ol start="4" style="font-size: xx-large;">
+									<li>Large deformation, hypoelastic, <em>Trusdell</em> rate,
+										<mark><code>objective_rate = truesdell</code></mark>
+										\[
+										\begin{align}
+										Q_{ik} = l_{ik}
+										\end{align}
+										\]
+									</li>
+									<li>Large deformation, hypoelastic, <em>Jaumann</em> rate,
+										<mark><code>objective_rate = jaumann</code></mark>
+										\[
+										\begin{align}
+										Q_{ik} = w_{ik}, \quad w_{ik}=\frac{1}{2}\left(l_{ik}-l_{ki}\right)
+										\end{align}
+										\]
+									</li>
+									<li>Large deformation, hypoelastic, <em>Green-Naghdi</em> rate,
+										<mark><code>objective_rate = green_naghdi</code></mark>
+										\[
+										\begin{align}
+										Q_{ik} = \Omega_{ik} = \dot{R}_{ij} R_{kj}.
+										\end{align}
+										\]
+									</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section>
+					<img data-src="assets/large_deformation.svg" style="height: 600px;">
+				</section>
+				<section>
+					<h3>Remarks</h3>
+					<ul>
+						<li>Choosing the suitable model for a material is essentially a matter of <mark>calibration</mark>.</li>
+						<li>Advantages of <mark>hyperelastic</mark> formulations:
+							<ul>
+								<li>Coercivity and polyconvexity ensure existence and uniqueness of the solution.</li>
+								<li>Integration error is negligible.</li>
+							</ul>
+						</li>
+						<li>Advantages of <mark>hypoelastic</mark> formulations:
+							<ul>
+								<li>Small deformation models can be objectively integrated to solve large deformation problems.</li>
+								<li>Many common engineering materials have been calibrated.</li>
+							</ul>
+						</li>
+					</ul>
+					<blockquote style="font-size: x-large;">See <a
+							href="https://mooseframework.inl.gov/source/materials/lagrangian/ComputeLagrangianObjectiveStress.html">this
+							page</a> for known limitations of hypoelastic formulations and some recommendations.</blockquote>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Break
+			##############################################################################
+			-->
+			<section>
+				<h3><img data-src="assets/break.png"
+						style="height: 80px; display: inline-block; margin: auto 20px auto auto">Break
+				</h3>
+				<ul>
+					<li>This concludes the <mark>fundamentals</mark> of the MOOSE Solid Mechanics module.</li>
+					<li>Coming up <strong>next</strong>
+						<ul>
+							<li>Coordinate systems and planar formulations</li>
+							<li>Volumetric locking correction (stablization)</li>
+							<li>Structural Dynamics and time integration</li>
+							<li>Homogenization constraints</li>
+							<li>More features...</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 06: Coordinate Systems and Planar Formulations
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h3>Tutorial 06: Coordinate Systems and Planar Formulations</h3>
+					<p>The Solid Mechanics module supports three <mark>coordinate systems</mark>:
+					<ul>
+						<li><mark>Cartesian</mark> coordinate system, <mark><code>coord_type = XYZ</code></mark>
+							<ul>
+								<li>3D</li>
+								<li>2D: plane strain (default)</li>
+								<li>2D: plane stress</li>
+								<li>2D: generalized plane strain</li>
+							</ul>
+						</li>
+						<li><mark>Axisymmetric cylindrical</mark> coordinate system, <mark><code>coord_type = RZ</code></mark></li>
+						<li><mark>Centrosymmetric spherical</mark> coordinate
+							system, <mark><code>coord_type = RSpherical</code></mark></li>
+					</ul>
+					</p>
+				</section>
+				<section>
+					<img data-src="assets/planar.png" style="height: 250px;">
+					<img data-src="assets/planar.svg" style="height: 350px;" class="fragment">
+				</section>
+				<section>
+					<div class="container" style="grid-template-columns: 30% 30% 40%;">
+						<div class="col">
+							<img data-src="assets/cylindrical_3D.png" style="height: 400px;">
+						</div>
+						<div class="col">
+							<img data-src="assets/cylindrical_RZ.png" style="height: 400px;">
+						</div>
+						<div class="col fragment">
+							<img data-src="assets/cylindrical.svg" style="height: 400px;">
+						</div>
+					</div>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 07: Volumetric Locking Correction (Stabilization)
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h2>Tutorial 07: Volumetric Locking Correction</h2>
+					<ul>
+						<li>Standard 2D and 3D finite elements using a <mark>linear</mark> interpolation of the displacement field
+							are <mark>not stable</mark>
+							for <mark>incompressible</mark> and <mark>nearly incompressible</mark> deformation <span
+								class="tooltip">Hughes (1987)
+								<span class="tooltiptext" style="margin-left: -500px;">T. J. R Hughes. The Finite Element Method, Linear
+									Static and Dynamic Finite
+									Element Analysis. New Jersey:Prentice-Hall, 1987.</span>
+							</span>.
+						</li>
+						<li>Two common methods:
+							<ul>
+								<li>The $\bar{F}$ approach <span class="tooltip">Souza Neto et al. (1996)
+										<span class="tooltiptext" style="margin-left: -200px;">EA de Souza Neto, D Perić, M Dutko, and DRJ
+											Owen. Design of simple low order finite elements for large strain analysis of nearly
+											incompressible solids. International Journal of Solids and Structures, 33(20-22):3277–3296,
+											1996.</span></span> modifies the strain definition
+									\[
+									\begin{aligned}
+									\varepsilon'_{ij} = \varepsilon_{ij} + \frac{1}{3}(\bar{\varepsilon}_{kk} -
+									\varepsilon_{kk})\delta_{ij}, \quad \bar{\varepsilon}_{ij} = \frac{1}{V^e}\int_{\Omega^e}
+									\varepsilon_{ij}\ \mathrm{d}V
+									\end{aligned}
+									\]
+								</li>
+								<li>The $\bar{B}$ approach <span class="tooltip"> Hughes (1980)
+										<span class="tooltiptext" style="margin-left: -200px;">Thomas JR Hughes. Generalization of selective
+											integration procedures to anisotropic and nonlinear media. International Journal for Numerical
+											Methods in Engineering, 15(9):1413–1418, 1980.</span></span> additionally modifies the trial
+									strain
+									\[
+									\begin{aligned}
+									\phi'_{i,j} = \phi_{i,j} + \frac{1}{3}(\bar{\phi}_{k,k} -
+									\phi_{k,k})\delta_{ij}, \quad \bar{\phi}_{i,j} = \frac{1}{V^e}\int_{\Omega^e}
+									\phi_{i,j}\ \mathrm{d}V
+									\end{aligned}
+									\]
+								</li>
+							</ul>
+						</li>
+						<li>The Solid Mechanics module implements <mark>the $\bar{F}$ approach.</mark></li>
+						<li>To turn on stabilization, simply set <mark><code>volumetric_locking_correction = true</code></mark></li>
+					</ul>
+				</section>
+				<section>
+					<p>Cook's membrane</p>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col">
+							<img data-src="assets/cook.svg" style="height: 400px;">
+						</div>
+						<div class="col fragment">
+							<img data-src="assets/vlc.svg" style="height: 400px;">
+						</div>
+					</div>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 08: Structural Dynamics
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h3>Tutorial 08: Structural Dynamics and Time Integration</h3>
+					<ul>
+						<li>
+							The balance of linear momentum is extended to incorporate <mark>inertial effects</mark>
+							\[
+							\begin{aligned}
+							\rho \ddot{u}_i + \zeta \dot{u}_i - \sigma_{ij,j} = 0
+							\end{aligned}
+							\]
+						</li>
+						<li>
+							The Solid Mechanics module implements the
+							<span class="tooltip">Newmark
+								<span class="tooltiptext" style="margin-left: -300px;">
+									N. M. Newmark. A method of computation for structural dynamics. Journal of Engineering Mechanics,
+									85(EM3):67–94, 1959.
+								</span>
+							</span>
+							,
+							<span class="tooltip">Hilber-Hughes-Taylor (HHT)
+								<span class="tooltiptext" style="margin-left: -500px;">
+									T. J. R Hughes. The finite element method:Linear static and dynamic finite element analysis. Dover
+									Publications, Mineola, NY, 2000.
+								</span>
+							</span>
+							, and the explicit central difference time integration schemes.
+						</li>
+						<li>To include inertial effects, replace <mark><code>QuasiStatic</code></mark> with
+							<mark><code>Dynamic</code></mark>.
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>The Newmark Method</h3>
+					<ul>
+						<li>The <mark>Newmark</mark> time discretization is parametrized by <mark>$\beta$</mark> and
+							<mark>$\gamma$</mark>:
+							\[
+							\begin{align}
+							\ddot{u}_i^{(1)} &= \frac{u_i^{(1)}-u_i^{(0)}}{\beta \Delta t^2} -
+							\frac{\dot{u}_i^{(0)}}{\beta\Delta
+							t} + \left(1-\frac{1}{2\beta}\right)\ddot{u}_i^{(0)} \\
+							\dot{u}_i^{(1)} &= \dot{u}_i^{(0)} + (1-\gamma)\Delta t\ddot{u}_i^{(0)} + \gamma\Delta t
+							\ddot{u}_i^{(1)}
+							\end{align}
+							\]
+						</li>
+						<blockquote style="font-size: large;">The superscripts $(\xi)$ denote the quantities evaluated at
+							$t+\xi\Delta t$.</blockquote>
+						<li>Commonly chosen parameters
+							<ul>
+								<li>$\beta = \frac{1}{4}$, $\gamma = \frac{1}{2}$: The Newmark method is <mark>unconditionally
+										stable</mark>.<br>
+									&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Also known as the constant average acceleration method.</li>
+								<li>$\beta = \frac{1}{6}$, $\gamma = \frac{1}{2}$: The linear acceleration method.</li>
+								<li>$\beta = 0$, $\gamma = \frac{1}{2}$: Equivalent to the central difference method, though integrated
+									implicitly.</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>The HHT Method</h3>
+					<ul>
+						<li>The <mark>HHT</mark> time integration method additionally introduces <mark>numerical dissipation</mark>,
+							controlled by <mark>$\alpha$</mark>, by modifying the momentum balance equation
+							\[
+							\begin{aligned}
+							\rho \ddot{u}_i^{(1)} + \zeta \left[ (1-\alpha) \dot{u}_i^{(1)} + \alpha \dot{u}_i^{(0)} \right] -
+							\left[ (1-\alpha) \sigma_{ij,j}^{(1)} + \alpha \sigma_{ij,j}^{(0)} \right] = 0
+							\end{aligned}
+							\]
+						</li>
+						<li>When parameters are chosen appropriately, i.e.
+							\[
+							\begin{aligned}
+							0 \leq \alpha \leq \frac{1}{3}, \quad \beta = \frac{(1+\alpha)^2}{4}, \quad \gamma = \frac{1}{2} +
+							\alpha,
+							\end{aligned}
+							\]
+							the system is at least <mark>second-order accurate</mark> and <mark>unconditionally stable</mark>.
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>The Explicit Central Difference Method</h3>
+					<blockquote style="font-size: large;">Currently, the explicit central difference time integrator is
+						experimental.</blockquote>
+					<ul>
+						<li>The explicit <mark>central difference</mark> method applies the following discretization:
+							\[
+							\begin{align}
+							\dot{u}_i &= \dfrac{1}{2 \Delta t} \left( u_i^{(1)} - u_i^{(-1)} \right) \\
+							\ddot{u}_i &= \dfrac{1}{\Delta t^2} \left( u_i^{(1)} - 2 u_i^{(0)} + u_i^{(-1)} \right)
+							\end{align}
+							\]
+						</li>
+						<li>Note $u_i^{(1)}$ now only depends on $u_i^{(0)}$ and $u_i^{(-1)}$, hence the system is
+							<mark>explicit</mark>.
+						</li>
+						<li>The <mark><code>CentralDifference</code></mark> time integrator offers 3 solve strategies
+							<ul>
+								<li><mark><code>consistent</code></mark>: Use the "full" mass matrix which requires a
+									linear solve.</li>
+								<li><mark><code>lumped</code></mark>: Use the "lumped" mass matrix with a DoF-wise
+									inversion.</li>
+								<li><mark><code>lump_preconditioned</code></mark>: Use the "lumped" mass matrix as the
+									preconditioner for the linear solve.</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Hamming a 1D bar</h3>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col fragment">
+							<img data-src="assets/implicit.svg" style="height: 550px;">
+						</div>
+						<div class="col fragment">
+							<img data-src="assets/explicit.svg" style="height: 550px;">
+						</div>
+					</div>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 09: Homogenization Constraints
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h2>Tutorial 09: Homogenization Constraints</h2>
+					<ul>
+						<li>To model micro- and mesoscale <mark>representative volume elements (RVEs)</mark>, it is often desired to
+							apply
+							constraints on <mark>RVE-averaged</mark> strain and/or stress as "boundary conditions".</li>
+						<li>The Solid Mechanics module features the <mark>Homogenization</mark> system for such constraints.</li>
+						<li>The theory largely follows from
+							<span class="tooltip">
+								Danielsson et al. (2002)
+								<span class="tooltiptext" style="margin-left: -300px;">
+									M Danielsson, DM Parks, and MC Boyce. Three-dimensional micromechanical modeling of voided polymeric
+									materials. Journal of the Mechanics and Physics of Solids, 50(2):351–379, 2002.
+								</span>
+							</span>.
+							<ul>
+								<li>
+									For small deformation, the constraints are of the type
+									\[
+									\begin{aligned}
+									\hat{s}_{ij} = \frac{1}{V}\int_\Omega s_{ij}\ \mathrm{d}V, \quad \hat{\varepsilon}_{ij} =
+									\frac{1}{V}\int_\Omega \varepsilon_{ij}\ \mathrm{d}V
+									\end{aligned}
+									\]
+								</li>
+								<li>
+									For large deformation, the constraints are of the type
+									\[
+									\begin{aligned}
+									\hat{P}_{iJ} = \frac{1}{V} \int_\Omega P_{iJ}\ \mathrm{d}V, \quad
+									\hat{F}_{iJ} = \frac{1}{V}\int_\Omega F_{iJ} \ \mathrm{d}V.
+									\end{aligned}
+									\]
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>More on the theory</h3>
+					<ul>
+						<li>The homogenization system introduces an additional <mark>affine displacement</mark> field
+							\[
+							\begin{aligned}
+							u_i = u_i^\mu + u_i^M, \quad u_i^M = G_{iJ}^M X_J
+							\end{aligned}
+							\]
+							<ul>
+								<li>
+									For small deformation, the macro gradient tensor $G_{iJ}^M$ is symmetric. For large deformation, it is
+									not.
+								</li>
+								<li>
+									The deformation gradient then follows as $F_{iJ} = \delta_{iJ}
+									+ u_{i,J}^\mu + G_{iJ}$
+								</li>
+							</ul>
+						</li>
+						<li>The corresponding constraint residuals are defined as
+							\[
+							\begin{aligned}
+							r_{iJ}^{(P)} = \int_\Omega (\hat{P}_{iJ} - \bar{P}_{iJ})\ \mathrm{d}V, \quad r_{iJ}^{(F)} = \int_\Omega
+							(\hat{F}_{iJ} - \bar{F}_{iJ})\ \mathrm{d}V
+							\end{aligned}
+							\]
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Input file syntax</h3>
+					<ul>
+						<li>The homogenization constraints can be imposed through the <code>[Physics/SolidMechanics]</code> syntax.
+							<ul>
+								<li><mark><code>constraint_types</code></mark> specifies the constraint types to impose for each
+									stress/strain
+									component.
+									<ul>
+										<li><mark><code>strain</code></mark> denotes a constraint on <em>strain</em> (small deformation) or
+											<em>deformation gradient</em> (large deformation)
+										</li>
+										<li><mark><code>stress</code></mark> denotes a constraint on the <em>Cauchy stress</em> (small
+											deformation)
+											or the <em>first Piola-Kirchhoff stress</em> (large deformation)</li>
+										<li><mark><code>none</code></mark> places no constraint on the corresponding component</li>
+									</ul>
+								</li>
+								<li><mark><code>targets</code></mark> specifies the prescribed values for each constrained component.
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<blockquote style="font-size: x-large;">
+						The constraints are always listed in the column-major convention.
+					</blockquote>
+				</section>
+				<section data-auto-animate>
+					<div class="container" style="grid-template-columns: 40% 30% 30%;">
+						<div class="col" style="justify-items: center;">
+							<p>An RVE made of 4 materials</p>
+							<img data-src="assets/homogenization.svg" style="height: 280px;">
+							<div style="font-size: 1.5rem;">
+								\[
+								\begin{aligned}
+								F_{xx} &= 1 + 0.1 \sin(20 t) + 0.1 \cos(15 t)\\
+								P_{xy} &= 100 \sin(13 t) + 150 \cos(9 t)\\
+								F_{yx} &= 0\\
+								P_{yy} &= -70 \sin(9 t) - 130 \cos(25 t)
+								\end{aligned}
+								\]
+							</div>
+						</div>
+						<div class="col fragment">
+							<img data-src="assets/Fxx.svg" style="height: 250px;">
+							<img data-src="assets/Fyx.svg" style="height: 250px;">
+						</div>
+						<div class="col fragment">
+							<img data-src="assets/Pxy.svg" style="height: 250px;">
+							<img data-src="assets/Pyy.svg" style="height: 250px;">
+						</div>
+					</div>
+				</section>
+				<section data-auto-animate>
+					<div class="container" style="grid-template-columns: 40% 60%;">
+						<div class="col" style="justify-items: center;">
+							<p>An RVE made of 4 materials</p>
+							<img data-src="assets/homogenization.svg" style="height: 280px;">
+							<div style="font-size: 1.5rem;">
+								\[
+								\begin{aligned}
+								F_{xx} &= 1 + 0.1 \sin(20 t) + 0.1 \cos(15 t)\\
+								P_{xy} &= 100 \sin(13 t) + 150 \cos(9 t)\\
+								F_{yx} &= 0\\
+								P_{yy} &= -70 \sin(9 t) - 130 \cos(25 t)
+								\end{aligned}
+								\]
+							</div>
+						</div>
+						<div class="col">
+							<video controls style="height: 500px; margin: auto; display: inline-block;">
+								<source data-src="assets/homogenization.webm" type="video/webm" />
+							</video>
+						</div>
+					</div>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Other features
+			##############################################################################
+			-->
+			<section>
+				<h3>Other features</h3>
+				<blockquote style="font-size: x-large;">
+					See the <a href="https://mooseframework.inl.gov/modules/solid_mechanics/index.html">online documentation</a>
+					for the comprehensive, up-to-date list of features.
+				</blockquote>
+				<ul style="font-size: 1.8rem;">
+					<li><a href="https://mooseframework.inl.gov/source/materials/ComputeMultipleInelasticStress.html">Inelastic
+							models</a>: plasticity, creep, viscoplasticity, crystal plasticity, etc.</li>
+					<li><a href="https://mooseframework.inl.gov/syntax/Physics/SolidMechanics/CohesiveZone/index.html">Cohesive
+							Zone Method (CZM)</a>: traction-separation models running on material interfaces</li>
+					<li><a href="https://mooseframework.inl.gov/source/materials/ComputeSmearedCrackingStress.html">Smeared
+							cracking</a>: smeared representation of cracking as softening stress-strain relation</li>
+					<li><a href="https://mooseframework.inl.gov/source/materials/FractureIntegrals.html">Fracture integrals</a>:
+						common integrals in fracture mechanics, e.g., J-integral, interaction integral, C-integral</li>
+					<li>Other structural elements:
+						<ul>
+							<li><a href="https://mooseframework.inl.gov/source/materials/C0TimoshenkoBeam.html">C0 Timoshenko beam
+									element</a></li>
+							<li><a href="https://mooseframework.inl.gov/source/materials/ShellElements.html">MITC4 shell
+									element</a></li>
+						</ul>
+					</li>
+					<li><a href="https://mooseframework.inl.gov/modules/solid_mechanics/1d_elastic_waves.html">Frequency domain
+							analysis</a>: time-harmonic equations, frequency response functions, etc.</li>
+					<li><a href="https://mooseframework.inl.gov/modules/solid_mechanics/examples/cframe_iga.html">Isogeometric
+							Analysis (IGA)</a>: IGA mesh from Coreform Cubit, common spline basis, etc.</li>
+				</ul>
+			</section>
+			<!--
+			##############################################################################
+			Wrapping up day 1
+			##############################################################################
+			-->
+			<section>
+				<h2>Wrapping up day 1</h2>
+				<p></p>
+				<div class="cozy">
+					<ul>
+						<li><strong>Today</strong>, we went over the fundamentals of the <mark>MOOSE Solid Mechanics module</mark>:
+							<ul style="font-size: 1.8rem;">
+								<li>The Solid Mechanics <code>[Physics]</code></li>
+								<li>Large deformation kinematics: hyperelasticity vs hypoelasticity</li>
+								<li>Coordinate systems and planar formulations</li>
+								<li>Volumetric locking correction</li>
+								<li>Structural dynamics and time integration schemes</li>
+								<li>Homogenization constraints</li>
+								<li>......</li>
+							</ul>
+						</li>
+						<li><strong>Tomorrow</strong>, we will demonstrate solid mechanics-related <mark>Multiphysics</mark>
+							coupling.</li>
+					</ul>
+				</div>
+				<blockquote style="font-size: x-large;">
+					Make sure to have the remaining questions cleared up before tomorrow's training. <br>
+					More hands-on coding is required for tomorrow's training.
+				</blockquote>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 10: Custom Material Model
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h3>Tutorial 10: Custom Material Model</h3>
+					<div class="cozy">
+						<ul style="font-size: 2rem;">
+							<li>In this example, we will implement a <mark>Neo-Hookean</mark> material for <mark>nearly
+									incompressible</mark> solid.</li>
+							<li>We will use the <mark>three-field formulation</mark> to render the problem inf-sup stable.
+							</li>
+							<li>
+								Consider the strain energy density function
+								\[
+								\begin{aligned}
+								w &= K \left[ h(J) - 2 \right] + \mu_1 \left( \bar{C}_{KK} - 3 \right) + \mu_2 \left( \bar{I}_2^{3/2} -
+								3^{3/2} \right) \\
+								h(J) &= J^{\beta} + J^{-\beta}, \quad \bar{C}_{IJ} = J^{-2/3} C_{IJ}, \quad C_{IJ} = F_{iI}F_{iJ}
+								\end{aligned}
+								\]
+							</li>
+							<li>
+								For stabilization purposes, we introduce two element-wise constant fields, <mark>dilation
+								</mark> $\Theta$ and
+								<mark>hydrostatic pressure</mark> $p$, as well as their
+								$L_2$ projection
+								\[
+								\begin{aligned}
+								\left( \phi_\Theta, \Theta - J \right)_{L_2(\Omega)} + \left( \phi_p, p - K h'(J) \right)_{L_2(\Omega)}
+								=
+								0
+								\end{aligned}
+								\]
+							</li>
+							<li>The second Piola-Kirchhoff stress follows as
+								\[
+								\begin{aligned}
+								S_{IJ} &= S_{IJ}^{\text{vol}} + S_{IJ}^{\text{isc}}, \quad S_{IJ}^{\text{vol}} = p J C^{-1}_{IJ}, \\
+								p &= \int_{\Omega^e} K \beta \left(\Theta^{\beta-1}-\Theta^{-\beta-1} \right)\ \mathrm{d}V \\
+								\Theta &= \int_{\Omega^e} J\ \mathrm{d}V
+								\end{aligned}
+								\]
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section data-auto-animate>
+					<h3>Tearing apart a piece of paper</h3>
+					<img data-src="assets/crack_schematics1.svg" style="height: 300px;">
+				</section>
+				<section data-auto-animate>
+					<h3>Tearing apart a piece of paper</h3>
+					<div class="container" style="grid-template-columns: 30% 35% 35%;">
+						<div class="col" style="align-items: center;"><img data-src="assets/crack_schematics1.svg"
+								style="height: 200px;"></div>
+						<div class="col"><img data-src="assets/dilation.png" style="height: 300px;"></div>
+						<div class="col"><img data-src="assets/hydrostatic_stress.png" style="height: 300px;"></div>
+					</div>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 11: Multiphysics Coupling
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h2>Tutorial 11: Multiphysics Coupling</h2>
+					<ul>
+						<li>In this tutorial, we will <em>actually</em> tear the paper apart.</li>
+						<li>There are a variety of ways of simulating <mark>crack propagation</mark> within the MOOSE framework,
+							e.g.
+							<ul>
+								<li><u>Cohesive Zone Method (CZM)</u> from the Solid Mechanics module</li>
+								<li><u>Damage models</u> from the Solid Mechanics module or <a
+										href="https://mooseframework.inl.gov/blackbear/"><code>BlackBear</code></a></li>
+								<li><u>eXtended Finite Element Method (XFEM)</u> from the <a
+										href="https://mooseframework.inl.gov/modules/xfem/index.html"><code>XFEM module</code></a></li>
+								<li><u>Phase field fracture</u> or gradient damage models from <a
+										href="https://hugary1995.github.io/raccoon/index.html"><code>RACCOON</code></a></li>
+							</ul>
+						</li>
+						<li>We will implement our own <mark>phase field fracture method</mark> in <code>snail</code>.</li>
+					</ul>
+					<blockquote style="font-size: x-large;">Coupling with other types of equations can be done in pretty much the
+						same fashion.</blockquote>
+				</section>
+				<section>
+					<h3>Theory</h3>
+					<ul>
+						<li>Recall the strain energy density:
+							\[
+							\begin{aligned}
+							w &= K \left[ h(J) - 2 \right] + \mu_1 \left( \bar{C}_{KK} - 3 \right) + \mu_2 \left( \bar{I}_2^{3/2}
+							-
+							3^{3/2} \right)
+							\end{aligned}
+							\]
+						</li>
+						<li>The <mark>total energy</mark> (including the crack surface energy) is
+							\[
+							\begin{aligned}
+							\psi &= \tilde{w} + \frac{3}{8} \frac{\mathcal{G}_c}{\ell} \left( d + \ell^2 d_{,i}^2 \right),
+							\quad \tilde{w} = g(d) w \\
+							g(d) &= \frac{(1-d)^2}{(1-d)^2 + m d (1+d)}, \quad m = \frac{3}{8} \frac{\mathcal{G}_c}{w_c \ell}
+							\end{aligned}
+							\]
+						</li>
+						<li>This leads to an <u>additional governing equation</u> for <mark>fracture propagation</mark>:
+							\[
+							\begin{aligned}
+							\frac{3}{8} \frac{\mathcal{G}_c}{\ell} - \xi_{i,i} + \tilde{w}_{,d} = 0, \quad \xi_i = \frac{3}{4}
+							\mathcal{G}_c
+							\ell
+							d_{,i}
+							\end{aligned}
+							\]
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Implementation</h3>
+					<ul>
+						<li>Plan: Tackle one challenge at a time...
+							<ol>
+								<li>Implement the monstrous fracture degradation function $g(d)$</li>
+								<li>Modify the stress model accounting for damage degradation</li>
+								<li>Implement the strain energy density as the "driving force" for crack propagation</li>
+								<li>Implement the weak form for fracture propagation</li>
+							</ol>
+						</li>
+						<li class="fragment">Good news: The degradation function can be directly implemented in the input file using
+							<mark><code>ParsedMaterial</code></mark> without writing C++ source code.
+						</li>
+						<blockquote class="fragment" style="font-size: x-large; margin-left: 0;"><a
+								href="https://mooseframework.inl.gov/source/materials/ParsedMaterial.html"><code>ParsedMaterial</code></a>
+							and its variants are extremely powerful, especially in the context of Multiphysics coupling.
+						</blockquote>
+						<li class="fragment">Modifying the stress is straightforward relying on what we've done in the previous
+							tutorial, i.e., using
+							class <mark>inheritance</mark> in C++.</li>
+					</ul>
+				</section>
+				<section>
+					<div class="container" style="grid-template-columns: 40% 60%;">
+						<div class="col" style="align-items: center;">
+							<h4>Problem description</h4>
+							<img data-src="assets/crack_schematics2.svg" style="height: 300px">
+						</div>
+						<div class="col fragment">
+							<video controls style="height: 600px; margin: auto; display: inline-block;">
+								<source data-src="assets/crack.webm" type="video/webm" />
+							</video>
+						</div>
+					</div>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 12: Fixed-Point Iteration
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h3>Tutorial 12: MultiApps, Transfer, and Fixed-Point Iteration</h3>
+					<ul>
+						<li>The <mark>solution strategy</mark> in the previous tutorial is often referred to as the <mark>monolithic
+								solve</mark>
+							<ul>
+								<li>One equation system including all equations</li>
+								<li>One preconditioner used for the entire equation system</li>
+							</ul>
+						</li>
+						<li>The monolithic solution strategy <em>may not be ideal</em> in the following scenarios
+							<ul>
+								<li>Equations require different spatial (mesh) or temporal (time step size) <mark>resolutions</mark>.
+								</li>
+								<li>Multiphysics coupling takes place among different spatial or temporal <mark>scales</mark>.</li>
+								<li>Structure of the <mark>Jacobian</mark> matrix varies significantly across different equations, and
+									so the monolithic <mark>preconditioner</mark> performs poorly.</li>
+							</ul>
+						</li>
+						<li>The <mark><code>[MultiApps]</code></mark> system is designed to provide the desired flexibility.
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Fixed-Point Iteration</h3>
+					<img data-src="assets/fpi.svg" style="height: 500px;">
+				</section>
+				<section>
+					<h3>Input file walkthrough</h3>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col">
+							<h4>Solid Mechanics</h4>
+							<pre class="python" style="width: 90%; margin-left: 0;">
+								<code data-trim data-noescape>
+									[MultiApps]
+										[fracture]
+											type = TransientMultiApp
+											input_files = 'tear_fracture.i'
+										[]
+									[]
+
+									[Transfers]
+										[to_fracture]
+											type = MultiAppCopyTransfer
+											to_multi_app = fracture
+											source_variable = 'disp_x disp_y'
+											variable = 'disp_x disp_y'
+										[]
+										[from_fracture]
+											type = MultiAppCopyTransfer
+											from_multi_app = fracture
+											source_variable = 'd'
+											variable = 'd'
+										[]
+									[]
+
+									[Variables]
+										[disp_x]
+										[]
+										[disp_y]
+										[]
+									[]
+
+									[AuxVariables]
+										[d]
+										[]
+									[]
+
+									[Kernels]
+										[momentum_balance_x]
+											type = Tutorial02Kernel
+											variable = disp_x
+											component = 0
+											stress = pk1_stress
+											save_in = 'r_x'
+										[]
+										[momentum_balance_y]
+											type = Tutorial02Kernel
+											variable = disp_y
+											component = 1
+											stress = pk1_stress
+											save_in = 'r_y'
+										[]
+									[]
+
+									[Executioner]
+										...
+
+										fixed_point_algorithm = picard
+										fixed_point_max_its = 100
+										fixed_point_abs_tol = 1e-8
+										fixed_point_rel_tol = 1e-6
+										accept_on_max_fixed_point_iteration = true
+									[]
+								</code>
+							</pre>
+						</div>
+						<div class="col">
+							<h4>Fracture</h4>
+							<pre class="python" style="width: 90%; margin-left: 0;">
+								<code data-trim data-noescape>
+									[Variables]
+										[d]
+										[]
+									[]
+
+									[AuxVariables]
+										[disp_x]
+										[]
+										[disp_y]
+										[]
+									[]
+
+									[Kernels]
+										[viscosity]
+											type = CoefTimeDerivative
+											variable = d
+											Coefficient = 1e2
+										[]
+										[fracture]
+											type = Tutorial11Kernel
+											variable = d
+											reg_length = 0.1
+										[]
+									[]
+								</code>
+							</pre>
+						</div>
+					</div>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 13: Regression Testing and Documentation
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h3>Tutorial 13: Regression Testing and Documentation</h3>
+					<ul>
+						<li>MOOSE is <a
+								href="https://www.asme.org/certification-accreditation/nuclear-quality-assurance-nqa1-certification">NQA-1</a>
+							compliant.</li>
+						<li>While custom MOOSE-based applications are not required to be NQA-1 compliant, you can still leverage on
+							the <mark>extensive testing capabilities</mark> offered by MOOSE.</li>
+						<li>Here, let's try the most common type of testing, <mark>regression testing</mark>, in
+							<code>snail</code>.<br>
+							Quoting Wikipedia:
+							<blockquote style="font-size: x-large; line-height: 1.5em;">Regression testing ... is
+								re-running functional and non-functional tests to ensure that previously developed and tested software
+								still performs as expected after a change...</blockquote>
+						</li>
+						<li>With the help of regression testing, our app is <mark>ensured to work and stay
+								working</mark>.</li>
+					</ul>
+				</section>
+				<section>
+					<p>The most widely used regression testing in MOOSE-based applications is <mark><code>Exodiff</code></mark>:
+					</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						[Tests]
+							[test]
+								type = Exodiff
+								input = 'tear.i'
+								cli_args = 'Executioner/num_steps=2'
+								exodiff = 'tear_out.e'
+							[]
+						[]
+					</code></pre>
+					<p>To run all regression tests, invoke the <code>TestHarness</code> via</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						./run_tests
+					</code></pre>
+					<p>Sample output:</p>
+					<pre class="yaml" style="margin-left: 0;">
+						<code data-trim data-noescape>
+							tutorials/13.test ......................................................................................... OK
+							--------------------------------------------------------------------------------------------------------------
+							Ran 1 tests in 4.5 seconds. Average test time 4.3 seconds, maximum test time 4.3 seconds.
+							1 passed, 0 skipped, 0 pending, 0 failed
+						</code>
+					</pre>
+				</section>
+				<section>
+					<p style="font-size: 1.5rem;">
+						As MOOSE and MOOSE-based applications continue to advance, creating <mark>quality documentation</mark>
+						becomes the
+						key to gaining new users and providing current users with an experience that allows rapid development.
+					</p>
+					<p style="font-size: 1.5rem;">
+						Creating documentation for MOOSE-based applications can be streamlined using the
+						<mark><code>MOOSEDocs</code></mark> system.
+					</p>
+					<p style="font-size: 1.5rem;">To check for <mark>documentation integrity</mark>, use</p>
+					<pre class="shell" style="margin-left: 0;">
+							<code data-trim data-noescape>
+								./moosedocs.py check
+							</code>
+						</pre>
+					<p style="font-size: 1.5rem;">To <mark>generate stub</mark> doco pages, run</p>
+					<pre class="shell" style="margin-left: 0;">
+							<code data-trim data-noescape>
+								./moosedocs.py generate snailApp
+							</code>
+						</pre>
+					<p style="font-size: 1.5rem;">Finally, to <mark>build (and serve)</mark> the documentation locally, do</p>
+					<pre class="shell" style="margin-left: 0;">
+							<code data-trim data-noescape>
+								./moosedocs.py build --serve
+							</code>
+						</pre>
+					<p style="font-size: 1.5rem;">Once the documentation website is tailored to your satisfaction, you can
+						<mark>deploy</mark> the website using web-hosting services, e.g., GitHub pages.
+					</p>
+					<p style="font-size: 1.5rem;">An example documentation website for <a
+							href="https://hugary1995.github.io/raccoon/index.html">RACCOON</a>.
+					</p>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Tutorial 14: External Material Models
+			##############################################################################
+			-->
+			<section>
+				<section>
+					<h2>Tutorial 14: External Material Models</h2>
+					<ul>
+						<li>The custom material for phase-field fracture we implemented is referred to as <br>
+							<mark>native material model</mark>.
+						</li>
+						<li>The Solid Mechanics module provides interfaces for <br>
+							two types of <mark>external material models</mark>:
+							<ol>
+								<li>Abaqus UMAT, entry point: <a
+										href="https://mooseframework.inl.gov/source/materials/abaqus/AbaqusUMATStress.html">
+										<code>AbaqusUMATStress</code>
+									</a>
+									<ul>
+										<li>Language: Fortran</li>
+										<li>Useful when the material model was implemented and calibrated in Abaqus</li>
+									</ul>
+								</li>
+								<li>NEML2, entry point: <a href="https://mooseframework.inl.gov/syntax/NEML2/index.html">NEML2</a>
+									<ul>
+										<li>Language: C++, HIT</li>
+										<li>Supports <mark>Multiphysics</mark> coupling</li>
+										<li>Can utilize <mark>both CPU and GPU</mark></li>
+										<li>Provides a companion <mark>Python package</mark> to run standalone material models (out of the
+											context of FEM)</li>
+									</ul>
+								</li>
+							</ol>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Why material modeling on GPU?</h3>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col">
+							<img data-src="assets/aurora.png" style="height: 300px;">
+						</div>
+						<div class="col">
+							<!-- &rel=0 in the video link is necessary if you do not want to show _your_ personalized suggestions when the video ends or is paused :) -->
+							<iframe width="560" height="315"
+								data-src="https://www.youtube.com/embed/-P28LKWTzrI?si=B4aM9nXHju1_FPb0&rel=0" frameborder="0"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+								allowfullscreen></iframe>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>Why material modeling on GPU?</h3>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col" style="justify-items: center;">
+							<h4>4 CPU, threaded</h4>
+							<video height="500" controls data-src="assets/neml2_cpu.mov"></video>
+						</div>
+						<div class="col" style="justify-items: center;">
+							<h4>1 A500 GPU</h4>
+							<video height="500" controls data-src="assets/neml2_gpu.mov"></video>
+						</div>
+					</div>
+				</section>
+				<section>
+					<p>Download and enable libTorch and NEML2</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						conda install pytorch
+						export TORCH_DIR=$(python -c "import torch; print(torch.__path__[0])")
+						cd ~/projects/moose
+						./configure --with-libtorch=$TORCH_DIR
+						git submodule update --recursive --checkout --init modules/solid_mechanics/contrib/neml2
+					</code></pre>
+					<p>Recompile snail</p>
+					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
+						cd ~/projects/snail
+						make -j N
+					</code></pre>
+					<p style="font-size: 1.6rem;">
+						The scripts default to download libTorch with <mark>CPU</mark> support only. <br>
+						To use a different libTorch (with <mark>CUDA</mark> support), please follow these <a
+							href="https://mooseframework.inl.gov/getting_started/installation/install_libtorch.html">instructions</a>.
+					</p>
+				</section>
+				<section>
+					<h3>NEML2</h3>
+					<p style="text-align: center;">
+						<span style="color: DodgerBlue">N</span>ew <span style="color: DodgerBlue">E</span>ngineering <span
+							style="color: DodgerBlue">M</span>aterial modeling <span style="color: DodgerBlue">L</span>ibrary, version
+						<span style="color: DodgerBlue">2</span>
+					</p>
+					<ul>
+						<li>Official <a href="https://reverendbedford.github.io/neml2/">documentation</a></li>
+						<li>Feature highlights
+							<ul>
+								<li>Compute <mark>device agnostic</mark>: Currently supports both <u>CPU</u> and <u>CUDA</u> (MPS
+									forthcoming)</li>
+								<li>Model archival using <mark>HIT</mark> (same as MOOSE!)</li>
+								<li>Arbitrary model <mark>composition</mark></li>
+								<li>General purpose <mark>Multiphysics</mark> coupling (beyond just solid mechanics)</li>
+								<li><mark>Parameter derivatives</mark> (useful for calibration/inference)</li>
+								<li>Python package (coming soon)</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>NEML2 solid mechanics</h3>
+					<img data-src="assets/neml2_solid_mechanics.svg" style="height: 360px;">
+				</section>
+				<section>
+					<p>
+						<strong>Step 1</strong>: Write down the material model <mark>in Math</mark>.
+					</p>
+					<div class="container" style="grid-template-columns: 25% 25% 25% 25%;">
+						<div class="col fragment">
+							<p style="font-size: 1.2rem;">
+								Yield function with isotropic hardening: <br><br>
+								$\mathbf{M} = \mathbf{\sigma}$ <br>
+								$\bar{\sigma} = \frac{3}{2} \lVert \operatorname{dev}(\mathbf{M}) \rVert$ <br>
+								$k = H \bar{\varepsilon}^p$ <br>
+								$f^p = \bar{\sigma} - \sigma_y - k$
+							</p>
+						</div>
+						<div class="col fragment">
+							<p style="font-size: 1.2rem;">
+								Perzyna viscoplasticity with associative flow <br><br>
+								$\mathbf{N}_M = \partial f^p / \partial \mathbf{M}$ <br>
+								$N_k = \partial f^p / \partial k$ <br>
+								$\dot{\gamma} = \left( \frac{\left\lvert f^p \right\rvert}{\eta} \right)^n \operatorname{heav}\left(
+								f^p \right)$ <br>
+								$\dot{\mathbf{\varepsilon}}^p = \dot{\gamma} \mathbf{N}_M$ <br>
+								$\dot{\bar{\varepsilon}}^p = \dot{\gamma} N_k$
+							</p>
+						</div>
+						<div class="col fragment">
+							<p style="font-size: 1.2rem;">
+								Linear isotropic elasticity <br><br>
+								$\dot{\mathbf{\varepsilon}} = \frac{\mathbf{\varepsilon} - \mathbf{\varepsilon}_n}{t - t_n}$ <br>
+								$\dot{\mathbf{\varepsilon}}^e = \dot{\mathbf{\varepsilon}} - \dot{\mathbf{\varepsilon}}^p$ <br>
+								$\dot{\mathbf{\sigma}} = K \operatorname{vol}\left( \dot{\mathbf{\varepsilon}}^e \right) +
+								G\operatorname{dev}\left( \dot{\mathbf{\varepsilon}}^e \right)$
+							</p>
+						</div>
+						<div class="col fragment">
+							<p style="font-size: 1.2rem;">
+								Implicit backward-Euler time integration <br><br>
+								$\mathbf{r} =
+								\begin{Bmatrix}
+								\mathbf{\sigma} - \mathbf{\sigma}_n - \dot{\mathbf{\sigma}} (t - t_n) \\
+								\bar{\varepsilon}^p - \bar{\varepsilon}^p_n - \dot{\bar{\varepsilon}}^p (t - t_n)
+								\end{Bmatrix}$ <br>
+								$\left( \mathbf{\sigma}, \bar{\varepsilon}^p \right) = \operatorname{sol}\left( \mathbf{r} =
+								\mathbf{0} \right)$
+							</p>
+						</div>
+					</div>
+					<p class="fragment">
+						<strong>Step 2</strong>: Translate Math into <mark>NEML2 models</mark>.
+					</p>
+					<div class="container" style="grid-template-columns: 25% 25% 25% 25%;">
+						<div class="col fragment">
+							<p style="font-size: 1.2rem;">
+								<code>IsotropicMandelStress</code><br>
+								<code>SR2Invariant</code><br>
+								<code>LinearIsotropicHardening</code><br>
+								<code>YieldFunction</code>
+							</p>
+						</div>
+						<div class="col fragment">
+							<p style="font-size: 1.2rem;">
+								<code>Normality</code><br>
+								<code>Normality</code><br>
+								<code>PerzynaPlasticFlowRate</code><br>
+								<code>AssociativePlasticFlow</code><br>
+								<code>AssociativeIsotropicPlasticHardening</code>
+							</p>
+						</div>
+						<div class="col fragment">
+							<p style="font-size: 1.2rem;">
+								<code>SR2ForceRate</code><br>
+								<code>ElasticStrain</code><br>
+								<code>LinearIsotropicElasticity</code>
+							</p>
+						</div>
+						<div class="col fragment">
+							<p style="font-size: 1.2rem;">
+								<code>SR2BackwardEulerTimeIntegration</code><br>
+								<code>ScalarBackwardEulerTimeIntegration</code><br>
+								<code>ImplicitUpdate</code>
+							</p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3>NEML2 Syntax</h3>
+					<div class="container" style="grid-template-columns: 50% 50%;">
+						<div class="col">
+							<p style="text-align: center;">Batched material update per <mark>element</mark></p>
+							<pre class="python" style="width: 90%;">
+								<code data-trim data-noescape>
+									[NEML2]
+										input = 'viscoplasticity_isoharden.i'
+										model = 'model'
+										temperature = 'T'
+										verbose = true
+										mode = ELEMENT
+										device = 'cpu'
+									[]
+								</code>
+							</pre>
+						</div>
+						<div class="col">
+							<p style="text-align: center;">Batched material update for <mark>all elements</mark></p>
+							<pre class="python" style="width: 90%;">
+								<code data-trim data-noescape>
+									[NEML2]
+										input = 'viscoplasticity_isoharden.i'
+										model = 'model'
+										temperature = 'T'
+										verbose = true
+										mode = ALL
+										device = 'cpu'
+									[]
+								</code>
+							</pre>
+						</div>
+					</div>
+				</section>
+			</section>
+			<!--
+			##############################################################################
+			Wrapping up
+			##############################################################################
+			-->
+			<section>
+				<h2>Wrapping up</h2>
+				<ul>
+					<li>Yesterday, we covered the <mark>fundamentals</mark> of the MOOSE Solid Mechanics module.</li>
+					<li>Today, we have implemented a <mark>Multiphysics</mark> model in our own application, from scratch!</li>
+					<li>What's next?
+						<ul>
+							<li>Stay up-to-date by following the MOOSE <a
+									href="https://mooseframework.inl.gov/newsletter/index.html">news</a></li>
+							<li>Start a new thread in the <a href="https://github.com/idaholab/moose/discussions">discussion forum</a>
+							</li>
+							<li>Submit bug reports and/or feature requests <a href="https://github.com/idaholab/moose/issues">here</a>
+							</li>
+							<li>Build your own application and show off some cool results on the <a
+									href="https://mooseframework.inl.gov/gallery.html">gallery page</a></li>
+							<li>Make MOOSE better by sending us your <a
+									href="https://mooseframework.inl.gov/framework/contributing.html">contribution</a></li>
+						</ul>
+					</li>
+					<li>Last but not least, don't forget to <a href="https://mooseframework.inl.gov/citing.html">cite</a> us!
+					</li>
+				</ul>
+			</section>
+		</div>
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script src="plugin/math/math.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			width: 1280,
+			height: 720,
+			slideNumber: true,
+			pdfSeparateFragments: false,
+			transition: "slide",
+			transitionSpeed: "fast",
+			backgroundTransition: "none",
+			hash: true,
+			viewDistance: 2,
+			mobileViewDistance: 1,
+			preloadIframes: false,
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax3]
+		});
+	</script>
+</body>
+
+</html>
