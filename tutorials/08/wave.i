@@ -10,6 +10,7 @@
   []
 []
 
+# REMOVE_BEGIN
 [Functions]
   [pressure]
     type = PiecewiseLinear
@@ -33,6 +34,7 @@
     alpha = ${alpha}
   []
 []
+# REMOVE_END
 
 [Materials]
   [Elasticity_tensor]

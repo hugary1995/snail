@@ -149,6 +149,7 @@
 						curl -L -O https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-XXX.sh
 						bash Miniforge3-*.sh -b -p ~/miniforge
 						~/miniforge/bin/conda init --all
+						exit
 					</code></pre>
 					<p>Create environment</p>
 					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
@@ -178,13 +179,16 @@
 						curl -LO https://github.com/hugary1995/snail/releases/download/240311-Duke/snail.zip
 						unzip -o snail.zip
 					</code></pre>
-					<p>To compile and test <code>snail</code>, run</p>
+					<p>Next, <mark>enable</mark> the Solid Mechanics module in the <code>Makefile</code> by setting</p>
+					<pre class="makefile" style="margin-left: 0;"><code data-trim data-noescape>
+						SOLID_MECHANICS             := yes
+					</code></pre>
+					<p>Finally, to <mark>compile</mark> and <mark>test</mark> <code>snail</code>, run</p>
 					<pre class="shell" style="margin-left: 0;"><code data-trim data-noescape>
 						cd ~/projects/snail
 						make -j N
 						./run_tests
 					</code></pre>
-					<p>All tests should pass.</p>
 				</section>
 			</section>
 			<!--
@@ -397,7 +401,7 @@
 						$\varepsilon_{ij} = \frac{1}{2} (u_{i,j} + u_{j,i})$
 					</p>
 					<pre class="cpp" style="margin-left: 0;"><code data-trim data-noescape>
-					auto G = R2((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+					auto G = R2::initializeFromRows((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
 					auto e = (G.transpose() + G) / 2;
 					</code></pre>
 
@@ -405,7 +409,7 @@
 						$\sigma_{ij} = \lambda \varepsilon_{kk} \delta_{ij} + 2 \mu \varepsilon_{ij}$
 					</p>
 					<pre class="cpp" style="margin-left: 0;"><code data-trim data-noescape>
-					auto s = _lambda[_qp] * e.trace() * SR2::identity() + 2 * _mu[_qp] * e;
+					auto s = _lambda[_qp] * e.trace() * R2::Identity() + 2 * _mu[_qp] * e;
 					</code></pre>
 
 					<p style="text-align: left; font-size: x-large;">
@@ -502,7 +506,7 @@
 					<p>To solve the problem in <mark>serial</mark>:</p>
 					<pre class="shell" style="margin-left: 0;">
 						<code data-trim data-noescape>
-							~/projects/snail-opt -i tension.i
+							~/projects/snail/snail-opt -i tension.i
 						</code>
 					</pre>
 					<p>To solve the problem in <mark>parallel</mark>:</p>
@@ -558,7 +562,7 @@
 										using R2 = ADRankTwoTensor;
 
 										// Calculate strain from displacement gradients
-										auto G = R2((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+										auto G = R2::initializeFromRows((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
 										auto e = (G.transpose() + G) / 2;
 
 										// Calculate stress from strain and material constants
@@ -581,7 +585,7 @@
 									{
 										using R2 = ADRankTwoTensor;
 
-										auto G = R2((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+										auto G = R2::initializeFromRows((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
 										_e[_qp] = (G.transpose() + G) / 2;
 									}
 								</code>
@@ -687,7 +691,7 @@
 						[Materials]
 							[stress_yy]
 								type = ADRankTwoCartesianComponent
-								tensor = stress
+								rank_two_tensor = stress
 								property_name = stress_yy
 								index_i = 1
 								index_j = 1
@@ -720,7 +724,7 @@
 						[Materials]
 							[stress_yy]
 								type = ADRankTwoCartesianComponent
-								tensor = stress
+								rank_two_tensor = stress
 								property_name = stress_yy
 								index_i = 1
 								index_j = 1
@@ -763,7 +767,7 @@
 						[Materials]
 							[stress_yy]
 								type = ADRankTwoCartesianComponent
-								tensor = stress
+								rank_two_tensor = stress
 								property_name = stress_yy
 								index_i = 1
 								index_j = 1

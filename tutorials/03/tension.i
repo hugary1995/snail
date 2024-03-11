@@ -42,7 +42,7 @@
   []
   [stress_yy]
     type = ADRankTwoCartesianComponent
-    tensor = stress
+    rank_two_tensor = stress
     property_name = stress_yy
     index_i = 1
     index_j = 1

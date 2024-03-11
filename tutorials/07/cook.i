@@ -17,7 +17,9 @@
         add_variables = true
         strain = FINITE
         formulation = TOTAL
+        # REMOVE_BEGIN
         volumetric_locking_correction = ${vlc}
+        # REMOVE_END
       []
     []
   []

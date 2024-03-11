@@ -72,6 +72,7 @@ if __name__ == "__main__":
                 args + ["vlc={}".format(vlc), "Mesh/second_order={}".format(sec)],
                 check=True,
                 stdout=subprocess.DEVNULL,
+                stderr=subprocess.STDOUT,
             )
             result = pd.read_csv("cook_out.csv".format(n))
             us[i] = result["value"].iloc[-1]

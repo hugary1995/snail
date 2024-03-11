@@ -21,4 +21,4 @@ if __name__ == "__main__":
     ax.legend()
 
     fig.tight_layout()
-    fig.savefig("comparison.svg")
+    fig.savefig("comparison.png")

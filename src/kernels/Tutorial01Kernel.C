@@ -40,7 +40,7 @@ Tutorial01Kernel::computeQpResidual()
   using R2 = ADRankTwoTensor;
 
   // Calculate strain from displacement gradients
-  auto G = R2((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+  auto G = R2::initializeFromRows((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
   auto e = (G.transpose() + G) / 2;
 
   // Calculate stress from strain and material constants

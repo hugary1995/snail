@@ -28,7 +28,7 @@ Tutorial02Strain::computeQpProperties()
 {
   using R2 = ADRankTwoTensor;
 
-  auto G = R2((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
+  auto G = R2::initializeFromRows((*_grad_u[0])[_qp], (*_grad_u[1])[_qp], (*_grad_u[2])[_qp]);
   _e[_qp] = (G.transpose() + G) / 2;
 }
 // REMOVE_END

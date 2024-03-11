@@ -55,6 +55,7 @@
   []
 []
 
+# REMOVE_BEGIN
 [Functions]
   [exx]
     type = ParsedFunction
@@ -73,6 +74,7 @@
     expression = '-70*sin(9*t)-130*cos(25*t)'
   []
 []
+# REMOVE_END
 
 [Physics]
   [SolidMechanics]
